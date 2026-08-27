@@ -1,8 +1,13 @@
 import React from 'react';
-import { PlayerState, GameState, MOCK_STATE } from '../types';
+import { PlayerState, GameState } from '../types';
 
-export default function GameBoard() {
-  const gameState: GameState = MOCK_STATE;
+interface GameBoardProps {
+  playerId: string;
+  gameState: GameState;
+  isConnected: boolean;
+}
+
+export default function GameBoard({ playerId, gameState, isConnected }: GameBoardProps) {
 
   const renderPlayerSide = (player: PlayerState, isOpponent: boolean) => {
     // Reverse field rows for opponent so their front row faces the center

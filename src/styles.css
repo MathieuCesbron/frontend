@@ -14,13 +14,68 @@ body {
   box-sizing: border-box;
 }
 
-.game-container {
+.app {
   display: flex;
   flex-direction: column;
   height: 100vh;
+}
+
+.top-banner {
+  background: #111827; /* dark */
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.connection-indicator {
+  position: absolute;
+  right: 16px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.15);
+}
+
+.connection-indicator.connected {
+  background: #22c55e;
+}
+
+.connection-indicator.disconnected {
+  background: #ef4444;
+}
+
+.reconnecting {
+  /* position: absolute;
+  left: 50%;
+  transform: translateX(-50%); */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.reconnect-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f59e0b; /* amber/yellow */
+  box-shadow: 0 0 6px rgba(245,158,11,0.6);
+}
+
+.reconnect-text {
+  color: #fff;
+  font-weight: 600;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 20px;
 }
 
 .player-area {
@@ -145,4 +200,17 @@ body {
   background-color: #cbd5e1;
   margin: 10px 0;
   max-width: 1000px;
+}
+
+.connection-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fef08a;
+  color: #854d0e;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px solid #eab308;
+  z-index: 10;
 }
