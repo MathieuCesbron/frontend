@@ -29,7 +29,7 @@ export default function GameBoard({ playerId, gameState, isConnected }: GameBoar
               <p>LP: {player.lp}</p>
             </div>
             <div className="deck-zone fusion-deck">
-              <span>Fusion ({player.fusionDeckCount})</span>
+              <span>Fusion ({player.fusionDeck.length})</span>
             </div>
           </div>
 
@@ -47,7 +47,7 @@ export default function GameBoard({ playerId, gameState, isConnected }: GameBoar
 
           <div className="sidebar right-sidebar" style={{ flexDirection: isOpponent ? 'column-reverse' : 'column' }}>
             <div className="deck-zone trash">
-              <span>Trash ({player.trashCount})</span>
+              <span>Trash ({player.trash.length})</span>
             </div>
             <div className="deck-zone deck">
               <span>Deck ({player.deckCount})</span>
