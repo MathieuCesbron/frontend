@@ -12,8 +12,8 @@ export default function App(): JSX.Element {
   if (!playerId) {
     return (
       <div className="app" style={{ display: 'flex', gap: '20px', padding: '20px', justifyContent: 'center' }}>
-        <button onClick={() => setPlayerId('player_A')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player A</button>
-        <button onClick={() => setPlayerId('player_B')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player B</button>
+        <button onClick={() => setPlayerId('PLAYER1')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player 1</button>
+        <button onClick={() => setPlayerId('PLAYER2')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player 2</button>
       </div>
     )
   }
@@ -22,7 +22,7 @@ export default function App(): JSX.Element {
     <div className="app">
       <div className="top-banner">
         <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-          Playing as: {playerId === 'player_A' ? 'Player A' : 'Player B'}
+          Playing as: {playerId === 'PLAYER1' ? 'Player 1' : 'Player 2'}
         </div>
 
         {isConnected ? (

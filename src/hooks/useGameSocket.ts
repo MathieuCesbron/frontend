@@ -22,11 +22,11 @@ export function useGameSocket(playerId: string) {
 
     function startHeartbeat() {
       stopHeartbeat();
-      // Send a ping every 25 seconds
+      // Send a ping every 10 seconds
       heartbeatTimer.current = window.setInterval(() => {
         if (wsRef.current?.readyState === WebSocket.OPEN) {
           try {
-            wsRef.current.send(JSON.stringify({ type: 'ping' }));
+            wsRef.current.send(JSON.stringify({ type: 'PING' }));
             
             // NEW: Start the 5-second doom timer right after sending the ping
             pongTimeoutRef.current = window.setTimeout(() => {
@@ -38,7 +38,7 @@ export function useGameSocket(playerId: string) {
             // ignore send errors
           }
         }
-      }, 25000);
+      }, 10000);
     }
 
     function stopHeartbeat() {
@@ -79,11 +79,11 @@ export function useGameSocket(playerId: string) {
 
       ws.onmessage = (event) => {
         try {
-          const data = JSON.parse(event.data);
+          const message = JSON.parse(event.data);
 
-          console.log(data)
+          console.log(message)
           
-          if (data.type === 'pong') {
+          if (message.type === 'PONG') {
             if (pongTimeoutRef.current) {
               clearTimeout(pongTimeoutRef.current);
               pongTimeoutRef.current = null;
@@ -91,9 +91,9 @@ export function useGameSocket(playerId: string) {
             return; // Stop processing here so it doesn't try to update game state
           }
 
-          // Existing game state logic
-          if (data && data.player && data.opponent) {
-            setGameState(data);
+          // Game state logic
+          if (message.type === 'GAME_STATE') {
+            setGameState(message.data);
           }
         } catch (e) {
           console.error('Failed to parse message', e);
