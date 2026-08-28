@@ -7,7 +7,7 @@ export default function App(): JSX.Element {
   const initialPlayerId = urlParams.get('player_id') || '';
   
   const [playerId, setPlayerId] = useState(initialPlayerId);
-  const { gameState, isConnected } = useGameSocket(playerId);
+  const { gameState, isConnected, sendAction, latestEvent } = useGameSocket(playerId);
 
   if (!playerId) {
     return (
@@ -35,7 +35,7 @@ export default function App(): JSX.Element {
         )}
       </div>
       <div className="game-container">
-        <GameBoard playerId={playerId} gameState={gameState} isConnected={isConnected} />
+        <GameBoard playerId={playerId} gameState={gameState} isConnected={isConnected} sendAction={sendAction} latestEvent={latestEvent} />
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
 export function useGameSocket(playerId: string) {
   const [gameState, setGameState] = useState<GameState>(MOCK_STATE);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [latestEvent, setLatestEvent] = useState<any>(null);
   
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectAttempts = useRef<number>(0);
@@ -94,6 +95,11 @@ export function useGameSocket(playerId: string) {
           // Game state logic
           if (message.type === 'GAME_STATE') {
             setGameState(message.data);
+          } else if (message.type === 'EVENTS') {
+            // Can handle an array of events
+            if (Array.isArray(message.data) && message.data.length > 0) {
+              setLatestEvent(message.data[message.data.length - 1]);
+            }
           }
         } catch (e) {
           console.error('Failed to parse message', e);
@@ -132,11 +138,11 @@ export function useGameSocket(playerId: string) {
   const sendAction = (actionType: string, payload: any) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify({
-        type: 'PLAYER_ACTION',
-        action: { type: actionType, ...payload }
+        type: 'ACTION',
+        data: { action: actionType, data: payload }
       }));
     }
   };
 
-  return { gameState, isConnected, sendAction };
+  return { gameState, isConnected, sendAction, latestEvent };
 }
