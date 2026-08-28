@@ -9,9 +9,12 @@ interface GameBoardProps {
 
 export default function GameBoard({ playerId, gameState, isConnected }: GameBoardProps) {
 
+  const isP1 = playerId === 'PLAYER1';
+
   const renderPlayerSide = (player: PlayerState, isOpponent: boolean) => {
-    // Reverse field rows for opponent so their front row faces the center
-    const displayedField = isOpponent ? [...player.field].reverse() : player.field;
+    // P1 sees the board from top-down so we reverse rows and cols to make P1 face up.
+    // P2 sees the board from bottom-up so rows and cols are already in correct orientation for P2.
+    const displayedField = isP1 ? [...player.field].reverse() : player.field;
 
     return (
       <div className={`player-area ${isOpponent ? 'opponent' : 'player'}`}>
@@ -34,15 +37,18 @@ export default function GameBoard({ playerId, gameState, isConnected }: GameBoar
           </div>
 
           <div className="field-grid">
-            {displayedField.map((row, rowIndex) => (
-              <div key={rowIndex} className="field-row">
-                {row.map((cell, colIndex) => (
-                  <div key={colIndex} className="field-cell">
-                    {cell ? <div className="card field-card">{cell.name}</div> : null}
-                  </div>
-                ))}
-              </div>
-            ))}
+            {displayedField.map((row, rowIndex) => {
+              const displayedRow = isP1 ? [...row].reverse() : row;
+              return (
+                <div key={rowIndex} className="field-row">
+                  {displayedRow.map((cell, colIndex) => (
+                    <div key={colIndex} className="field-cell">
+                      {cell ? <div className="card field-card">{cell.name}</div> : null}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
           </div>
 
           <div className="sidebar right-sidebar" style={{ flexDirection: isOpponent ? 'column-reverse' : 'column' }}>
