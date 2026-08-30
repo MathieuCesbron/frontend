@@ -99,6 +99,43 @@ export function useGameSocket(playerId: string) {
             // Can handle an array of events
             if (Array.isArray(message.data) && message.data.length > 0) {
               setLatestEvent(message.data[message.data.length - 1]);
+              
+              // Reduce events to update the local GameState
+              setGameState((prevState) => {
+                // Deep clone the state to avoid mutating React state directly
+                const nextState = JSON.parse(JSON.stringify(prevState));
+
+                message.data.forEach((evt: any) => {
+                  if (evt.type === 'CARD_PLAYED') {
+                    const { cardId, ownerId, source, position, isTrap } = evt.data;
+                    
+                    // Determine whether this event affects 'player' or 'opponent'
+                    const side = String(ownerId) === String(playerId) ? 'player' : 'opponent';
+
+                    let cardToPlace = null;
+
+                    // If played from HAND, remove it from the hand
+                    if (source === 'HAND') {
+                      const handIndex = nextState[side].hand.findIndex((c: any) => String(c.id) === String(cardId));
+                      if (handIndex !== -1) {
+                        // Extract the card object from hand
+                        cardToPlace = nextState[side].hand.splice(handIndex, 1)[0];
+                      } else {
+                        // Fallback for opponent playing a hidden card (Censored: -1)
+                        // Use the cardName provided in the event payload
+                        cardToPlace = { id: String(cardId), name: evt.data.cardName || "Unknown Card" }; 
+                      }
+                    }
+
+                    // Place the card onto their grid
+                    if (cardToPlace) {
+                      nextState[side].field[position.row][position.col] = cardToPlace;
+                    }
+                  }
+                });
+
+                return nextState;
+              });
             }
           }
         } catch (e) {
