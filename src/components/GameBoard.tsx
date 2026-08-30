@@ -22,7 +22,7 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
     }
   }, [latestEvent]);
 
-  const isP1 = playerId === 'PLAYER1';
+  const isP1 = playerId === '1';
 
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
     if (isOpponent) return; // Cannot play on opponent's side
