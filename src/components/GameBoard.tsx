@@ -70,15 +70,15 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
                 <div key={rowIndex} className="field-row">
                   {displayedRow.map((cell, colIndex) => {
                     const absCol = isP1 ? (3 - colIndex) : colIndex;
-                    const cId = cell?.id;
-                    const isAnimated = cId && cId === animatedInstanceId;
+                    const cId = cell?.instanceId;
+                    const isAnimated = cId && String(cId) === animatedInstanceId;
                     return (
                       <div 
                         key={colIndex} 
                         className="field-cell" 
                         onClick={() => handleCellClick(absRow, absCol, isOpponent)}
                       >
-                        {cell ? <div className={`card field-card ${isAnimated ? 'card-drop-anim' : ''}`}>{cell.name}</div> : null}
+                        {cell ? <div className={`card field-card ${isAnimated ? 'card-drop-anim' : ''}`}>{cell.templateId}/{cell.instanceId}</div> : null}
                       </div>
                     )
                   })}
@@ -100,14 +100,14 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
         {!isOpponent && (
           <div className="hand">
             {player.hand.map((card, idx) => {
-              const isSelected = selectedInstanceId === card.id;
+              const isSelected = selectedInstanceId === String(card.instanceId);
               return (
                 <div 
                   key={idx} 
                   className={`card hand-card ${isSelected ? 'selected' : ''}`}
-                  onClick={() => setSelectedInstanceId(isSelected ? null : card.id)}
+                  onClick={() => setSelectedInstanceId(isSelected ? null : String(card.instanceId))}
                 >
-                  {card.name}
+                  {card.templateId}/{card.instanceId}
                 </div>
               );
             })}

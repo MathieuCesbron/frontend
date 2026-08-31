@@ -1,6 +1,6 @@
 export interface Card {
-  id: string;
-  name: string;
+  instanceId: number;
+  templateId: number;
 }
 
 export type GridRow = (Card | null)[];
