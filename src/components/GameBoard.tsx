@@ -12,7 +12,22 @@ interface GameBoardProps {
 export default function GameBoard({ playerId, gameState, isConnected, sendAction, latestEvent }: GameBoardProps) {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
   const [animatedInstanceId, setAnimatedInstanceId] = useState<string | null>(null);
-  
+  const [cardsDict, setCardsDict] = useState<Record<number, any>>({});
+  const [hoveredTemplateId, setHoveredTemplateId] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch('/cards.json')
+      .then(res => res.json())
+      .then(data => {
+        const dict: Record<number, any> = {};
+        data.forEach((c: any) => {
+          dict[c.templateId] = c;
+        });
+        setCardsDict(dict);
+      })
+      .catch(err => console.error("Could not load card data", err));
+  }, []);
+
   useEffect(() => {
     if (latestEvent?.type === 'CARD_PLAYED') {
       const { instanceId } = latestEvent.data;
@@ -78,7 +93,15 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
                         className="field-cell" 
                         onClick={() => handleCellClick(absRow, absCol, isOpponent)}
                       >
-                        {cell ? <div className={`card field-card ${isAnimated ? 'card-drop-anim' : ''}`}>{cell.templateId}/{cell.instanceId}</div> : null}
+                        {cell ? (
+                          <div 
+                            className={`card field-card ${isAnimated ? 'card-drop-anim' : ''}`}
+                            onMouseEnter={() => setHoveredTemplateId(cell.templateId)}
+                            onMouseLeave={() => setHoveredTemplateId(null)}
+                          >
+                            {cardsDict[cell.templateId]?.name || `Card ${cell.templateId}`}
+                          </div>
+                        ) : null}
                       </div>
                     )
                   })}
@@ -106,8 +129,10 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
                   key={idx} 
                   className={`card hand-card ${isSelected ? 'selected' : ''}`}
                   onClick={() => setSelectedInstanceId(isSelected ? null : String(card.instanceId))}
+                  onMouseEnter={() => setHoveredTemplateId(card.templateId)}
+                  onMouseLeave={() => setHoveredTemplateId(null)}
                 >
-                  {card.templateId}/{card.instanceId}
+                  {cardsDict[card.templateId]?.name || `Card ${card.templateId}`}
                 </div>
               );
             })}
@@ -118,10 +143,31 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
   };
 
   return (
-    <div className="game-container">
-      {renderPlayerSide(gameState.opponent, true)}
-      <div className="center-divider"></div>
-      {renderPlayerSide(gameState.player, false)}
+    <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+      <div className="game-container" style={{ flex: 1 }}>
+        {renderPlayerSide(gameState.opponent, true)}
+        <div className="center-divider"></div>
+        {renderPlayerSide(gameState.player, false)}
+      </div>
+
+      {/* Card Details Sidebar */}
+      <div style={{ width: '300px', borderLeft: '1px solid #ccc', padding: '16px', background: '#f9f9f9', overflowY: 'auto' }}>
+        {hoveredTemplateId && cardsDict[hoveredTemplateId] ? (
+          <div>
+            <h3>{cardsDict[hoveredTemplateId].name}</h3>
+            <p style={{fontStyle: 'italic', marginBottom: '8px'}}>{cardsDict[hoveredTemplateId].type}</p>
+            {cardsDict[hoveredTemplateId].atk !== undefined && (
+              <p><strong>ATK:</strong> {cardsDict[hoveredTemplateId].atk}</p>
+            )}
+            {cardsDict[hoveredTemplateId].attribute && (
+              <p><strong>Attribute:</strong> {cardsDict[hoveredTemplateId].attribute}</p>
+            )}
+            <p style={{ marginTop: '16px', whiteSpace: 'pre-wrap' }}>{cardsDict[hoveredTemplateId].description}</p>
+          </div>
+        ) : (
+          <p style={{ color: '#888' }}>Hover over a card to see details.</p>
+        )}
+      </div>
     </div>
   );
 }

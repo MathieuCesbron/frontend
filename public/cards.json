@@ -1,0 +1,108 @@
+[
+  {
+    "templateId": 4,
+    "name": "Flower Boy",
+    "type": "MONSTER",
+    "description": "Grants +1 ATK to the monster on its right.",
+    "atk": 3,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 7,
+    "name": "Kidnetic",
+    "type": "MONSTER",
+    "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
+    "atk": 3,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 11,
+    "name": "Party Crasher",
+    "type": "MONSTER",
+    "description": "When summoned: you can destroy 1 card.",
+    "atk": 1,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 13,
+    "name": "Second Life",
+    "type": "TRAP",
+    "description": "You cannot lose LP for the rest of this turn."
+  },
+  {
+    "templateId": 15,
+    "name": "Tormentor",
+    "type": "MONSTER",
+    "description": "When summoned: you lose 1LP.",
+    "atk": 3,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 2,
+    "name": "Bio Assassin",
+    "type": "MONSTER",
+    "description": "Can only be played if you have no Bio monsters in your trash.",
+    "atk": 7,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 9,
+    "name": "Metal Recycling",
+    "type": "TACTIC",
+    "description": "Pay 2LP: add 1 base monster from your trash to your hand."
+  },
+  {
+    "templateId": 12,
+    "name": "Reactive Bird",
+    "type": "MONSTER",
+    "description": "When moved: you can pay 1LP to move one of your monsters to an adjacent tile.",
+    "atk": 2,
+    "attribute": "FIRE"
+  },
+  {
+    "templateId": 1,
+    "name": "Adrenaline Rush",
+    "type": "TACTIC",
+    "description": "The Linked Monster can make 1 additional attack per turn."
+  },
+  {
+    "templateId": 3,
+    "name": "Dimensional Shift",
+    "type": "TACTIC",
+    "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
+  },
+  {
+    "templateId": 8,
+    "name": "Little Surprise",
+    "type": "TRAP",
+    "description": "Destroy all Tactics."
+  },
+  {
+    "templateId": 5,
+    "name": "Forest King",
+    "type": "MONSTER",
+    "description": "No effect.",
+    "atk": 5,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 6,
+    "name": "Green Healer",
+    "type": "MONSTER",
+    "description": "When summoned: you gain 1LP.",
+    "atk": 3,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 10,
+    "name": "Participation Reward",
+    "type": "TACTIC",
+    "description": "If the Linked monster is destroyed by battle, you gain 5LP."
+  },
+  {
+    "templateId": 14,
+    "name": "Shifting Sands",
+    "type": "TRAP",
+    "description": "You can move one monster to an adjacent tile."
+  }
+]
