@@ -11,7 +11,7 @@ export default function App(): JSX.Element {
 
   if (!playerId) {
     return (
-      <div className="app" style={{ display: 'flex', gap: '20px', padding: '20px', justifyContent: 'center' }}>
+      <div className="app" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '20px', padding: '20px', justifyContent: 'center' }}>
         <button onClick={() => setPlayerId('1')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player 1</button>
         <button onClick={() => setPlayerId('2')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player 2</button>
       </div>
