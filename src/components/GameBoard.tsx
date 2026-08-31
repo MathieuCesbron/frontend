@@ -10,15 +10,15 @@ interface GameBoardProps {
 }
 
 export default function GameBoard({ playerId, gameState, isConnected, sendAction, latestEvent }: GameBoardProps) {
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
-  const [animatedCardId, setAnimatedCardId] = useState<string | null>(null);
+  const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
+  const [animatedInstanceId, setAnimatedInstanceId] = useState<string | null>(null);
   
   useEffect(() => {
     if (latestEvent?.type === 'CARD_PLAYED') {
-      const { cardId } = latestEvent.data;
-      setAnimatedCardId(String(cardId));
-      setTimeout(() => setAnimatedCardId(null), 1000);
-      setSelectedCardId(null);
+      const { instanceId } = latestEvent.data;
+      setAnimatedInstanceId(String(instanceId));
+      setTimeout(() => setAnimatedInstanceId(null), 1000);
+      setSelectedInstanceId(null);
     }
   }, [latestEvent]);
 
@@ -26,11 +26,11 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
 
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
     if (isOpponent) return; // Cannot play on opponent's side
-    if (selectedCardId === null) return;
+    if (selectedInstanceId === null) return;
     
     sendAction('PLAY_CARD', {
       player_id: isP1 ? 1 : 2,
-      card_id: parseInt(selectedCardId, 10),
+      instance_id: parseInt(selectedInstanceId, 10),
       position: { row: absRow, col: absCol }
     });
   };
@@ -71,7 +71,7 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
                   {displayedRow.map((cell, colIndex) => {
                     const absCol = isP1 ? (3 - colIndex) : colIndex;
                     const cId = cell?.id;
-                    const isAnimated = cId && cId === animatedCardId;
+                    const isAnimated = cId && cId === animatedInstanceId;
                     return (
                       <div 
                         key={colIndex} 
@@ -100,12 +100,12 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
         {!isOpponent && (
           <div className="hand">
             {player.hand.map((card, idx) => {
-              const isSelected = selectedCardId === card.id;
+              const isSelected = selectedInstanceId === card.id;
               return (
                 <div 
                   key={idx} 
                   className={`card hand-card ${isSelected ? 'selected' : ''}`}
-                  onClick={() => setSelectedCardId(isSelected ? null : card.id)}
+                  onClick={() => setSelectedInstanceId(isSelected ? null : card.id)}
                 >
                   {card.name}
                 </div>

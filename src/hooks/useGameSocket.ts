@@ -107,7 +107,7 @@ export function useGameSocket(playerId: string) {
 
                 message.data.forEach((evt: any) => {
                   if (evt.type === 'CARD_PLAYED') {
-                    const { cardId, ownerId, source, position, isTrap } = evt.data;
+                    const { instanceId, ownerId, source, position, isTrap } = evt.data;
                     
                     // Determine whether this event affects 'player' or 'opponent'
                     const side = String(ownerId) === String(playerId) ? 'player' : 'opponent';
@@ -116,14 +116,14 @@ export function useGameSocket(playerId: string) {
 
                     // If played from HAND, remove it from the hand
                     if (source === 'HAND') {
-                      const handIndex = nextState[side].hand.findIndex((c: any) => String(c.id) === String(cardId));
+                      const handIndex = nextState[side].hand.findIndex((c: any) => String(c.id) === String(instanceId));
                       if (handIndex !== -1) {
                         // Extract the card object from hand
                         cardToPlace = nextState[side].hand.splice(handIndex, 1)[0];
                       } else {
                         // Fallback for opponent playing a hidden card (Censored: -1)
                         // Use the cardName provided in the event payload
-                        cardToPlace = { id: String(cardId), name: evt.data.cardName || "Unknown Card" }; 
+                        cardToPlace = { id: String(instanceId), name: evt.data.cardName || "Unknown Card" }; 
                       }
                     }
 
