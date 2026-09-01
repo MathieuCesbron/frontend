@@ -17,6 +17,9 @@ export interface PlayerState {
 export interface GameState {
   player: PlayerState;
   opponent: PlayerState;
+  turn: number;
+  activePlayerId: number;
+  phase: string;
 }
 
 export const MOCK_STATE: GameState = {
@@ -41,5 +44,8 @@ export const MOCK_STATE: GameState = {
       [null, null, null, null],
       [null, null, null, null]
     ]
-  }
+  },
+  turn: 1,
+  activePlayerId: 1,
+  phase: 'PLAYPHASE'
 };
