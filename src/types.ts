@@ -3,7 +3,12 @@ export interface Card {
   templateId: number;
 }
 
-export type GridRow = (Card | null)[];
+export interface Tile {
+  topCard: Card | null;
+  trapCard: Card | null;
+}
+
+export type GridRow = Tile[];
 
 export interface PlayerState {
   lp: number;
@@ -22,6 +27,13 @@ export interface GameState {
   phase: string;
 }
 
+const emptyRow = (): GridRow => [
+  { topCard: null, trapCard: null },
+  { topCard: null, trapCard: null },
+  { topCard: null, trapCard: null },
+  { topCard: null, trapCard: null },
+];
+
 export const MOCK_STATE: GameState = {
   player: {
     lp: 20,
@@ -29,10 +41,7 @@ export const MOCK_STATE: GameState = {
     trash: [],
     fusionDeck: [],
     hand: [],
-    field: [
-      [null, null, null, null],
-      [null, null, null, null]
-    ]
+    field: [emptyRow(), emptyRow()]
   },
   opponent: {
     lp: 20,
@@ -40,10 +49,7 @@ export const MOCK_STATE: GameState = {
     trash: [],
     fusionDeck: [],
     hand: [],
-    field: [
-      [null, null, null, null],
-      [null, null, null, null]
-    ]
+    field: [emptyRow(), emptyRow()]
   },
   turn: 1,
   activePlayerId: 1,

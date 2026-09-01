@@ -85,23 +85,34 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
                 <div key={rowIndex} className="field-row">
                   {displayedRow.map((cell, colIndex) => {
                     const absCol = isP1 ? (3 - colIndex) : colIndex;
-                    const cId = cell?.instanceId;
-                    const isAnimated = cId && String(cId) === animatedInstanceId;
+                    const topCard = cell?.topCard;
+                    const trapCard = cell?.trapCard;
+                    
+                    const tId = topCard?.instanceId;
+                    const isAnimated = tId && String(tId) === animatedInstanceId;
+
                     return (
                       <div 
                         key={colIndex} 
                         className="field-cell" 
                         onClick={() => handleCellClick(absRow, absCol, isOpponent)}
                       >
-                        {cell ? (
+                        <div className="tile-content">
                           <div 
-                            className={`card field-card ${isAnimated ? 'card-drop-anim' : ''}`}
-                            onMouseEnter={() => setHoveredTemplateId(cell.templateId)}
+                            className={`trap-slot ${trapCard ? 'card field-card trap-card' : ''}`}
+                            onMouseEnter={() => trapCard && setHoveredTemplateId(trapCard.templateId)}
                             onMouseLeave={() => setHoveredTemplateId(null)}
                           >
-                            {cardsDict[cell.templateId]?.name || `Card ${cell.templateId}`}
+                            {trapCard ? 'Set Trap' : ''}
                           </div>
-                        ) : null}
+                          <div 
+                            className={`top-slot ${topCard ? 'card field-card top-card' : ''} ${isAnimated ? 'card-drop-anim' : ''}`}
+                            onMouseEnter={() => topCard && setHoveredTemplateId(topCard.templateId)}
+                            onMouseLeave={() => setHoveredTemplateId(null)}
+                          >
+                            {topCard ? (cardsDict[topCard.templateId]?.name || `Card ${topCard.templateId}`) : ''}
+                          </div>
+                        </div>
                       </div>
                     )
                   })}

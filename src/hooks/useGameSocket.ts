@@ -118,17 +118,28 @@ export function useGameSocket(playerId: string) {
                     if (source === 'HAND') {
                       const handIndex = nextState[side].hand.findIndex((c: any) => String(c.instanceId) === String(instanceId));
                       if (handIndex !== -1) {
-                        // Extract the card object from hand
                         cardToPlace = nextState[side].hand.splice(handIndex, 1)[0];
                       } else {
-                        // Fallback for opponent playing a hidden card (Censored: -1)
+                        // Fallback for opponent playing a hidden card (Censored: 0)
+                        if (nextState[side].hand.length > 0) {
+                          nextState[side].hand.pop();
+                        }
                         cardToPlace = { instanceId: instanceId, templateId: templateId }; 
                       }
                     }
 
                     // Place the card onto their grid
                     if (cardToPlace) {
-                      nextState[side].field[position.row][position.col] = cardToPlace;
+                      const localRow = position.row % 2;
+                      if (!nextState[side].field[localRow][position.col]) {
+                        nextState[side].field[localRow][position.col] = { topCard: null, trapCard: null };
+                      }
+                      
+                      if (isTrap) {
+                        nextState[side].field[localRow][position.col].trapCard = cardToPlace;
+                      } else {
+                        nextState[side].field[localRow][position.col].topCard = cardToPlace;
+                      }
                     }
                   }
                 });
