@@ -143,18 +143,18 @@ body {
   background: #f1f5f9;
 }
 
-.field-grid {
+.board-grid {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.field-row {
+.board-row {
   display: flex;
   gap: 10px;
 }
 
-.field-cell {
+.board-cell {
   width: 95px;
   height: 120px;
   display: flex;
@@ -235,7 +235,7 @@ body {
   border-color: #64748b;
 }
 
-.field-card {
+.board-card {
   background: #dbeafe;
 }
 
@@ -299,11 +299,11 @@ body {
   transform: translateY(-10px);
 }
 
-.field-cell {
+.board-cell {
   cursor: pointer;
 }
 
-.field-cell:hover .top-slot, .field-cell:hover .trap-slot {
+.board-cell:hover .top-slot, .board-cell:hover .trap-slot {
   filter: brightness(0.95);
 }
 

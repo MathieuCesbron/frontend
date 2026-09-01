@@ -16,7 +16,7 @@ export interface PlayerState {
   trash: Card[];
   fusionDeck: Card[];
   hand: Card[];
-  field: [GridRow, GridRow]; // 2 rows of 4 columns
+  board: [GridRow, GridRow]; // 2 rows of 4 columns
 }
 
 export interface GameState {
@@ -41,7 +41,7 @@ export const MOCK_STATE: GameState = {
     trash: [],
     fusionDeck: [],
     hand: [],
-    field: [emptyRow(), emptyRow()]
+    board: [emptyRow(), emptyRow()]
   },
   opponent: {
     lp: 20,
@@ -49,7 +49,7 @@ export const MOCK_STATE: GameState = {
     trash: [],
     fusionDeck: [],
     hand: [],
-    field: [emptyRow(), emptyRow()]
+    board: [emptyRow(), emptyRow()]
   },
   turn: 1,
   activePlayerId: 1,

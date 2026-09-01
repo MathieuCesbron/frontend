@@ -53,7 +53,7 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
   const renderPlayerSide = (player: PlayerState, isOpponent: boolean) => {
     // P1 sees the board from top-down so we reverse rows and cols to make P1 face up.
     // P2 sees the board from bottom-up so rows and cols are already in correct orientation for P2.
-    const displayedField = isP1 ? [...player.field].reverse() : player.field;
+    const displayedBoard = isP1 ? [...player.board].reverse() : player.board;
 
     return (
       <div className={`player-area ${isOpponent ? 'opponent' : 'player'}`}>
@@ -75,14 +75,14 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
             </div>
           </div>
 
-          <div className="field-grid">
-            {displayedField.map((row, rowIndex) => {
+          <div className="board-grid">
+            {displayedBoard.map((row, rowIndex) => {
               const displayedRow = isP1 ? [...row].reverse() : row;
               // Map displayed index back to absolute index
               const absRow = isP1 ? (1 - rowIndex) : (isOpponent ? 1 - rowIndex : 2 + rowIndex);
               
               return (
-                <div key={rowIndex} className="field-row">
+                <div key={rowIndex} className="board-row">
                   {displayedRow.map((cell, colIndex) => {
                     const absCol = isP1 ? (3 - colIndex) : colIndex;
                     const topCard = cell?.topCard;
@@ -94,19 +94,19 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
                     return (
                       <div 
                         key={colIndex} 
-                        className="field-cell" 
+                        className="board-cell" 
                         onClick={() => handleCellClick(absRow, absCol, isOpponent)}
                       >
                         <div className="tile-content">
                           <div 
-                            className={`trap-slot ${trapCard ? 'card field-card trap-card' : ''}`}
+                            className={`trap-slot ${trapCard ? 'card board-card trap-card' : ''}`}
                             onMouseEnter={() => trapCard && setHoveredTemplateId(trapCard.templateId)}
                             onMouseLeave={() => setHoveredTemplateId(null)}
                           >
                             {trapCard ? 'Set Trap' : ''}
                           </div>
                           <div 
-                            className={`top-slot ${topCard ? 'card field-card top-card' : ''} ${isAnimated ? 'card-drop-anim' : ''}`}
+                            className={`top-slot ${topCard ? 'card board-card top-card' : ''} ${isAnimated ? 'card-drop-anim' : ''}`}
                             onMouseEnter={() => topCard && setHoveredTemplateId(topCard.templateId)}
                             onMouseLeave={() => setHoveredTemplateId(null)}
                           >

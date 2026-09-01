@@ -93,7 +93,7 @@ export function useGameSocket(playerId: string) {
           }
 
           // Game state logic
-          if (message.type === 'GAME_STATE') {
+          if (message.type === 'SNAPSHOT') {
             setGameState(message.data);
           } else if (message.type === 'EVENTS') {
             // Can handle an array of events
@@ -119,26 +119,35 @@ export function useGameSocket(playerId: string) {
                       const handIndex = nextState[side].hand.findIndex((c: any) => String(c.instanceId) === String(instanceId));
                       if (handIndex !== -1) {
                         cardToPlace = nextState[side].hand.splice(handIndex, 1)[0];
+                        // If the server provided a concrete templateId in the event (not a censored -1),
+                        // prefer that templateId over the placeholder from the hand.
+                        if (templateId !== undefined && templateId !== -1) {
+                          cardToPlace.templateId = templateId;
+                        }
+                        // update instanceId to the event's value (may be -1 for censored view)
+                        if (instanceId !== undefined) {
+                          cardToPlace.instanceId = instanceId;
+                        }
                       } else {
                         // Fallback for opponent playing a hidden card (Censored: 0)
                         if (nextState[side].hand.length > 0) {
                           nextState[side].hand.pop();
                         }
-                        cardToPlace = { instanceId: instanceId, templateId: templateId }; 
+                        cardToPlace = { instanceId: instanceId, templateId: templateId };
                       }
                     }
 
                     // Place the card onto their grid
                     if (cardToPlace) {
                       const localRow = position.row % 2;
-                      if (!nextState[side].field[localRow][position.col]) {
-                        nextState[side].field[localRow][position.col] = { topCard: null, trapCard: null };
+                      if (!nextState[side].board[localRow][position.col]) {
+                        nextState[side].board[localRow][position.col] = { topCard: null, trapCard: null };
                       }
                       
                       if (isTrap) {
-                        nextState[side].field[localRow][position.col].trapCard = cardToPlace;
+                        nextState[side].board[localRow][position.col].trapCard = cardToPlace;
                       } else {
-                        nextState[side].field[localRow][position.col].topCard = cardToPlace;
+                        nextState[side].board[localRow][position.col].topCard = cardToPlace;
                       }
                     }
                   }
