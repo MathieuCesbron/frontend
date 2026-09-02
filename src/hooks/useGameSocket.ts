@@ -152,6 +152,10 @@ export function useGameSocket(playerId: string) {
                     }
                   } else if (evt.type === 'BATTLE_PHASE_STARTED') {
                     nextState.phase = 'BATTLEPHASE';
+                  } else if (evt.type === 'TURN_ENDED') {
+                    nextState.phase = 'PLAYPHASE';
+                    nextState.turn += 1;
+                    nextState.activePlayerId = nextState.activePlayerId === 1 ? 2 : 1;
                   }
                 });
 

@@ -47,6 +47,10 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
       sendAction('TO_BATTLE', {
         player_id: parseInt(playerId, 10),
       });
+    } else if (isBattlePhase) {
+      sendAction('END_TURN', {
+        player_id: parseInt(playerId, 10),
+      });
     }
   };
 
