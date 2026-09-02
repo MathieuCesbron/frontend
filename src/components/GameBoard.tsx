@@ -38,11 +38,14 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
   }, [latestEvent]);
 
   const isP1 = playerId === '1';
+  const isMyTurn = gameState.activePlayerId === parseInt(playerId, 10);
 
   const isPlayPhase = gameState.phase === 'PLAYPHASE';
   const isBattlePhase = gameState.phase === 'BATTLEPHASE';
 
   const handlePhaseButtonClick = () => {
+    if (!isMyTurn) return;
+
     if (isPlayPhase) {
       sendAction('TO_BATTLE', {
         player_id: parseInt(playerId, 10),
@@ -176,10 +179,11 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
         {renderPlayerSide(gameState.opponent, true)}
         {/* divider + phase button (divider stays centered; button positioned to the right) */}
         <div className="divider-with-phase">
-          <div className={`center-divider ${gameState.activePlayerId ? (gameState.activePlayerId === parseInt(playerId, 10) ? 'active-player' : 'active-opponent') : ''}`} />
+          <div className={`center-divider ${gameState.activePlayerId ? (isMyTurn ? 'active-player' : 'active-opponent') : ''}`} />
           <button
             className="phase-button"
             onClick={handlePhaseButtonClick}
+            disabled={!isMyTurn}
             aria-label="Game phase"
           >
             {phaseButtonLabel}
