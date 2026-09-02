@@ -39,6 +39,19 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
 
   const isP1 = playerId === '1';
 
+  const isPlayPhase = gameState.phase === 'PLAYPHASE';
+  const isBattlePhase = gameState.phase === 'BATTLEPHASE';
+
+  const handlePhaseButtonClick = () => {
+    if (isPlayPhase) {
+      sendAction('TO_BATTLE', {
+        player_id: parseInt(playerId, 10),
+      });
+    }
+  };
+
+  const phaseButtonLabel = isBattlePhase ? 'End Turn' : (isPlayPhase ? 'To Battle' : gameState.phase);
+
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
     if (isOpponent) return; // Cannot play on opponent's side
     if (selectedInstanceId === null) return;
@@ -162,10 +175,10 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
           <div className={`center-divider ${gameState.activePlayerId ? (gameState.activePlayerId === parseInt(playerId, 10) ? 'active-player' : 'active-opponent') : ''}`} />
           <button
             className="phase-button"
-            onClick={() => console.log('Phase button clicked:', gameState.phase)}
+            onClick={handlePhaseButtonClick}
             aria-label="Game phase"
           >
-            {gameState.phase}
+            {phaseButtonLabel}
           </button>
         </div>
         {renderPlayerSide(gameState.player, false)}

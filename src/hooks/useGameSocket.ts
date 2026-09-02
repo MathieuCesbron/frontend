@@ -150,6 +150,8 @@ export function useGameSocket(playerId: string) {
                         nextState[side].board[localRow][position.col].topCard = cardToPlace;
                       }
                     }
+                  } else if (evt.type === 'BATTLE_PHASE_STARTED') {
+                    nextState.phase = 'BATTLEPHASE';
                   }
                 });
 
