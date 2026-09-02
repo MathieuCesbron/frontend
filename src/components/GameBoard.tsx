@@ -157,7 +157,17 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
     <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden' }}>
       <div className="game-container" style={{ flex: 1 }}>
         {renderPlayerSide(gameState.opponent, true)}
-        <div className={`center-divider ${gameState.activePlayerId ? (gameState.activePlayerId === parseInt(playerId, 10) ? 'active-player' : 'active-opponent') : ''}`}></div>
+        {/* divider + phase button (divider stays centered; button positioned to the right) */}
+        <div className="divider-with-phase">
+          <div className={`center-divider ${gameState.activePlayerId ? (gameState.activePlayerId === parseInt(playerId, 10) ? 'active-player' : 'active-opponent') : ''}`} />
+          <button
+            className="phase-button"
+            onClick={() => console.log('Phase button clicked:', gameState.phase)}
+            aria-label="Game phase"
+          >
+            {gameState.phase}
+          </button>
+        </div>
         {renderPlayerSide(gameState.player, false)}
       </div>
 
