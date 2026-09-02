@@ -36,7 +36,7 @@ const emptyRow = (): GridRow => [
 
 export const MOCK_STATE: GameState = {
   player: {
-    lp: 20,
+    lp: 100,
     deckCount: 0,
     trash: [],
     fusionDeck: [],
@@ -44,7 +44,7 @@ export const MOCK_STATE: GameState = {
     board: [emptyRow(), emptyRow()]
   },
   opponent: {
-    lp: 20,
+    lp: 100,
     deckCount: 0,
     trash: [],
     fusionDeck: [],
