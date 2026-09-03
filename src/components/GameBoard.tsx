@@ -64,9 +64,12 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
     }
   };
 
-  const phaseButtonLabel = isBattlePhase
-    ? 'End Turn'
-    : (isPlayPhase ? (gameState.turn === 1 ? 'End Turn' : 'To Battle') : gameState.phase);
+  const phaseButtonLabel = !isMyTurn
+    ? 'Enemy Turn'
+    : (isBattlePhase
+      ? 'End Turn'
+      : (isPlayPhase ? (gameState.turn === 1 ? 'End Turn' : 'To Battle') : gameState.phase)
+    );
 
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
     if (isOpponent) return; // Cannot play on opponent's side

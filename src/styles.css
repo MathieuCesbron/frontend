@@ -261,6 +261,8 @@ body {
   letter-spacing: 0.5px;
   box-shadow: 0 8px 0 rgba(148,163,184,0.35), 0 4px 10px rgba(2,6,23,0.08);
   transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  width: 130px; /* fixed width so label changes don't resize layout (fits 'Enemy Turn') */
+  text-align: center;
 }
 
 .phase-button {
@@ -313,6 +315,7 @@ body {
     transform: translateX(64px);
     padding: 8px 12px;
     font-size: 14px;
+    width: 110px;
   }
 }
 
