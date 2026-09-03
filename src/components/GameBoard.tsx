@@ -47,9 +47,16 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
     if (!isMyTurn) return;
 
     if (isPlayPhase) {
-      sendAction('TO_BATTLE', {
-        player_id: parseInt(playerId, 10),
-      });
+      // Special rule: on global turn 1, skip "To Battle" and end the turn directly
+      if (gameState.turn === 1) {
+        sendAction('END_TURN', {
+          player_id: parseInt(playerId, 10),
+        });
+      } else {
+        sendAction('TO_BATTLE', {
+          player_id: parseInt(playerId, 10),
+        });
+      }
     } else if (isBattlePhase) {
       sendAction('END_TURN', {
         player_id: parseInt(playerId, 10),
@@ -57,7 +64,9 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
     }
   };
 
-  const phaseButtonLabel = isBattlePhase ? 'End Turn' : (isPlayPhase ? 'To Battle' : gameState.phase);
+  const phaseButtonLabel = isBattlePhase
+    ? 'End Turn'
+    : (isPlayPhase ? (gameState.turn === 1 ? 'End Turn' : 'To Battle') : gameState.phase);
 
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
     if (isOpponent) return; // Cannot play on opponent's side
