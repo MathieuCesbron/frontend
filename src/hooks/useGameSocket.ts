@@ -68,7 +68,7 @@ export function useGameSocket(playerId: string) {
     }
 
     function connect() {
-      const ws = new WebSocket(`${WS_URL}?player_id=${playerId}`);
+      const ws = new WebSocket(`${WS_URL}?playerId=${playerId}`);
       wsRef.current = ws;
 
       ws.onopen = () => {

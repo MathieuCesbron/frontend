@@ -50,16 +50,16 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
       // Special rule: on global turn 1, skip "To Battle" and end the turn directly
       if (gameState.turn === 1) {
         sendAction('END_TURN', {
-          player_id: parseInt(playerId, 10),
+          playerId: parseInt(playerId, 10),
         });
       } else {
         sendAction('TO_BATTLE', {
-          player_id: parseInt(playerId, 10),
+          playerId: parseInt(playerId, 10),
         });
       }
     } else if (isBattlePhase) {
       sendAction('END_TURN', {
-        player_id: parseInt(playerId, 10),
+        playerId: parseInt(playerId, 10),
       });
     }
   };
@@ -76,8 +76,8 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
     if (selectedInstanceId === null) return;
     
     sendAction('PLAY_CARD', {
-      player_id: isP1 ? 1 : 2,
-      instance_id: parseInt(selectedInstanceId, 10),
+      playerId: isP1 ? 1 : 2,
+      instanceId: parseInt(selectedInstanceId, 10),
       position: { row: absRow, col: absCol }
     });
   };

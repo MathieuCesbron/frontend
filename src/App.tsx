@@ -4,7 +4,7 @@ import { useGameSocket } from './hooks/useGameSocket'
 
 export default function App(): JSX.Element {
   const urlParams = new URLSearchParams(window.location.search);
-  const initialPlayerId = urlParams.get('player_id') || '';
+  const initialPlayerId = urlParams.get('playerId') || '';
   
   const [playerId, setPlayerId] = useState(initialPlayerId);
   const { gameState, isConnected, sendAction, latestEvent } = useGameSocket(playerId);
