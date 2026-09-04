@@ -7,6 +7,7 @@ export function useGameSocket(playerId: string) {
   const [gameState, setGameState] = useState<GameState>(MOCK_STATE);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [latestEvent, setLatestEvent] = useState<any>(null);
+  const [waitingMessage, setWaitingMessage] = useState<string | null>(null);
   
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectAttempts = useRef<number>(0);
@@ -92,10 +93,17 @@ export function useGameSocket(playerId: string) {
             return; // Stop processing here so it doesn't try to update game state
           }
 
+          if (message.type === 'WAITING') {
+            setWaitingMessage(message.data?.message || 'Waiting for opponent...');
+            return;
+          }
+
           // Game state logic
           if (message.type === 'SNAPSHOT') {
+            setWaitingMessage(null);
             setGameState(message.data);
           } else if (message.type === 'EVENTS') {
+            setWaitingMessage(null);
             // Can handle an array of events
             if (Array.isArray(message.data) && message.data.length > 0) {
               setLatestEvent(message.data[message.data.length - 1]);
@@ -197,6 +205,7 @@ export function useGameSocket(playerId: string) {
 
       ws.onclose = () => {
         setIsConnected(false);
+        setWaitingMessage(null);
         stopHeartbeat(); // This now clears both the ping and pong timers
         if (!closedByUser) scheduleReconnect();
         console.log('WebSocket closed');
@@ -207,6 +216,7 @@ export function useGameSocket(playerId: string) {
 
     return () => {
       closedByUser = true;
+      setWaitingMessage(null);
       if (reconnectTimer.current) {
         clearTimeout(reconnectTimer.current);
         reconnectTimer.current = null;
@@ -229,5 +239,5 @@ export function useGameSocket(playerId: string) {
     }
   };
 
-  return { gameState, isConnected, sendAction, latestEvent };
+  return { gameState, isConnected, sendAction, latestEvent, waitingMessage };
 }

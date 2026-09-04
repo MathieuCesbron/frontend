@@ -386,3 +386,31 @@ body {
 .card-drop-anim {
   animation: dropIn 0.3s ease-out forwards;
 }
+
+.waiting-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(248, 250, 252, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: all;
+}
+
+.waiting-message {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.board-blurred {
+  filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+  transition: filter 0.2s ease;
+}

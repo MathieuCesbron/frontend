@@ -7,9 +7,10 @@ interface GameBoardProps {
   isConnected: boolean;
   sendAction: (actionType: string, payload: any) => void;
   latestEvent: any;
+  waitingMessage?: string | null;
 }
 
-export default function GameBoard({ playerId, gameState, isConnected, sendAction, latestEvent }: GameBoardProps) {
+export default function GameBoard({ playerId, gameState, isConnected, sendAction, latestEvent, waitingMessage }: GameBoardProps) {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
   const [animatedInstanceId, setAnimatedInstanceId] = useState<string | null>(null);
   const [cardsDict, setCardsDict] = useState<Record<number, any>>({});
@@ -186,8 +187,13 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
   };
 
   return (
-    <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-      <div className="game-container" style={{ flex: 1 }}>
+    <div style={{ position: 'relative', display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+      {waitingMessage && (
+        <div className="waiting-overlay">
+          <div className="waiting-message">{waitingMessage}</div>
+        </div>
+      )}
+      <div className={`game-container ${waitingMessage ? 'board-blurred' : ''}`} style={{ flex: 1 }}>
         {renderPlayerSide(gameState.opponent, true)}
         {/* divider + phase button (divider stays centered; button positioned to the right) */}
         <div className="divider-with-phase">
@@ -205,7 +211,7 @@ export default function GameBoard({ playerId, gameState, isConnected, sendAction
       </div>
 
       {/* Card Details Sidebar */}
-      <div style={{ width: '300px', borderLeft: '1px solid #ccc', padding: '16px', background: '#f9f9f9', overflowY: 'auto' }}>
+      <div className={waitingMessage ? 'board-blurred' : ''} style={{ width: '300px', borderLeft: '1px solid #ccc', padding: '16px', background: '#f9f9f9', overflowY: 'auto' }}>
         {hoveredTemplateId && cardsDict[hoveredTemplateId] ? (
           <div>
             <h3>{cardsDict[hoveredTemplateId].name}</h3>
