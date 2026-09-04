@@ -152,10 +152,16 @@ export function useGameSocket(playerId: string) {
                     }
                   } else if (evt.type === 'BATTLE_PHASE_STARTED') {
                     nextState.phase = 'BATTLEPHASE';
+                  } else if (evt.type === 'TURN_STARTED') {
+                    nextState.phase = 'PLAYPHASE';
+                    if (evt.data?.turn !== undefined) {
+                      nextState.turn = evt.data.turn;
+                    }
+                    if (evt.data?.playerId !== undefined) {
+                      nextState.activePlayerId = evt.data.playerId;
+                    }
                   } else if (evt.type === 'TURN_ENDED') {
                     nextState.phase = 'PLAYPHASE';
-                    nextState.turn += 1;
-                    nextState.activePlayerId = nextState.activePlayerId === 1 ? 2 : 1;
                   }
                 });
 
