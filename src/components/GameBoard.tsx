@@ -10,7 +10,14 @@ interface GameBoardProps {
   waitingMessage?: string | null;
 }
 
-export default function GameBoard({ playerId, gameState, isConnected, sendAction, latestEvent, waitingMessage }: GameBoardProps) {
+export default function GameBoard({
+  playerId,
+  gameState,
+  isConnected,
+  sendAction,
+  latestEvent,
+  waitingMessage,
+}: GameBoardProps) {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
   const [animatedInstanceId, setAnimatedInstanceId] = useState<string | null>(null);
   const [cardsDict, setCardsDict] = useState<Record<number, any>>({});

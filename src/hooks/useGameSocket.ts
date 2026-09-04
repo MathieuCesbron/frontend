@@ -16,6 +16,7 @@ export function useGameSocket(playerId: string) {
   const reconnectTimer = useRef<number | null>(null);
   const heartbeatTimer = useRef<number | null>(null);
   const pongTimeoutRef = useRef<number | null>(null);
+  const drawTimersRef = useRef<number[]>([]);
 
   useEffect(() => {
     if (!playerId) return;
@@ -108,7 +109,35 @@ export function useGameSocket(playerId: string) {
             if (Array.isArray(message.data) && message.data.length > 0) {
               setLatestEvent(message.data[message.data.length - 1]);
               
-              // Reduce events to update the local GameState
+              // Handle CARD_DRAWN with 1s per card sequentially
+              let playerDrawCount = 0;
+              let opponentDrawCount = 0;
+
+              message.data.forEach((evt: any) => {
+                if (evt.type === 'CARD_DRAWN') {
+                  const { templateId, instanceId, playerId: cardPlayerId } = evt.data;
+                  const isMe = String(cardPlayerId) === String(playerId);
+                  const side = isMe ? 'player' : 'opponent';
+                  const drawIndex = isMe ? playerDrawCount++ : opponentDrawCount++;
+                  const delay = (drawIndex + 1) * 400;
+
+                  const timerId = window.setTimeout(() => {
+                    setGameState((prevState) => {
+                      const nextState = JSON.parse(JSON.stringify(prevState));
+                      nextState[side].deckCount = Math.max(0, nextState[side].deckCount - 1);
+                      nextState[side].hand.push({
+                        instanceId,
+                        templateId,
+                      });
+                      return nextState;
+                    });
+                  }, delay);
+
+                  drawTimersRef.current.push(timerId);
+                }
+              });
+
+              // Reduce other events to update the local GameState immediately
               setGameState((prevState) => {
                 // Deep clone the state to avoid mutating React state directly
                 const nextState = JSON.parse(JSON.stringify(prevState));
@@ -125,6 +154,8 @@ export function useGameSocket(playerId: string) {
                     nextState.player.fusionDeck = myFusion ?? nextState.player.fusionDeck;
                     nextState.opponent.deckCount = oppDeckCount ?? nextState.opponent.deckCount;
                     nextState.opponent.fusionDeck = oppFusion ?? nextState.opponent.fusionDeck;
+                    nextState.player.hand = [];
+                    nextState.opponent.hand = [];
 
                     if (evt.data.startingPlayerId !== undefined) {
                       nextState.activePlayerId = evt.data.startingPlayerId;
@@ -132,10 +163,10 @@ export function useGameSocket(playerId: string) {
                     nextState.turn = 1;
                     nextState.phase = 'PLAYPHASE';
                   } else if (evt.type === 'CARD_PLAYED') {
-                    const { templateId, instanceId, ownerId, source, position, isTrap } = evt.data;
+                    const { templateId, instanceId, playerId: cardPlayerId, source, position, isTrap } = evt.data;
                     
                     // Determine whether this event affects 'player' or 'opponent'
-                    const side = String(ownerId) === String(playerId) ? 'player' : 'opponent';
+                    const side = String(cardPlayerId) === String(playerId) ? 'player' : 'opponent';
 
                     let cardToPlace = null;
 
@@ -174,6 +205,12 @@ export function useGameSocket(playerId: string) {
                       } else {
                         nextState[side].board[localRow][position.col].topCard = cardToPlace;
                       }
+                    }
+                  } else if (evt.type === 'LP_UPDATED') {
+                    const isMe = String(evt.data?.playerId) === String(playerId);
+                    const side = isMe ? 'player' : 'opponent';
+                    if (evt.data?.lp !== undefined) {
+                      nextState[side].lp = evt.data.lp;
                     }
                   } else if (evt.type === 'BATTLE_PHASE_STARTED') {
                     nextState.phase = 'BATTLEPHASE';
@@ -222,6 +259,8 @@ export function useGameSocket(playerId: string) {
         reconnectTimer.current = null;
       }
       stopHeartbeat();
+      drawTimersRef.current.forEach(clearTimeout);
+      drawTimersRef.current = [];
       try {
         wsRef.current?.close();
       } catch {}
