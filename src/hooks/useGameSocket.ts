@@ -106,7 +106,24 @@ export function useGameSocket(playerId: string) {
                 const nextState = JSON.parse(JSON.stringify(prevState));
 
                 message.data.forEach((evt: any) => {
-                  if (evt.type === 'CARD_PLAYED') {
+                  if (evt.type === 'GAME_STARTED') {
+                    const isP1 = String(playerId) === String(evt.data.player1Id ?? 1);
+                    const myFusion = isP1 ? evt.data.player1FusionDeck : evt.data.player2FusionDeck;
+                    const oppFusion = isP1 ? evt.data.player2FusionDeck : evt.data.player1FusionDeck;
+                    const myDeckCount = isP1 ? evt.data.player1DeckCount : evt.data.player2DeckCount;
+                    const oppDeckCount = isP1 ? evt.data.player2DeckCount : evt.data.player1DeckCount;
+
+                    nextState.player.deckCount = myDeckCount ?? nextState.player.deckCount;
+                    nextState.player.fusionDeck = myFusion ?? nextState.player.fusionDeck;
+                    nextState.opponent.deckCount = oppDeckCount ?? nextState.opponent.deckCount;
+                    nextState.opponent.fusionDeck = oppFusion ?? nextState.opponent.fusionDeck;
+
+                    if (evt.data.startingPlayerId !== undefined) {
+                      nextState.activePlayerId = evt.data.startingPlayerId;
+                    }
+                    nextState.turn = 1;
+                    nextState.phase = 'PLAYPHASE';
+                  } else if (evt.type === 'CARD_PLAYED') {
                     const { templateId, instanceId, ownerId, source, position, isTrap } = evt.data;
                     
                     // Determine whether this event affects 'player' or 'opponent'
