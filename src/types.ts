@@ -27,21 +27,26 @@ export interface GameState {
   phase: string;
 }
 
-const emptyRow = (): GridRow => [
+export const emptyRow = (): GridRow => [
   { topCard: null, trapCard: null },
   { topCard: null, trapCard: null },
   { topCard: null, trapCard: null },
   { topCard: null, trapCard: null },
 ];
 
-export const MOCK_STATE: GameState = {
+export const createEmptyBoard = (): [GridRow, GridRow] => [
+  emptyRow(),
+  emptyRow(),
+];
+
+export const createInitialState = (): GameState => ({
   player: {
     lp: 100,
     deckCount: 0,
     trash: [],
     fusionDeck: [],
     hand: [],
-    board: [emptyRow(), emptyRow()]
+    board: createEmptyBoard(),
   },
   opponent: {
     lp: 100,
@@ -49,9 +54,11 @@ export const MOCK_STATE: GameState = {
     trash: [],
     fusionDeck: [],
     hand: [],
-    board: [emptyRow(), emptyRow()]
+    board: createEmptyBoard(),
   },
   turn: 1,
   activePlayerId: 1,
-  phase: 'PLAYPHASE'
-};
+  phase: 'PLAYPHASE',
+});
+
+export const MOCK_STATE: GameState = createInitialState();

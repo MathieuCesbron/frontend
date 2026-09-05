@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { GameState, MOCK_STATE } from '../types';
+import { GameState, MOCK_STATE, createEmptyBoard, createInitialState } from '../types';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
 
@@ -95,13 +95,18 @@ export function useGameSocket(playerId: string) {
           }
 
           if (message.type === 'WAITING') {
+            drawTimersRef.current.forEach(clearTimeout);
+            drawTimersRef.current = [];
             setWaitingMessage(message.data?.message || 'Waiting for opponent...');
+            setGameState(createInitialState());
             return;
           }
 
           // Game state logic
           if (message.type === 'SNAPSHOT') {
             setWaitingMessage(null);
+            drawTimersRef.current.forEach(clearTimeout);
+            drawTimersRef.current = [];
             setGameState(message.data);
           } else if (message.type === 'EVENTS') {
             setWaitingMessage(null);
@@ -109,7 +114,13 @@ export function useGameSocket(playerId: string) {
             if (Array.isArray(message.data) && message.data.length > 0) {
               setLatestEvent(message.data[message.data.length - 1]);
               
-              // Handle CARD_DRAWN with 1s per card sequentially
+              const hasGameStarted = message.data.some((evt: any) => evt.type === 'GAME_STARTED');
+              if (hasGameStarted) {
+                drawTimersRef.current.forEach(clearTimeout);
+                drawTimersRef.current = [];
+              }
+
+              // Handle CARD_DRAWN with sequential animations
               let playerDrawCount = 0;
               let opponentDrawCount = 0;
 
@@ -150,12 +161,22 @@ export function useGameSocket(playerId: string) {
                     const myDeckCount = isP1 ? evt.data.player1DeckCount : evt.data.player2DeckCount;
                     const oppDeckCount = isP1 ? evt.data.player2DeckCount : evt.data.player1DeckCount;
 
-                    nextState.player.deckCount = myDeckCount ?? nextState.player.deckCount;
-                    nextState.player.fusionDeck = myFusion ?? nextState.player.fusionDeck;
-                    nextState.opponent.deckCount = oppDeckCount ?? nextState.opponent.deckCount;
-                    nextState.opponent.fusionDeck = oppFusion ?? nextState.opponent.fusionDeck;
-                    nextState.player.hand = [];
-                    nextState.opponent.hand = [];
+                    nextState.player = {
+                      lp: 100,
+                      deckCount: myDeckCount ?? 0,
+                      trash: [],
+                      fusionDeck: myFusion ?? [],
+                      hand: [],
+                      board: createEmptyBoard(),
+                    };
+                    nextState.opponent = {
+                      lp: 100,
+                      deckCount: oppDeckCount ?? 0,
+                      trash: [],
+                      fusionDeck: oppFusion ?? [],
+                      hand: [],
+                      board: createEmptyBoard(),
+                    };
 
                     if (evt.data.startingPlayerId !== undefined) {
                       nextState.activePlayerId = evt.data.startingPlayerId;
@@ -204,6 +225,24 @@ export function useGameSocket(playerId: string) {
                         nextState[side].board[localRow][position.col].trapCard = cardToPlace;
                       } else {
                         nextState[side].board[localRow][position.col].topCard = cardToPlace;
+                      }
+                    }
+                  } else if (evt.type === 'CARD_DESTROYED') {
+                    const { position, isTrap } = evt.data;
+                    if (position) {
+                      const isPlayer = (playerId === '1' && position.row < 2) || (playerId === '2' && position.row >= 2);
+                      const side = isPlayer ? 'player' : 'opponent';
+                      const localRow = position.row % 2;
+                      if (nextState[side]?.board?.[localRow]?.[position.col]) {
+                        if (isTrap) {
+                          nextState[side].board[localRow][position.col].trapCard = null;
+                        } else {
+                          const destroyedCard = nextState[side].board[localRow][position.col].topCard;
+                          nextState[side].board[localRow][position.col].topCard = null;
+                          if (destroyedCard) {
+                            nextState[side].trash.push(destroyedCard);
+                          }
+                        }
                       }
                     }
                   } else if (evt.type === 'LP_UPDATED') {
