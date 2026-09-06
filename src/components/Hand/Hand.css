@@ -1,0 +1,39 @@
+.hand {
+  display: flex;
+  gap: 10px;
+  min-height: 120px;
+}
+
+.card {
+  width: 80px;
+  height: 110px;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  padding: 5px;
+}
+
+.hidden-card {
+  background: #94a3b8;
+  border-color: #64748b;
+}
+
+.hand-card {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hand-card:hover {
+  transform: translateY(-5px);
+}
+
+.hand-card.selected {
+  outline: 3px solid #3b82f6;
+  box-shadow: 0 0 10px #3b82f6;
+  transform: translateY(-10px);
+}

@@ -1,0 +1,21 @@
+.card-inspector {
+  width: 300px;
+  border-left: 1px solid #ccc;
+  padding: 16px;
+  background: #f9f9f9;
+  overflow-y: auto;
+}
+
+.card-inspector .card-type {
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.card-inspector .card-description {
+  margin-top: 16px;
+  white-space: pre-wrap;
+}
+
+.card-inspector .empty-hint {
+  color: #888;
+}

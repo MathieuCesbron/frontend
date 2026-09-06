@@ -1,41 +1,70 @@
 import { useEffect, useRef, useState } from 'react';
-import { GameState, MOCK_STATE, createEmptyBoard, createInitialState } from '../types';
+import { GameState, MOCK_STATE, createInitialState } from '../types';
+import { GameEvent, applyGameEvent, getEventDuration } from '../events';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
 
 export function useGameSocket(playerId: string) {
   const [gameState, setGameState] = useState<GameState>(MOCK_STATE);
   const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [latestEvent, setLatestEvent] = useState<any>(null);
-  const [triggeredEffect, setTriggeredEffect] = useState<any>(null);
+  const [latestEvent, setLatestEvent] = useState<GameEvent | null>(null);
   const [waitingMessage, setWaitingMessage] = useState<string | null>(null);
   
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectAttempts = useRef<number>(0);
   
-  // Timers
+  // Timers & Event Queue
   const reconnectTimer = useRef<number | null>(null);
   const heartbeatTimer = useRef<number | null>(null);
   const pongTimeoutRef = useRef<number | null>(null);
-  const drawTimersRef = useRef<number[]>([]);
+  const eventQueueRef = useRef<GameEvent[]>([]);
+  const isProcessingRef = useRef<boolean>(false);
+  const queueTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!playerId) return;
 
     let closedByUser = false;
 
+    function clearEventQueue() {
+      eventQueueRef.current = [];
+      isProcessingRef.current = false;
+      if (queueTimerRef.current) {
+        clearTimeout(queueTimerRef.current);
+        queueTimerRef.current = null;
+      }
+    }
+
+    function processNextEvent() {
+      if (isProcessingRef.current) return;
+      if (eventQueueRef.current.length === 0) return;
+
+      isProcessingRef.current = true;
+      const evt = eventQueueRef.current.shift()!;
+
+      setLatestEvent(evt);
+
+      setGameState((prevState) => applyGameEvent(prevState, evt, playerId));
+
+      const duration = getEventDuration(evt);
+
+      queueTimerRef.current = window.setTimeout(() => {
+        queueTimerRef.current = null;
+        isProcessingRef.current = false;
+        processNextEvent();
+      }, duration);
+    }
+
     function startHeartbeat() {
       stopHeartbeat();
-      // Send a ping every 10 seconds
       heartbeatTimer.current = window.setInterval(() => {
         if (wsRef.current?.readyState === WebSocket.OPEN) {
           try {
             wsRef.current.send(JSON.stringify({ type: 'PING' }));
             
-            // NEW: Start the 5-second doom timer right after sending the ping
             pongTimeoutRef.current = window.setTimeout(() => {
               console.warn('Ping timeout: No pong received. Forcing reconnect...');
-              wsRef.current?.close(); // This triggers onclose, which handles the reconnect!
+              wsRef.current?.close();
             }, 5000);
             
           } catch {
@@ -50,7 +79,6 @@ export function useGameSocket(playerId: string) {
         clearInterval(heartbeatTimer.current);
         heartbeatTimer.current = null;
       }
-      // NEW: Also clear the doom timer
       if (pongTimeoutRef.current) {
         clearTimeout(pongTimeoutRef.current);
         pongTimeoutRef.current = null;
@@ -84,197 +112,35 @@ export function useGameSocket(playerId: string) {
       ws.onmessage = (event) => {
         try {
           const message = JSON.parse(event.data);
-
-          console.log(message)
           
           if (message.type === 'PONG') {
             if (pongTimeoutRef.current) {
               clearTimeout(pongTimeoutRef.current);
               pongTimeoutRef.current = null;
             }
-            return; // Stop processing here so it doesn't try to update game state
+            return;
           }
 
           if (message.type === 'WAITING') {
-            drawTimersRef.current.forEach(clearTimeout);
-            drawTimersRef.current = [];
+            clearEventQueue();
             setWaitingMessage(message.data?.message || 'Waiting for opponent...');
             setGameState(createInitialState());
             return;
           }
 
-          // Game state logic
           if (message.type === 'SNAPSHOT') {
+            clearEventQueue();
             setWaitingMessage(null);
-            drawTimersRef.current.forEach(clearTimeout);
-            drawTimersRef.current = [];
             setGameState(message.data);
           } else if (message.type === 'EVENTS') {
             setWaitingMessage(null);
-            // Can handle an array of events
             if (Array.isArray(message.data) && message.data.length > 0) {
-              setLatestEvent(message.data[message.data.length - 1]);
-              
-              message.data.forEach((evt: any) => {
-                if (evt.type === 'EFFECT_TRIGGERED') {
-                  setTriggeredEffect({ ...evt.data, _timestamp: Date.now() });
-                }
-              });
-
               const hasGameStarted = message.data.some((evt: any) => evt.type === 'GAME_STARTED');
               if (hasGameStarted) {
-                drawTimersRef.current.forEach(clearTimeout);
-                drawTimersRef.current = [];
+                clearEventQueue();
               }
-
-              // Handle CARD_DRAWN with sequential animations
-              let playerDrawCount = 0;
-              let opponentDrawCount = 0;
-
-              message.data.forEach((evt: any) => {
-                if (evt.type === 'CARD_DRAWN') {
-                  const { templateId, instanceId, playerId: cardPlayerId } = evt.data;
-                  const isMe = String(cardPlayerId) === String(playerId);
-                  const side = isMe ? 'player' : 'opponent';
-                  const drawIndex = isMe ? playerDrawCount++ : opponentDrawCount++;
-                  const delay = (drawIndex + 1) * 400;
-
-                  const timerId = window.setTimeout(() => {
-                    setGameState((prevState) => {
-                      const nextState = JSON.parse(JSON.stringify(prevState));
-                      nextState[side].deckCount = Math.max(0, nextState[side].deckCount - 1);
-                      nextState[side].hand.push({
-                        instanceId,
-                        templateId,
-                      });
-                      return nextState;
-                    });
-                  }, delay);
-
-                  drawTimersRef.current.push(timerId);
-                }
-              });
-
-              // Reduce other events to update the local GameState immediately
-              setGameState((prevState) => {
-                // Deep clone the state to avoid mutating React state directly
-                const nextState = JSON.parse(JSON.stringify(prevState));
-
-                message.data.forEach((evt: any) => {
-                  if (evt.type === 'GAME_STARTED') {
-                    const isP1 = String(playerId) === String(evt.data.player1Id ?? 1);
-                    const myFusion = isP1 ? evt.data.player1FusionDeck : evt.data.player2FusionDeck;
-                    const oppFusion = isP1 ? evt.data.player2FusionDeck : evt.data.player1FusionDeck;
-                    const myDeckCount = isP1 ? evt.data.player1DeckCount : evt.data.player2DeckCount;
-                    const oppDeckCount = isP1 ? evt.data.player2DeckCount : evt.data.player1DeckCount;
-
-                    nextState.player = {
-                      lp: 100,
-                      deckCount: myDeckCount ?? 0,
-                      trash: [],
-                      fusionDeck: myFusion ?? [],
-                      hand: [],
-                      board: createEmptyBoard(),
-                    };
-                    nextState.opponent = {
-                      lp: 100,
-                      deckCount: oppDeckCount ?? 0,
-                      trash: [],
-                      fusionDeck: oppFusion ?? [],
-                      hand: [],
-                      board: createEmptyBoard(),
-                    };
-
-                    if (evt.data.startingPlayerId !== undefined) {
-                      nextState.activePlayerId = evt.data.startingPlayerId;
-                    }
-                    nextState.turn = 1;
-                    nextState.phase = 'PLAYPHASE';
-                  } else if (evt.type === 'CARD_PLAYED') {
-                    const { templateId, instanceId, playerId: cardPlayerId, source, position, isTrap } = evt.data;
-                    
-                    // Determine whether this event affects 'player' or 'opponent'
-                    const side = String(cardPlayerId) === String(playerId) ? 'player' : 'opponent';
-
-                    let cardToPlace = null;
-
-                    // If played from HAND, remove it from the hand
-                    if (source === 'HAND') {
-                      const handIndex = nextState[side].hand.findIndex((c: any) => String(c.instanceId) === String(instanceId));
-                      if (handIndex !== -1) {
-                        cardToPlace = nextState[side].hand.splice(handIndex, 1)[0];
-                        // If the server provided a concrete templateId in the event (not a censored -1),
-                        // prefer that templateId over the placeholder from the hand.
-                        if (templateId !== undefined && templateId !== -1) {
-                          cardToPlace.templateId = templateId;
-                        }
-                        // update instanceId to the event's value (may be -1 for censored view)
-                        if (instanceId !== undefined) {
-                          cardToPlace.instanceId = instanceId;
-                        }
-                      } else {
-                        // Fallback for opponent playing a hidden card (Censored: 0)
-                        if (nextState[side].hand.length > 0) {
-                          nextState[side].hand.pop();
-                        }
-                        cardToPlace = { instanceId: instanceId, templateId: templateId };
-                      }
-                    }
-
-                    // Place the card onto their grid
-                    if (cardToPlace) {
-                      const localRow = position.row % 2;
-                      if (!nextState[side].board[localRow][position.col]) {
-                        nextState[side].board[localRow][position.col] = { topCard: null, trapCard: null };
-                      }
-                      
-                      if (isTrap) {
-                        nextState[side].board[localRow][position.col].trapCard = cardToPlace;
-                      } else {
-                        nextState[side].board[localRow][position.col].topCard = cardToPlace;
-                      }
-                    }
-                  } else if (evt.type === 'CARD_DESTROYED') {
-                    const { position, isTrap } = evt.data;
-                    if (position) {
-                      const isPlayer = (playerId === '1' && position.row < 2) || (playerId === '2' && position.row >= 2);
-                      const side = isPlayer ? 'player' : 'opponent';
-                      const localRow = position.row % 2;
-                      if (nextState[side]?.board?.[localRow]?.[position.col]) {
-                        if (isTrap) {
-                          nextState[side].board[localRow][position.col].trapCard = null;
-                        } else {
-                          const destroyedCard = nextState[side].board[localRow][position.col].topCard;
-                          nextState[side].board[localRow][position.col].topCard = null;
-                          if (destroyedCard) {
-                            nextState[side].trash.push(destroyedCard);
-                          }
-                        }
-                      }
-                    }
-                  } else if (evt.type === 'LP_UPDATED') {
-                    const isMe = String(evt.data?.playerId) === String(playerId);
-                    const side = isMe ? 'player' : 'opponent';
-                    if (evt.data?.lp !== undefined) {
-                      nextState[side].lp = evt.data.lp;
-                    }
-                  } else if (evt.type === 'BATTLE_PHASE_STARTED') {
-                    nextState.phase = 'BATTLEPHASE';
-                  } else if (evt.type === 'TURN_STARTED') {
-                    nextState.phase = 'PLAYPHASE';
-                    if (evt.data?.turn !== undefined) {
-                      nextState.turn = evt.data.turn;
-                    }
-                    if (evt.data?.playerId !== undefined) {
-                      nextState.activePlayerId = evt.data.playerId;
-                    }
-                  } else if (evt.type === 'TURN_ENDED') {
-                    nextState.phase = 'PLAYPHASE';
-                  }
-                });
-
-                return nextState;
-              });
+              eventQueueRef.current.push(...message.data);
+              processNextEvent();
             }
           }
         } catch (e) {
@@ -289,7 +155,8 @@ export function useGameSocket(playerId: string) {
       ws.onclose = () => {
         setIsConnected(false);
         setWaitingMessage(null);
-        stopHeartbeat(); // This now clears both the ping and pong timers
+        stopHeartbeat();
+        clearEventQueue();
         if (!closedByUser) scheduleReconnect();
         console.log('WebSocket closed');
       };
@@ -305,8 +172,7 @@ export function useGameSocket(playerId: string) {
         reconnectTimer.current = null;
       }
       stopHeartbeat();
-      drawTimersRef.current.forEach(clearTimeout);
-      drawTimersRef.current = [];
+      clearEventQueue();
       try {
         wsRef.current?.close();
       } catch {}
@@ -314,7 +180,7 @@ export function useGameSocket(playerId: string) {
     };
   }, [playerId]);
 
-  // Include the sendAction helper discussed previously
+  // Include the sendAction helper
   const sendAction = (actionType: string, payload: any) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify({
@@ -324,5 +190,5 @@ export function useGameSocket(playerId: string) {
     }
   };
 
-  return { gameState, isConnected, sendAction, latestEvent, triggeredEffect, waitingMessage };
+  return { gameState, isConnected, sendAction, latestEvent, waitingMessage };
 }

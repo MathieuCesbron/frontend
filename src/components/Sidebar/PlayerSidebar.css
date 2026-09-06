@@ -1,0 +1,38 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100px;
+}
+
+.stats-box {
+  border: 2px solid #94a3b8;
+  padding: 10px;
+  background: #fff;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.stats-box p {
+  margin: 0;
+}
+
+.deck-zone {
+  border: 2px dashed #94a3b8;
+  width: 70px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.deck-zone.trash {
+  background: #f1f5f9;
+}

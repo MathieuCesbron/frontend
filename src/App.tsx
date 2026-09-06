@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
-import GameBoard from './components/GameBoard'
-import { useGameSocket } from './hooks/useGameSocket'
+import React, { useState } from 'react';
+import GameBoard from './components/GameBoard';
+import { Header } from './components/Header/Header';
+import { useGameSocket } from './hooks/useGameSocket';
 
 export default function App(): JSX.Element {
   const urlParams = new URLSearchParams(window.location.search);
   const initialPlayerId = urlParams.get('playerId') || '';
-  
+
   const [playerId, setPlayerId] = useState(initialPlayerId);
-  const { gameState, isConnected, sendAction, latestEvent, triggeredEffect, waitingMessage } = useGameSocket(playerId);
+  const { gameState, isConnected, sendAction, latestEvent, waitingMessage } = useGameSocket(playerId);
 
   if (!playerId) {
     return (
@@ -15,36 +16,20 @@ export default function App(): JSX.Element {
         <button onClick={() => setPlayerId('1')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player 1</button>
         <button onClick={() => setPlayerId('2')} style={{ padding: '10px 20px', cursor: 'pointer', fontSize: '16px' }}>Join as Player 2</button>
       </div>
-    )
+    );
   }
 
   return (
     <div className="app">
-      <div className="top-banner">
-        <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-          Playing as: {playerId === '1' ? 'Player 1' : 'Player 2'}
-        </div>
-
-        {isConnected ? (
-          <div className={`connection-indicator connected`} aria-hidden />
-        ) : (
-          <div className="reconnecting">
-            <span className="reconnect-text">Reconnecting</span>
-            <span className="reconnect-dot" />
-          </div>
-        )}
-      </div>
-      <div className="game-container">
-        <GameBoard
-          playerId={playerId}
-          gameState={gameState}
-          isConnected={isConnected}
-          sendAction={sendAction}
-          latestEvent={latestEvent}
-          triggeredEffect={triggeredEffect}
-          waitingMessage={waitingMessage}
-        />
-      </div>
+      <Header playerId={playerId} isConnected={isConnected} />
+      <GameBoard
+        playerId={playerId}
+        gameState={gameState}
+        isConnected={isConnected}
+        sendAction={sendAction}
+        latestEvent={latestEvent}
+        waitingMessage={waitingMessage}
+      />
     </div>
-  )
+  );
 }
