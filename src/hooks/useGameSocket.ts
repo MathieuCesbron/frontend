@@ -7,6 +7,7 @@ export function useGameSocket(playerId: string) {
   const [gameState, setGameState] = useState<GameState>(MOCK_STATE);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [latestEvent, setLatestEvent] = useState<any>(null);
+  const [triggeredEffect, setTriggeredEffect] = useState<any>(null);
   const [waitingMessage, setWaitingMessage] = useState<string | null>(null);
   
   const wsRef = useRef<WebSocket | null>(null);
@@ -114,6 +115,12 @@ export function useGameSocket(playerId: string) {
             if (Array.isArray(message.data) && message.data.length > 0) {
               setLatestEvent(message.data[message.data.length - 1]);
               
+              message.data.forEach((evt: any) => {
+                if (evt.type === 'EFFECT_TRIGGERED') {
+                  setTriggeredEffect({ ...evt.data, _timestamp: Date.now() });
+                }
+              });
+
               const hasGameStarted = message.data.some((evt: any) => evt.type === 'GAME_STARTED');
               if (hasGameStarted) {
                 drawTimersRef.current.forEach(clearTimeout);
@@ -317,5 +324,5 @@ export function useGameSocket(playerId: string) {
     }
   };
 
-  return { gameState, isConnected, sendAction, latestEvent, waitingMessage };
+  return { gameState, isConnected, sendAction, latestEvent, triggeredEffect, waitingMessage };
 }

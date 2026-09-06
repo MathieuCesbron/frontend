@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PlayerState, GameState } from '../types';
 
 interface GameBoardProps {
@@ -7,6 +7,7 @@ interface GameBoardProps {
   isConnected: boolean;
   sendAction: (actionType: string, payload: any) => void;
   latestEvent: any;
+  triggeredEffect?: any;
   waitingMessage?: string | null;
 }
 
@@ -16,12 +17,16 @@ export default function GameBoard({
   isConnected,
   sendAction,
   latestEvent,
+  triggeredEffect,
   waitingMessage,
 }: GameBoardProps) {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
   const [animatedInstanceId, setAnimatedInstanceId] = useState<string | null>(null);
+  const [activeEffectKeys, setActiveEffectKeys] = useState<Record<string, boolean>>({});
+  const [activeEffectIds, setActiveEffectIds] = useState<Record<string, boolean>>({});
   const [cardsDict, setCardsDict] = useState<Record<number, any>>({});
   const [hoveredTemplateId, setHoveredTemplateId] = useState<number | null>(null);
+  const effectTimersRef = useRef<number[]>([]);
 
   useEffect(() => {
     fetch('/cards.json')
@@ -44,6 +49,57 @@ export default function GameBoard({
       setSelectedInstanceId(null);
     }
   }, [latestEvent]);
+
+  // Handle EFFECT_TRIGGERED glow animations (lasting 2s, delayed until after drop animation)
+  useEffect(() => {
+    const effectData = triggeredEffect || (latestEvent?.type === 'EFFECT_TRIGGERED' ? latestEvent.data : null);
+    if (!effectData) return;
+
+    const { position, instanceId } = effectData;
+    const timers: number[] = [];
+    const delay = 350; // wait 350ms for card placement & drop-in animation to complete
+
+    if (position && position.row !== undefined && position.col !== undefined) {
+      const posKey = `${position.row},${position.col}`;
+      const startTimer = window.setTimeout(() => {
+        setActiveEffectKeys(prev => ({ ...prev, [posKey]: true }));
+        const endTimer = window.setTimeout(() => {
+          setActiveEffectKeys(prev => {
+            const next = { ...prev };
+            delete next[posKey];
+            return next;
+          });
+        }, 2000);
+        timers.push(endTimer);
+      }, delay);
+      timers.push(startTimer);
+    }
+
+    if (instanceId !== undefined && instanceId !== -1) {
+      const idKey = String(instanceId);
+      const startTimer = window.setTimeout(() => {
+        setActiveEffectIds(prev => ({ ...prev, [idKey]: true }));
+        const endTimer = window.setTimeout(() => {
+          setActiveEffectIds(prev => {
+            const next = { ...prev };
+            delete next[idKey];
+            return next;
+          });
+        }, 2000);
+        timers.push(endTimer);
+      }, delay);
+      timers.push(startTimer);
+    }
+
+    effectTimersRef.current.push(...timers);
+  }, [triggeredEffect, latestEvent]);
+
+  useEffect(() => {
+    return () => {
+      effectTimersRef.current.forEach(clearTimeout);
+      effectTimersRef.current = [];
+    };
+  }, []);
 
   const isP1 = playerId === '1';
   const isMyTurn = gameState.activePlayerId === parseInt(playerId, 10);
@@ -95,6 +151,20 @@ export default function GameBoard({
     // P2 sees the board from bottom-up so rows and cols are already in correct orientation for P2.
     const displayedBoard = isP1 ? [...player.board].reverse() : player.board;
 
+    const getAbsoluteCoords = (rowIndex: number, colIndex: number) => {
+      let absRow: number;
+      let absCol: number;
+
+      if (isP1) {
+        absCol = 3 - colIndex;
+        absRow = isOpponent ? 3 - rowIndex : 1 - rowIndex;
+      } else {
+        absCol = colIndex;
+        absRow = isOpponent ? rowIndex : 2 + rowIndex;
+      }
+      return { absRow, absCol };
+    };
+
     return (
       <div className={`player-area ${isOpponent ? 'opponent' : 'player'}`}>
         {isOpponent && (
@@ -118,18 +188,24 @@ export default function GameBoard({
           <div className="board-grid">
             {displayedBoard.map((row, rowIndex) => {
               const displayedRow = isP1 ? [...row].reverse() : row;
-              // Map displayed index back to absolute index
-              const absRow = isP1 ? (1 - rowIndex) : (isOpponent ? 1 - rowIndex : 2 + rowIndex);
               
               return (
                 <div key={rowIndex} className="board-row">
                   {displayedRow.map((cell, colIndex) => {
-                    const absCol = isP1 ? (3 - colIndex) : colIndex;
+                    const { absRow, absCol } = getAbsoluteCoords(rowIndex, colIndex);
                     const topCard = cell?.topCard;
                     const trapCard = cell?.trapCard;
                     
                     const tId = topCard?.instanceId;
+                    const trId = trapCard?.instanceId;
                     const isAnimated = tId && String(tId) === animatedInstanceId;
+
+                    const posKey = `${absRow},${absCol}`;
+                    const isEffectTriggered = Boolean(
+                      activeEffectKeys[posKey] || 
+                      (tId && activeEffectIds[String(tId)]) || 
+                      (trId && activeEffectIds[String(trId)])
+                    );
 
                     return (
                       <div 
@@ -139,14 +215,14 @@ export default function GameBoard({
                       >
                         <div className="tile-content">
                           <div 
-                            className={`trap-slot ${trapCard ? 'card board-card trap-card' : ''}`}
+                            className={`trap-slot ${trapCard ? 'card board-card trap-card' : ''} ${isEffectTriggered && !topCard ? 'effect-triggered-glow' : ''}`}
                             onMouseEnter={() => trapCard && setHoveredTemplateId(trapCard.templateId)}
                             onMouseLeave={() => setHoveredTemplateId(null)}
                           >
                             {trapCard ? 'Set Trap' : ''}
                           </div>
                           <div 
-                            className={`top-slot ${topCard ? 'card board-card top-card' : ''} ${isAnimated ? 'card-drop-anim' : ''}`}
+                            className={`top-slot ${topCard ? 'card board-card top-card' : ''} ${isAnimated ? 'card-drop-anim' : ''} ${isEffectTriggered ? 'effect-triggered-glow' : ''}`}
                             onMouseEnter={() => topCard && setHoveredTemplateId(topCard.templateId)}
                             onMouseLeave={() => setHoveredTemplateId(null)}
                           >
