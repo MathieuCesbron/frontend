@@ -20,6 +20,7 @@ export function useGameSocket(playerId: string) {
   const eventQueueRef = useRef<GameEvent[]>([]);
   const isProcessingRef = useRef<boolean>(false);
   const queueTimerRef = useRef<number | null>(null);
+  const latestSnapshotRef = useRef<GameState | null>(null);
 
   useEffect(() => {
     if (!playerId) return;
@@ -37,7 +38,13 @@ export function useGameSocket(playerId: string) {
 
     function processNextEvent() {
       if (isProcessingRef.current) return;
-      if (eventQueueRef.current.length === 0) return;
+
+      if (eventQueueRef.current.length === 0) {
+        if (latestSnapshotRef.current) {
+          setGameState(latestSnapshotRef.current);
+        }
+        return;
+      }
 
       isProcessingRef.current = true;
       const evt = eventQueueRef.current.shift()!;
@@ -128,9 +135,32 @@ export function useGameSocket(playerId: string) {
             return;
           }
 
+          if (message.type === 'UPDATE') {
+            setWaitingMessage(null);
+            const { events, snapshot } = message.data || {};
+
+            if (snapshot) {
+              latestSnapshotRef.current = snapshot;
+            }
+
+            if (Array.isArray(events) && events.length > 0) {
+              const hasGameStarted = events.some((evt: any) => evt.type === 'GAME_STARTED');
+              if (hasGameStarted) {
+                clearEventQueue();
+              }
+              eventQueueRef.current.push(...events);
+              processNextEvent();
+            } else if (snapshot) {
+              // If there are no event animations to run, reconcile immediately
+              setGameState(snapshot);
+            }
+            return;
+          }
+
           if (message.type === 'SNAPSHOT') {
             clearEventQueue();
             setWaitingMessage(null);
+            latestSnapshotRef.current = message.data;
             setGameState(message.data);
           } else if (message.type === 'EVENTS') {
             setWaitingMessage(null);

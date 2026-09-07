@@ -1,45 +1,52 @@
-import { GameState, createEmptyBoard } from '../types';
+import { GameState } from '../types';
 import { GameEventHandler } from './types';
+
+export interface InitialPlayerState {
+  deckCount: number;
+  fusionCount: number;
+}
 
 export interface GameStartedData {
   startingPlayerId?: number;
-  player1Id?: number;
-  player2Id?: number;
-  player1DeckCount?: number;
-  player2DeckCount?: number;
-  player1FusionCount?: number;
-  player2FusionCount?: number;
-  player1FusionDeck?: any[];
-  player2FusionDeck?: any[];
+  players?: Record<string, InitialPlayerState>;
 }
 
 export const gameStartedHandler: GameEventHandler<GameStartedData> = {
   duration: 50,
   apply: (prevState, data, playerId) => {
     const nextState: GameState = JSON.parse(JSON.stringify(prevState));
-    const isP1 = String(playerId) === String(data.player1Id ?? 1);
-    const myFusion = isP1 ? data.player1FusionDeck : data.player2FusionDeck;
-    const oppFusion = isP1 ? data.player2FusionDeck : data.player1FusionDeck;
-    const myDeckCount = isP1 ? data.player1DeckCount : data.player2DeckCount;
-    const oppDeckCount = isP1 ? data.player2DeckCount : data.player1DeckCount;
 
-    nextState.player = {
-      lp: 100,
-      deckCount: myDeckCount ?? 0,
-      trash: [],
-      fusionDeck: myFusion ?? [],
-      hand: [],
-      board: createEmptyBoard(),
-    };
+    if (data.players) {
+      const playerKeys = Object.keys(data.players);
+      const myKey = playerKeys.find(
+        (k) =>
+          k === String(playerId) ||
+          (k === '1' && String(playerId) === 'PLAYER1') ||
+          (k === 'PLAYER1' && String(playerId) === '1') ||
+          (k === '2' && String(playerId) === 'PLAYER2') ||
+          (k === 'PLAYER2' && String(playerId) === '2')
+      );
+      const oppKey = playerKeys.find((k) => k !== myKey);
 
-    nextState.opponent = {
-      lp: 100,
-      deckCount: oppDeckCount ?? 0,
-      trash: [],
-      fusionDeck: oppFusion ?? [],
-      hand: [],
-      board: createEmptyBoard(),
-    };
+      const myStats = myKey ? data.players[myKey] : undefined;
+      const oppStats = oppKey ? data.players[oppKey] : undefined;
+
+      if (myStats) {
+        nextState.player.deckCount = myStats.deckCount;
+        nextState.player.fusionDeck = Array.from({ length: myStats.fusionCount }, () => ({
+          instanceId: -1,
+          templateId: -1,
+        }));
+      }
+
+      if (oppStats) {
+        nextState.opponent.deckCount = oppStats.deckCount;
+        nextState.opponent.fusionDeck = Array.from({ length: oppStats.fusionCount }, () => ({
+          instanceId: -1,
+          templateId: -1,
+        }));
+      }
+    }
 
     if (data.startingPlayerId !== undefined) {
       nextState.activePlayerId = data.startingPlayerId;

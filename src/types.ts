@@ -11,6 +11,7 @@ export interface Tile {
 export type GridRow = Tile[];
 
 export interface PlayerState {
+  id?: string;
   lp: number;
   deckCount: number;
   trash: Card[];
@@ -19,12 +20,22 @@ export interface PlayerState {
   board: [GridRow, GridRow]; // 2 rows of 4 columns
 }
 
+export interface PendingEffect {
+  templateId: number;
+  instanceId: number;
+  playerId: string | number;
+  position: { row: number; col: number };
+  selectionType: string;
+  selections: any[];
+}
+
 export interface GameState {
   player: PlayerState;
   opponent: PlayerState;
   turn: number;
   activePlayerId: number;
   phase: string;
+  pendingEffect?: PendingEffect | null;
 }
 
 export const emptyRow = (): GridRow => [
