@@ -9,6 +9,9 @@ interface BoardCellProps {
   isOpponent: boolean;
   animatedInstanceId: string | null;
   isEffectTriggered: boolean;
+  isMoveSource?: boolean;
+  isMoveSelectedSource?: boolean;
+  isMoveTarget?: boolean;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
   onHoverCard: (templateId: number | null) => void;
@@ -21,6 +24,9 @@ export const BoardCell: React.FC<BoardCellProps> = ({
   isOpponent,
   animatedInstanceId,
   isEffectTriggered,
+  isMoveSource,
+  isMoveSelectedSource,
+  isMoveTarget,
   cardsDict,
   onCellClick,
   onHoverCard,
@@ -31,9 +37,18 @@ export const BoardCell: React.FC<BoardCellProps> = ({
   const tId = topCard?.instanceId;
   const isAnimated = Boolean(tId && String(tId) === animatedInstanceId);
 
+  const cellClasses = [
+    'board-cell',
+    isMoveSource ? 'is-move-source' : '',
+    isMoveSelectedSource ? 'is-move-selected-source' : '',
+    isMoveTarget ? 'is-move-target' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div
-      className="board-cell"
+      className={cellClasses}
       onClick={() => onCellClick(absRow, absCol, isOpponent)}
     >
       <div className="tile-content">
@@ -49,7 +64,9 @@ export const BoardCell: React.FC<BoardCellProps> = ({
         <div
           className={`top-slot ${topCard ? 'card board-card top-card' : ''} ${
             isAnimated ? 'card-drop-anim' : ''
-          } ${isEffectTriggered ? 'effect-triggered-glow' : ''}`}
+          } ${isEffectTriggered ? 'effect-triggered-glow' : ''} ${
+            isMoveSelectedSource ? 'move-selected-top' : ''
+          } ${isMoveSource && !isMoveSelectedSource ? 'move-source-top' : ''}`}
           onMouseEnter={() => topCard && onHoverCard(topCard.templateId)}
           onMouseLeave={() => onHoverCard(null)}
         >

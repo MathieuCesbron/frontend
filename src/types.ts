@@ -20,12 +20,23 @@ export interface PlayerState {
   board: [GridRow, GridRow]; // 2 rows of 4 columns
 }
 
+export interface Position {
+  row: number;
+  col: number;
+}
+
+export interface MoveSelection {
+  from: Position;
+  to: Position;
+}
+
 export interface PendingEffect {
-  templateId: number;
-  instanceId: number;
+  templateId?: number;
+  instanceId?: number;
   playerId: string | number;
-  position: { row: number; col: number };
+  position?: Position;
   selectionType: string;
+  isOptional?: boolean;
   selections: any[];
 }
 

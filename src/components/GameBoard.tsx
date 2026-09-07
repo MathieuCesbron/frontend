@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { PlayerState, GameState } from '../types';
 import { GameEvent } from '../events';
 import { WaitingOverlay } from './WaitingOverlay/WaitingOverlay';
@@ -32,6 +32,7 @@ export default function GameBoard({
   const [activeEffectIds, setActiveEffectIds] = useState<Record<string, boolean>>({});
   const [cardsDict, setCardsDict] = useState<Record<number, any>>({});
   const [hoveredTemplateId, setHoveredTemplateId] = useState<number | null>(null);
+  const [selectedMoveFrom, setSelectedMoveFrom] = useState<{ row: number; col: number } | null>(null);
   const effectTimersRef = useRef<number[]>([]);
 
   useEffect(() => {
@@ -97,30 +98,156 @@ export default function GameBoard({
   }, []);
 
   const isP1 = playerId === '1';
-  const isMyTurn = gameState.activePlayerId === parseInt(playerId, 10);
+  const playerNum = isP1 ? 1 : 2;
+  const isMyTurn = gameState.activePlayerId === playerNum;
   const isPlayPhase = gameState.phase === 'PLAYPHASE';
   const isBattlePhase = gameState.phase === 'BATTLEPHASE';
 
+  const pendingEffect = gameState.pendingEffect;
+  const isMyPendingEffect = Boolean(
+    pendingEffect &&
+      (String(pendingEffect.playerId) === String(playerId) || pendingEffect.playerId === playerNum)
+  );
+  const isMoveEffect = Boolean(isMyPendingEffect && pendingEffect?.selectionType === 'MOVE');
+
+  // Clear move selection whenever move effect mode is not active
+  useEffect(() => {
+    if (!isMoveEffect) {
+      setSelectedMoveFrom(null);
+    }
+  }, [isMoveEffect, pendingEffect]);
+
+  const moveSelections = useMemo(() => {
+    if (!isMoveEffect || !pendingEffect?.selections) return [];
+    return pendingEffect.selections
+      .map((s: any) => {
+        const from = s.from || s.From;
+        const to = s.to || s.To;
+        if (!from || !to) return null;
+        const fromRow = from.row !== undefined ? from.row : from.Row;
+        const fromCol = from.col !== undefined ? from.col : from.Col;
+        const toRow = to.row !== undefined ? to.row : to.Row;
+        const toCol = to.col !== undefined ? to.col : to.Col;
+        if (
+          fromRow === undefined ||
+          fromCol === undefined ||
+          toRow === undefined ||
+          toCol === undefined
+        ) {
+          return null;
+        }
+        return {
+          from: { row: Number(fromRow), col: Number(fromCol) },
+          to: { row: Number(toRow), col: Number(toCol) },
+        };
+      })
+      .filter(
+        (m: any): m is { from: { row: number; col: number }; to: { row: number; col: number } } =>
+          m !== null
+      );
+  }, [isMoveEffect, pendingEffect]);
+
+  const validMoveFromKeys = useMemo(() => {
+    const keys = new Set<string>();
+    for (const m of moveSelections) {
+      keys.add(`${m.from.row},${m.from.col}`);
+    }
+    return keys;
+  }, [moveSelections]);
+
+  const selectedMoveFromKey = selectedMoveFrom
+    ? `${selectedMoveFrom.row},${selectedMoveFrom.col}`
+    : null;
+
+  const validMoveToKeys = useMemo(() => {
+    if (!selectedMoveFrom) return new Set<string>();
+    const keys = new Set<string>();
+    for (const m of moveSelections) {
+      if (m.from.row === selectedMoveFrom.row && m.from.col === selectedMoveFrom.col) {
+        keys.add(`${m.to.row},${m.to.col}`);
+      }
+    }
+    return keys;
+  }, [moveSelections, selectedMoveFrom]);
+
+  const handlePassEffect = () => {
+    if (!isMyPendingEffect) return;
+    sendAction('RESOLVE_EFFECT', {
+      playerId: playerNum,
+      passed: true,
+    });
+    setSelectedMoveFrom(null);
+  };
+
   const handlePhaseButtonClick = () => {
+    if (gameState.pendingEffect) {
+      if (isMyPendingEffect && gameState.pendingEffect.isOptional) {
+        handlePassEffect();
+      }
+      return;
+    }
+
     if (!isMyTurn) return;
 
     if (isPlayPhase) {
       if (gameState.turn === 1) {
-        sendAction('END_TURN', { playerId: parseInt(playerId, 10) });
+        sendAction('END_TURN', { playerId: playerNum });
       } else {
-        sendAction('TO_BATTLE', { playerId: parseInt(playerId, 10) });
+        sendAction('TO_BATTLE', { playerId: playerNum });
       }
     } else if (isBattlePhase) {
-      sendAction('END_TURN', { playerId: parseInt(playerId, 10) });
+      sendAction('END_TURN', { playerId: playerNum });
     }
   };
 
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
+    if (isMoveEffect) {
+      const clickedKey = `${absRow},${absCol}`;
+
+      if (selectedMoveFrom) {
+        // Did the user click on a valid target destination?
+        if (validMoveToKeys.has(clickedKey)) {
+          sendAction('RESOLVE_EFFECT', {
+            playerId: playerNum,
+            selection: {
+              from: selectedMoveFrom,
+              to: { row: absRow, col: absCol },
+            },
+            passed: false,
+          });
+          setSelectedMoveFrom(null);
+          return;
+        }
+
+        // Did the user click on the currently selected source card? Deselect it.
+        if (selectedMoveFromKey === clickedKey) {
+          setSelectedMoveFrom(null);
+          return;
+        }
+
+        // Did the user click on another valid source card? Switch selection.
+        if (validMoveFromKeys.has(clickedKey)) {
+          setSelectedMoveFrom({ row: absRow, col: absCol });
+          return;
+        }
+
+        // Clicked elsewhere on the board
+        setSelectedMoveFrom(null);
+        return;
+      }
+
+      // No card selected yet: select this source card if valid
+      if (validMoveFromKeys.has(clickedKey)) {
+        setSelectedMoveFrom({ row: absRow, col: absCol });
+      }
+      return;
+    }
+
     if (isOpponent) return;
     if (selectedInstanceId === null) return;
 
     sendAction('PLAY_CARD', {
-      playerId: isP1 ? 1 : 2,
+      playerId: playerNum,
       instanceId: parseInt(selectedInstanceId, 10),
       position: { row: absRow, col: absCol },
     });
@@ -147,6 +274,9 @@ export default function GameBoard({
             animatedInstanceId={animatedInstanceId}
             activeEffectKeys={activeEffectKeys}
             activeEffectIds={activeEffectIds}
+            validMoveFromKeys={validMoveFromKeys}
+            selectedMoveFromKey={selectedMoveFromKey}
+            validMoveToKeys={validMoveToKeys}
             cardsDict={cardsDict}
             onCellClick={handleCellClick}
             onHoverCard={setHoveredTemplateId}
@@ -181,6 +311,8 @@ export default function GameBoard({
           isMyTurn={isMyTurn}
           phase={gameState.phase}
           turn={gameState.turn}
+          pendingEffect={gameState.pendingEffect}
+          isMyPendingEffect={isMyPendingEffect}
           onPhaseClick={handlePhaseButtonClick}
         />
 
