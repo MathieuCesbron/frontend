@@ -1,8 +1,10 @@
 import { SelectionHandler } from './types';
 import { moveSelectionHandler } from './moveSelection';
+import { discardSelectionHandler } from './discardSelection';
 
 export const selectionHandlers: Record<string, SelectionHandler<any, any>> = {
   MOVE: moveSelectionHandler,
+  DISCARD: discardSelectionHandler,
 };
 
 export function getSelectionHandler(

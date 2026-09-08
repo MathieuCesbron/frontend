@@ -7,7 +7,9 @@ interface HandProps {
   isOpponent: boolean;
   selectedInstanceId?: string | null;
   cardsDict: Record<number, any>;
-  onSelectCard?: (instanceId: string) => void;
+  validDiscardIndices?: Set<number>;
+  validDiscardInstanceIds?: Set<number>;
+  onSelectCard?: (instanceId: string, index: number) => void;
   onHoverCard?: (templateId: number | null) => void;
 }
 
@@ -16,6 +18,8 @@ export const Hand: React.FC<HandProps> = ({
   isOpponent,
   selectedInstanceId,
   cardsDict,
+  validDiscardIndices,
+  validDiscardInstanceIds,
   onSelectCard,
   onHoverCard,
 }) => {
@@ -33,14 +37,21 @@ export const Hand: React.FC<HandProps> = ({
     <div className="hand">
       {cards.map((card, idx) => {
         const isSelected = selectedInstanceId === String(card.instanceId);
+        const isDiscardValid = Boolean(
+          (validDiscardIndices && validDiscardIndices.has(idx)) ||
+            (validDiscardInstanceIds &&
+              validDiscardInstanceIds.has(card.instanceId))
+        );
         const cardInfo = cardsDict[card.templateId];
         const cardName = cardInfo?.name || `Card ${card.templateId}`;
 
         return (
           <div
             key={idx}
-            className={`card hand-card ${isSelected ? 'selected' : ''}`}
-            onClick={() => onSelectCard?.(String(card.instanceId))}
+            className={`card hand-card ${isSelected ? 'selected' : ''} ${
+              isDiscardValid ? 'discard-target' : ''
+            }`}
+            onClick={() => onSelectCard?.(String(card.instanceId), idx)}
             onMouseEnter={() => onHoverCard?.(card.templateId)}
             onMouseLeave={() => onHoverCard?.(null)}
           >

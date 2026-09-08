@@ -47,6 +47,7 @@ export default function GameBoard({
     isMyPendingEffect,
     highlights,
     handleCellClick: handleSelectionCellClick,
+    handleHandCardClick: handleSelectionHandCardClick,
     handlePassEffect,
   } = useSelection({
     pendingEffect: gameState.pendingEffect,
@@ -135,7 +136,20 @@ export default function GameBoard({
             isOpponent={false}
             selectedInstanceId={selectedInstanceId}
             cardsDict={cardsDict}
-            onSelectCard={(id) => setSelectedInstanceId(selectedInstanceId === id ? null : id)}
+            validDiscardIndices={highlights.validDiscardIndices}
+            validDiscardInstanceIds={highlights.validDiscardInstanceIds}
+            onSelectCard={(id, idx) => {
+              if (isMyPendingEffect) {
+                const handled = handleSelectionHandCardClick(
+                  parseInt(id, 10),
+                  idx
+                );
+                if (handled) return;
+              }
+              setSelectedInstanceId(
+                selectedInstanceId === id ? null : id
+              );
+            }}
             onHoverCard={setHoveredTemplateId}
           />
         )}

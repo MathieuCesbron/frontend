@@ -11,6 +11,8 @@ export interface SelectionHighlights {
   validMoveFromKeys: Set<string>;
   selectedMoveFromKey: string | null;
   validMoveToKeys: Set<string>;
+  validDiscardIndices?: Set<number>;
+  validDiscardInstanceIds?: Set<number>;
 }
 
 export interface CellClickCoords {
@@ -19,12 +21,23 @@ export interface CellClickCoords {
   isOpponent: boolean;
 }
 
+export interface HandCardClickInfo {
+  index: number;
+  instanceId: number;
+}
+
 export interface SelectionHandler<TOptions = any, TState = any> {
   parseSelections: (rawSelections: any[]) => TOptions;
   getInitialState: () => TState;
   getHighlights: (options: TOptions, state: TState) => SelectionHighlights;
   handleCellClick?: (
     coords: CellClickCoords,
+    options: TOptions,
+    state: TState,
+    context: SelectionContext
+  ) => { nextState: TState; resolved?: boolean } | void;
+  handleHandCardClick?: (
+    card: HandCardClickInfo,
     options: TOptions,
     state: TState,
     context: SelectionContext

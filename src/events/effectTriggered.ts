@@ -5,7 +5,6 @@ export interface EffectTriggeredData {
   templateId?: number;
   instanceId?: number;
   playerId?: number | string;
-  PlayerId?: number | string;
   position?: { row: number; col: number };
 }
 

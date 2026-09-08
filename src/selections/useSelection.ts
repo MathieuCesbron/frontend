@@ -81,6 +81,27 @@ export function useSelection({
     [isMyPendingEffect, handler, parsedOptions, selectionState, playerNum, sendAction]
   );
 
+  const handleHandCardClick = useCallback(
+    (instanceId: number, index: number): boolean => {
+      if (!isMyPendingEffect || !handler || !handler.handleHandCardClick) {
+        return false;
+      }
+
+      const result = handler.handleHandCardClick(
+        { instanceId, index },
+        parsedOptions,
+        selectionState,
+        { playerNum, sendAction }
+      );
+
+      if (result) {
+        setSelectionState(result.nextState);
+      }
+      return true;
+    },
+    [isMyPendingEffect, handler, parsedOptions, selectionState, playerNum, sendAction]
+  );
+
   const handlePassEffect = useCallback(() => {
     if (!isMyPendingEffect) return;
 
@@ -103,6 +124,7 @@ export function useSelection({
     selectionType,
     highlights,
     handleCellClick,
+    handleHandCardClick,
     handlePassEffect,
   };
 }
