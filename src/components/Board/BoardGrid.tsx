@@ -33,26 +33,26 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
   onCellClick,
   onHoverCard,
 }) => {
-  const displayedBoard = isP1 ? [...board].reverse() : board;
-
   const getAbsoluteCoords = (rowIndex: number, colIndex: number) => {
     let absRow: number;
     let absCol: number;
 
     if (isP1) {
-      absCol = 3 - colIndex;
-      absRow = isOpponent ? 3 - rowIndex : 1 - rowIndex;
-    } else {
       absCol = colIndex;
       absRow = isOpponent ? rowIndex : 2 + rowIndex;
+    } else {
+      absCol = 3 - colIndex;
+      absRow = isOpponent ? 3 - rowIndex : 1 - rowIndex;
     }
     return { absRow, absCol };
   };
 
+  const displayedBoard = isP1 ? board : [...board].reverse();
+
   return (
     <div className="board-grid">
       {displayedBoard.map((row, rowIndex) => {
-        const displayedRow = isP1 ? [...row].reverse() : row;
+        const displayedRow = isP1 ? row : [...row].reverse();
 
         return (
           <div key={rowIndex} className="board-row">

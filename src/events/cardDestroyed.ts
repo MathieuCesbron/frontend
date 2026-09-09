@@ -13,7 +13,7 @@ export const cardDestroyedHandler: GameEventHandler<CardDestroyedData> = {
     const nextState: GameState = JSON.parse(JSON.stringify(prevState));
     if (!data.position) return nextState;
 
-    const isPlayer = (playerId === '1' && data.position.row < 2) || (playerId === '2' && data.position.row >= 2);
+    const isPlayer = (playerId === '1' && data.position.row >= 2) || (playerId === '2' && data.position.row < 2);
     const side = isPlayer ? 'player' : 'opponent';
     const localRow = data.position.row % 2;
 
