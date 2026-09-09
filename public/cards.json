@@ -1,21 +1,9 @@
 [
   {
-    "templateId": 1,
-    "name": "Adrenaline Rush",
-    "type": "LINK",
-    "description": "The Linked Monster can make 1 additional attack per turn."
-  },
-  {
-    "templateId": 3,
-    "name": "Dimensional Shift",
-    "type": "LINK",
-    "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
-  },
-  {
-    "templateId": 6,
-    "name": "Green Healer",
+    "templateId": 4,
+    "name": "Flower Boy",
     "type": "MONSTER",
-    "description": "When summoned: you gain 10LP.",
+    "description": "Grants +10 ATK to the monster on its right.",
     "atk": 15,
     "attribute": "BIO"
   },
@@ -28,6 +16,12 @@
     "attribute": "BIO"
   },
   {
+    "templateId": 13,
+    "name": "Second Life",
+    "type": "TRAP",
+    "description": "You cannot lose LP for the rest of this turn."
+  },
+  {
     "templateId": 7,
     "name": "Kidnetic",
     "type": "MONSTER",
@@ -36,18 +30,42 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 11,
-    "name": "Party Crasher",
+    "templateId": 2,
+    "name": "Bio Renegade",
     "type": "MONSTER",
-    "description": "When summoned: you can destroy 1 card.",
-    "atk": 20,
+    "description": "Can only be played if you have no Bio monsters in your trash.",
+    "atk": 30,
     "attribute": "BIO"
   },
   {
-    "templateId": 13,
-    "name": "Second Life",
-    "type": "TRAP",
-    "description": "You cannot lose LP for the rest of this turn."
+    "templateId": 6,
+    "name": "Green Healer",
+    "type": "MONSTER",
+    "description": "When summoned: you gain 10LP.",
+    "atk": 15,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 16,
+    "name": "Pain Fiend",
+    "type": "MONSTER",
+    "description": "When summoned: you can discard 1 card to inflict 10 damage to your opponent",
+    "atk": 30,
+    "attribute": "CRYO"
+  },
+  {
+    "templateId": 10,
+    "name": "Participation Reward",
+    "type": "LINK",
+    "description": "If the Linked monster is destroyed by battle, you gain 5LP."
+  },
+  {
+    "templateId": 12,
+    "name": "Reactive Bird",
+    "type": "MONSTER",
+    "description": "When moved: you can pay 10LP to move one of your monsters to an adjacent tile.",
+    "atk": 10,
+    "attribute": "FIRE"
   },
   {
     "templateId": 14,
@@ -64,47 +82,35 @@
     "attribute": "BIO"
   },
   {
+    "templateId": 1,
+    "name": "Adrenaline Rush",
+    "type": "LINK",
+    "description": "The Linked Monster can make 1 additional attack per turn."
+  },
+  {
+    "templateId": 17,
+    "name": "Gatekeeper",
+    "type": "LINK",
+    "description": "Linked monsters cannot attack directly."
+  },
+  {
     "templateId": 8,
     "name": "Little Surprise",
     "type": "TRAP",
     "description": "Destroy all Link cards."
   },
   {
-    "templateId": 16,
-    "name": "Pain Fiend",
+    "templateId": 11,
+    "name": "Party Crasher",
     "type": "MONSTER",
-    "description": "When summoned: you can discard 1 card to inflict 10 damage to your opponent",
-    "atk": 30,
-    "attribute": "CRYO"
-  },
-  {
-    "templateId": 12,
-    "name": "Reactive Bird",
-    "type": "MONSTER",
-    "description": "When moved: you can pay 10LP to move one of your monsters to an adjacent tile.",
-    "atk": 10,
-    "attribute": "FIRE"
-  },
-  {
-    "templateId": 2,
-    "name": "Bio Renegade",
-    "type": "MONSTER",
-    "description": "Can only be played if you have no Bio monsters in your trash.",
-    "atk": 30,
+    "description": "When summoned: you can destroy 1 card.",
+    "atk": 20,
     "attribute": "BIO"
   },
   {
-    "templateId": 4,
-    "name": "Flower Boy",
-    "type": "MONSTER",
-    "description": "Grants +10 ATK to the monster on its right.",
-    "atk": 15,
-    "attribute": "BIO"
-  },
-  {
-    "templateId": 10,
-    "name": "Participation Reward",
+    "templateId": 3,
+    "name": "Dimensional Shift",
     "type": "LINK",
-    "description": "If the Linked monster is destroyed by battle, you gain 5LP."
+    "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
   }
 ]
