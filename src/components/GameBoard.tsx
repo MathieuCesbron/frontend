@@ -4,6 +4,7 @@ import { GameEvent } from '../events';
 import { useSelection } from '../selections';
 import { useCardDefinitions } from '../hooks/useCardDefinitions';
 import { useBoardEffects } from '../hooks/useBoardEffects';
+import { useBattleAttack } from '../hooks/useBattleAttack';
 import { WaitingOverlay } from './WaitingOverlay/WaitingOverlay';
 import { PlayerSidebar } from './Sidebar/PlayerSidebar';
 import { BoardGrid } from './Board/BoardGrid';
@@ -61,6 +62,21 @@ export default function GameBoard({
   const isPlayPhase = gameState.phase === 'PLAYPHASE';
   const isBattlePhase = gameState.phase === 'BATTLEPHASE';
 
+  const {
+    attackerKeys,
+    selectedAttackerKey,
+    attackTargetKeys,
+    handleHoverAttacker,
+    handleAttackCellClick,
+  } = useBattleAttack({
+    board: gameState.player.board,
+    isP1,
+    playerNum,
+    isMyTurn,
+    isBattlePhase,
+    sendAction,
+  });
+
   const handlePhaseButtonClick = () => {
     if (gameState.pendingEffect) {
       if (isMyPendingEffect && gameState.pendingEffect.isOptional) {
@@ -85,6 +101,10 @@ export default function GameBoard({
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
     if (isMyPendingEffect) {
       handleSelectionCellClick(absRow, absCol, isOpponent);
+      return;
+    }
+
+    if (handleAttackCellClick(absRow, absCol, isOpponent)) {
       return;
     }
 
@@ -122,9 +142,13 @@ export default function GameBoard({
             validMoveFromKeys={highlights.validMoveFromKeys}
             selectedMoveFromKey={highlights.selectedMoveFromKey}
             validMoveToKeys={highlights.validMoveToKeys}
+            attackerKeys={attackerKeys}
+            selectedAttackerKey={selectedAttackerKey}
+            attackTargetKeys={attackTargetKeys}
             cardsDict={cardsDict}
             onCellClick={handleCellClick}
             onHoverCard={setHoveredTemplateId}
+            onHoverAttacker={handleHoverAttacker}
           />
 
           <PlayerSidebar player={player} isOpponent={isOpponent} side="right" />

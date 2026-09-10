@@ -1,6 +1,12 @@
+export interface AttackTarget {
+  type: 'POSITION' | 'PLAYER';
+  position?: Position;
+}
+
 export interface Card {
   instanceId: number;
   templateId: number;
+  attackTargets?: AttackTarget[];
 }
 
 export interface Tile {

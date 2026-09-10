@@ -14,9 +14,13 @@ interface BoardGridProps {
   validMoveFromKeys?: Set<string>;
   selectedMoveFromKey?: string | null;
   validMoveToKeys?: Set<string>;
+  attackerKeys?: Set<string>;
+  selectedAttackerKey?: string | null;
+  attackTargetKeys?: Set<string>;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
   onHoverCard: (templateId: number | null) => void;
+  onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
 }
 
 export const BoardGrid: React.FC<BoardGridProps> = ({
@@ -29,9 +33,13 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
   validMoveFromKeys,
   selectedMoveFromKey,
   validMoveToKeys,
+  attackerKeys,
+  selectedAttackerKey,
+  attackTargetKeys,
   cardsDict,
   onCellClick,
   onHoverCard,
+  onHoverAttacker,
 }) => {
   const getAbsoluteCoords = (rowIndex: number, colIndex: number) => {
     let absRow: number;
@@ -76,6 +84,10 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
                 Boolean(validMoveFromKeys?.has(posKey)) && !selectedMoveFromKey;
               const isMoveTarget = Boolean(validMoveToKeys?.has(posKey));
 
+              const isAttacker = !isOpponent && Boolean(attackerKeys?.has(posKey));
+              const isSelectedAttacker = !isOpponent && selectedAttackerKey === posKey;
+              const isAttackTarget = Boolean(attackTargetKeys?.has(posKey));
+
               return (
                 <BoardCell
                   key={colIndex}
@@ -88,9 +100,13 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
                   isMoveSource={isMoveSource}
                   isMoveSelectedSource={isMoveSelectedSource}
                   isMoveTarget={isMoveTarget}
+                  isAttacker={isAttacker}
+                  isSelectedAttacker={isSelectedAttacker}
+                  isAttackTarget={isAttackTarget}
                   cardsDict={cardsDict}
                   onCellClick={onCellClick}
                   onHoverCard={onHoverCard}
+                  onHoverAttacker={onHoverAttacker}
                 />
               );
             })}

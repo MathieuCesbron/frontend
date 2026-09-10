@@ -12,9 +12,13 @@ interface BoardCellProps {
   isMoveSource?: boolean;
   isMoveSelectedSource?: boolean;
   isMoveTarget?: boolean;
+  isAttacker?: boolean;
+  isSelectedAttacker?: boolean;
+  isAttackTarget?: boolean;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
   onHoverCard: (templateId: number | null) => void;
+  onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
 }
 
 export const BoardCell: React.FC<BoardCellProps> = ({
@@ -27,9 +31,13 @@ export const BoardCell: React.FC<BoardCellProps> = ({
   isMoveSource,
   isMoveSelectedSource,
   isMoveTarget,
+  isAttacker,
+  isSelectedAttacker,
+  isAttackTarget,
   cardsDict,
   onCellClick,
   onHoverCard,
+  onHoverAttacker,
 }) => {
   const topCard = cell?.topCard;
   const trapCard = cell?.trapCard;
@@ -42,6 +50,9 @@ export const BoardCell: React.FC<BoardCellProps> = ({
     isMoveSource ? 'is-move-source' : '',
     isMoveSelectedSource ? 'is-move-selected-source' : '',
     isMoveTarget ? 'is-move-target' : '',
+    isAttacker ? 'is-attacker' : '',
+    isSelectedAttacker ? 'is-selected-attacker' : '',
+    isAttackTarget ? 'is-attack-target' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -66,9 +77,19 @@ export const BoardCell: React.FC<BoardCellProps> = ({
             isAnimated ? 'card-drop-anim' : ''
           } ${isEffectTriggered ? 'effect-triggered-glow' : ''} ${
             isMoveSelectedSource ? 'move-selected-top' : ''
-          } ${isMoveSource && !isMoveSelectedSource ? 'move-source-top' : ''}`}
-          onMouseEnter={() => topCard && onHoverCard(topCard.templateId)}
-          onMouseLeave={() => onHoverCard(null)}
+          } ${isMoveSource && !isMoveSelectedSource ? 'move-source-top' : ''} ${
+            isSelectedAttacker ? 'selected-attacker-top' : ''
+          } ${isAttacker && !isSelectedAttacker ? 'attacker-top' : ''} ${
+            isAttackTarget ? 'attack-target-top' : ''
+          }`}
+          onMouseEnter={() => {
+            if (topCard) onHoverCard(topCard.templateId);
+            if (isAttacker) onHoverAttacker?.({ row: absRow, col: absCol });
+          }}
+          onMouseLeave={() => {
+            onHoverCard(null);
+            if (isAttacker) onHoverAttacker?.(null);
+          }}
         >
           {topCard ? cardsDict[topCard.templateId]?.name || `Card ${topCard.templateId}` : ''}
         </div>
