@@ -232,31 +232,31 @@
 
 @keyframes attackerGlow {
   0% {
-    box-shadow: 0 0 6px 2px rgba(245, 158, 11, 0.7), inset 0 0 6px rgba(245, 158, 11, 0.3);
-    border-color: #f59e0b !important;
+    box-shadow: 0 0 6px 2px rgba(59, 130, 246, 0.7), inset 0 0 6px rgba(59, 130, 246, 0.3);
+    border-color: #3b82f6 !important;
   }
   50% {
-    box-shadow: 0 0 14px 4px rgba(239, 68, 68, 0.85), inset 0 0 10px rgba(239, 68, 68, 0.4);
-    border-color: #ef4444 !important;
+    box-shadow: 0 0 14px 4px rgba(37, 99, 235, 0.9), inset 0 0 10px rgba(59, 130, 246, 0.5);
+    border-color: #2563eb !important;
   }
   100% {
-    box-shadow: 0 0 6px 2px rgba(245, 158, 11, 0.7), inset 0 0 6px rgba(245, 158, 11, 0.3);
-    border-color: #f59e0b !important;
+    box-shadow: 0 0 6px 2px rgba(59, 130, 246, 0.7), inset 0 0 6px rgba(59, 130, 246, 0.3);
+    border-color: #3b82f6 !important;
   }
 }
 
 @keyframes selectedAttackerGlow {
   0% {
-    box-shadow: 0 0 12px 3px rgba(239, 68, 68, 0.95), 0 0 24px 6px rgba(220, 38, 38, 0.5), inset 0 0 10px rgba(245, 158, 11, 0.6);
-    border-color: #dc2626 !important;
+    box-shadow: 0 0 12px 3px rgba(59, 130, 246, 0.95), 0 0 24px 6px rgba(37, 99, 235, 0.5), inset 0 0 10px rgba(59, 130, 246, 0.6);
+    border-color: #2563eb !important;
   }
   50% {
-    box-shadow: 0 0 20px 6px rgba(220, 38, 38, 1), 0 0 32px 10px rgba(185, 28, 28, 0.7), inset 0 0 14px rgba(239, 68, 68, 0.8);
-    border-color: #b91c1c !important;
+    box-shadow: 0 0 20px 6px rgba(37, 99, 235, 1), 0 0 32px 10px rgba(29, 78, 216, 0.7), inset 0 0 14px rgba(59, 130, 246, 0.8);
+    border-color: #1d4ed8 !important;
   }
   100% {
-    box-shadow: 0 0 12px 3px rgba(239, 68, 68, 0.95), 0 0 24px 6px rgba(220, 38, 38, 0.5), inset 0 0 10px rgba(245, 158, 11, 0.6);
-    border-color: #dc2626 !important;
+    box-shadow: 0 0 12px 3px rgba(59, 130, 246, 0.95), 0 0 24px 6px rgba(37, 99, 235, 0.5), inset 0 0 10px rgba(59, 130, 246, 0.6);
+    border-color: #2563eb !important;
   }
 }
 

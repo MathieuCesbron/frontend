@@ -17,8 +17,10 @@ interface BoardGridProps {
   attackerKeys?: Set<string>;
   selectedAttackerKey?: string | null;
   attackTargetKeys?: Set<string>;
+  isDirectAttackTarget?: boolean;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
+  onDirectAttackClick?: () => void;
   onHoverCard: (templateId: number | null) => void;
   onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
 }
@@ -36,8 +38,10 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
   attackerKeys,
   selectedAttackerKey,
   attackTargetKeys,
+  isDirectAttackTarget,
   cardsDict,
   onCellClick,
+  onDirectAttackClick,
   onHoverCard,
   onHoverAttacker,
 }) => {
@@ -56,9 +60,19 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
   };
 
   const displayedBoard = isP1 ? board : [...board].reverse();
+  const showDirectAttackGlow = Boolean(isOpponent && isDirectAttackTarget);
 
   return (
-    <div className="board-grid">
+    <div
+      className={`board-grid ${showDirectAttackGlow ? 'is-direct-attack-target' : ''}`}
+      onClick={(e) => {
+        if (showDirectAttackGlow && onDirectAttackClick) {
+          if (e.target === e.currentTarget) {
+            onDirectAttackClick();
+          }
+        }
+      }}
+    >
       {displayedBoard.map((row, rowIndex) => {
         const displayedRow = isP1 ? row : [...row].reverse();
 

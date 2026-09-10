@@ -66,8 +66,10 @@ export default function GameBoard({
     attackerKeys,
     selectedAttackerKey,
     attackTargetKeys,
+    canDirectAttack,
     handleHoverAttacker,
     handleAttackCellClick,
+    handleDirectAttack,
   } = useBattleAttack({
     board: gameState.player.board,
     isP1,
@@ -145,8 +147,10 @@ export default function GameBoard({
             attackerKeys={attackerKeys}
             selectedAttackerKey={selectedAttackerKey}
             attackTargetKeys={attackTargetKeys}
+            isDirectAttackTarget={isOpponent && canDirectAttack}
             cardsDict={cardsDict}
             onCellClick={handleCellClick}
+            onDirectAttackClick={handleDirectAttack}
             onHoverCard={setHoveredTemplateId}
             onHoverAttacker={handleHoverAttacker}
           />
