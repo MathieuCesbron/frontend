@@ -227,7 +227,8 @@
    ============================================================================= */
 
 :root {
-  --sword-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M6 3 L10 3 L19 12 L17 14 L14 17 L12 19 L3 10 L3 6 Z' fill='%23F1F5F9' stroke='%230F172A' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M5 5 L15 15' stroke='%23CBD5E1' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M13 18 L18 13 L23 18 L18 23 Z' fill='%23EF4444' stroke='%23991B1B' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M19 21 L24 26' stroke='%23475569' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='26' cy='28' r='2.5' fill='%23EF4444' stroke='%23991B1B' stroke-width='1.2'/%3E%3C/svg%3E") 4 4, crosshair;
+  /* Use a scaled 32x32 sword SVG from public to ensure cursor loads */
+  --sword-cursor: url('/sword.svg') 4 4, crosshair;
 }
 
 @keyframes attackerGlow {
