@@ -23,7 +23,7 @@ export interface PlayerState {
   trash: Card[];
   fusionDeck: Card[];
   hand: Card[];
-  board: [GridRow, GridRow]; // 2 rows of 4 columns
+  board: GridRow[]; // 4 rows of 4 columns (absolute)
 }
 
 export interface Position {
@@ -62,7 +62,9 @@ export const emptyRow = (): GridRow => [
   { topCard: null, trapCard: null },
 ];
 
-export const createEmptyBoard = (): [GridRow, GridRow] => [
+export const createEmptyBoard = (): GridRow[] => [
+  emptyRow(),
+  emptyRow(),
   emptyRow(),
   emptyRow(),
 ];
