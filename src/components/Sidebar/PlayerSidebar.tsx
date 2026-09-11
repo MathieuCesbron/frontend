@@ -27,8 +27,8 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({ player, isOpponent
         </>
       ) : (
         <>
-          <div className="deck-zone trash">
-            <span>Trash ({player.trash.length})</span>
+          <div className="deck-zone grave">
+            <span>Grave ({player.grave.length})</span>
           </div>
           <div className="deck-zone deck">
             <span>Deck ({player.deckCount})</span>

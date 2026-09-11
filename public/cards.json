@@ -75,7 +75,7 @@
     "templateId": 2,
     "name": "Bio Renegade",
     "type": "MONSTER",
-    "description": "Can only be played if you have no Bio monsters in your trash.",
+    "description": "Can only be played if you have no Bio monsters in your grave.",
     "atk": 30,
     "attribute": "BIO"
   },

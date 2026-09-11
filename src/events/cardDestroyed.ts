@@ -24,7 +24,7 @@ export const cardDestroyedHandler: GameEventHandler<CardDestroyedData> = {
         const destroyedCard = nextState[side].board[localRow][data.position.col].topCard;
         nextState[side].board[localRow][data.position.col].topCard = null;
         if (destroyedCard) {
-          nextState[side].trash.push(destroyedCard);
+          nextState[side].grave.push(destroyedCard);
         }
       }
     }

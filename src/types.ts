@@ -20,7 +20,7 @@ export interface PlayerState {
   id?: string;
   lp: number;
   deckCount: number;
-  trash: Card[];
+  grave: Card[];
   fusionDeck: Card[];
   hand: Card[];
   board: GridRow[]; // 4 rows of 4 columns (absolute)
@@ -73,7 +73,7 @@ export const createInitialState = (): GameState => ({
   player: {
     lp: 100,
     deckCount: 0,
-    trash: [],
+    grave: [],
     fusionDeck: [],
     hand: [],
     board: createEmptyBoard(),
@@ -81,7 +81,7 @@ export const createInitialState = (): GameState => ({
   opponent: {
     lp: 100,
     deckCount: 0,
-    trash: [],
+    grave: [],
     fusionDeck: [],
     hand: [],
     board: createEmptyBoard(),
