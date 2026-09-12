@@ -8,16 +8,46 @@
     "attribute": "BIO"
   },
   {
+    "templateId": 4,
+    "name": "Flower Boy",
+    "type": "MONSTER",
+    "description": "Grants +10 ATK to the monster on its right.",
+    "atk": 15,
+    "attribute": "BIO"
+  },
+  {
     "templateId": 17,
     "name": "Gatekeeper",
     "type": "LINK",
     "description": "Linked monsters cannot attack directly."
   },
   {
+    "templateId": 7,
+    "name": "Kidnetic",
+    "type": "MONSTER",
+    "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
+    "atk": 15,
+    "attribute": "BIO"
+  },
+  {
     "templateId": 8,
     "name": "Little Surprise",
     "type": "TRAP",
     "description": "Destroy all Link cards."
+  },
+  {
+    "templateId": 16,
+    "name": "Pain Fiend",
+    "type": "MONSTER",
+    "description": "When summoned: you can discard 1 card to inflict 10 damage to your opponent",
+    "atk": 30,
+    "attribute": "CRYO"
+  },
+  {
+    "templateId": 10,
+    "name": "Participation Reward",
+    "type": "LINK",
+    "description": "If the Linked monster is destroyed by battle, you gain 5LP."
   },
   {
     "templateId": 11,
@@ -28,18 +58,46 @@
     "attribute": "BIO"
   },
   {
+    "templateId": 6,
+    "name": "Green Healer",
+    "type": "MONSTER",
+    "description": "When summoned: you gain 10LP.",
+    "atk": 15,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 12,
+    "name": "Reactive Bird",
+    "type": "MONSTER",
+    "description": "When moved: you can pay 10LP to move one of your monsters to an adjacent tile.",
+    "atk": 10,
+    "attribute": "FIRE"
+  },
+  {
+    "templateId": 1,
+    "name": "Adrenaline Rush",
+    "type": "LINK",
+    "description": "Linked Monster can make 1 additional attack per turn."
+  },
+  {
     "templateId": 13,
     "name": "Second Life",
     "type": "TRAP",
     "description": "You cannot lose LP for the rest of this turn."
   },
   {
-    "templateId": 4,
-    "name": "Flower Boy",
+    "templateId": 15,
+    "name": "Tormentor",
     "type": "MONSTER",
-    "description": "Grants +10 ATK to the monster on its right.",
-    "atk": 15,
+    "description": "When summoned: you lose 10LP.",
+    "atk": 31,
     "attribute": "BIO"
+  },
+  {
+    "templateId": 3,
+    "name": "Dimensional Shift",
+    "type": "LINK",
+    "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
   },
   {
     "templateId": 5,
@@ -55,7 +113,7 @@
             "row": 0,
             "col": 0
           },
-          "attribute": "CYBER"
+          "attribute": "BIO"
         },
         {
           "position": {
@@ -63,79 +121,14 @@
             "col": 0
           },
           "attribute": "BIO"
-        },
-        {
-          "position": {
-            "row": 1,
-            "col": 1
-          },
-          "attribute": "BIO"
         }
       ]
     }
-  },
-  {
-    "templateId": 16,
-    "name": "Pain Fiend",
-    "type": "MONSTER",
-    "description": "When summoned: you can discard 1 card to inflict 10 damage to your opponent",
-    "atk": 30,
-    "attribute": "CRYO"
-  },
-  {
-    "templateId": 12,
-    "name": "Reactive Bird",
-    "type": "MONSTER",
-    "description": "When moved: you can pay 10LP to move one of your monsters to an adjacent tile.",
-    "atk": 10,
-    "attribute": "FIRE"
   },
   {
     "templateId": 14,
     "name": "Shifting Sands",
     "type": "TRAP",
     "description": "You can move one monster to an adjacent tile."
-  },
-  {
-    "templateId": 15,
-    "name": "Tormentor",
-    "type": "MONSTER",
-    "description": "When summoned: you lose 10LP.",
-    "atk": 31,
-    "attribute": "BIO"
-  },
-  {
-    "templateId": 1,
-    "name": "Adrenaline Rush",
-    "type": "LINK",
-    "description": "Linked Monster can make 1 additional attack per turn."
-  },
-  {
-    "templateId": 3,
-    "name": "Dimensional Shift",
-    "type": "LINK",
-    "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
-  },
-  {
-    "templateId": 7,
-    "name": "Kidnetic",
-    "type": "MONSTER",
-    "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
-    "atk": 15,
-    "attribute": "BIO"
-  },
-  {
-    "templateId": 6,
-    "name": "Green Healer",
-    "type": "MONSTER",
-    "description": "When summoned: you gain 10LP.",
-    "atk": 15,
-    "attribute": "BIO"
-  },
-  {
-    "templateId": 10,
-    "name": "Participation Reward",
-    "type": "LINK",
-    "description": "If the Linked monster is destroyed by battle, you gain 5LP."
   }
 ]
