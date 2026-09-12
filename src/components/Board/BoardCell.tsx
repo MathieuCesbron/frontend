@@ -63,15 +63,17 @@ export const BoardCell: React.FC<BoardCellProps> = ({
       onClick={() => onCellClick(absRow, absCol, isOpponent)}
     >
       <div className="tile-content">
-        <div
-          className={`trap-slot ${trapCard ? 'card board-card trap-card' : ''} ${
-            isEffectTriggered && !topCard ? 'effect-triggered-glow' : ''
-          }`}
-          onMouseEnter={() => trapCard && onHoverCard(trapCard.templateId)}
-          onMouseLeave={() => onHoverCard(null)}
-        >
-          {trapCard ? 'Set Trap' : ''}
-        </div>
+        {trapCard && (
+          <div
+            className={`trap-slot card board-card trap-card ${
+              isEffectTriggered && !topCard ? 'effect-triggered-glow' : ''
+            }`}
+            onMouseEnter={() => onHoverCard(trapCard.templateId)}
+            onMouseLeave={() => onHoverCard(null)}
+          >
+            {'Set Trap'}
+          </div>
+        )}
         <div
           className={`top-slot ${topCard ? 'card board-card top-card' : ''} ${
             isAnimated ? 'card-drop-anim' : ''
