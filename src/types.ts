@@ -3,10 +3,30 @@ export interface AttackTarget {
   position?: Position;
 }
 
+export interface PatternCell {
+  position: Position;
+  attribute?: string | null;
+}
+
+export interface Pattern {
+  patternCells: PatternCell[];
+}
+
 export interface Card {
   instanceId: number;
   templateId: number;
+  pattern?: Pattern;
   attackTargets?: AttackTarget[];
+}
+
+export interface CardDefinition {
+  templateId: number;
+  name: string;
+  type: string;
+  description: string;
+  atk?: number;
+  attribute?: string;
+  pattern?: Pattern;
 }
 
 export interface Tile {

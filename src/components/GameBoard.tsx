@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { PlayerState, GameState } from '../types';
 import { GameEvent } from '../events';
 import { useSelection } from '../selections';
@@ -35,6 +35,16 @@ export default function GameBoard({
   const [activeModal, setActiveModal] = useState<'opponent-grave' | 'player-grave' | 'player-fusion' | null>(null);
 
   const cardsDict = useCardDefinitions();
+
+  useEffect(() => {
+    if (gameState.player.fusionDeck?.length) {
+      gameState.player.fusionDeck.forEach((c) => {
+        if (c.pattern && cardsDict[c.templateId] && !cardsDict[c.templateId].pattern) {
+          cardsDict[c.templateId].pattern = c.pattern;
+        }
+      });
+    }
+  }, [gameState.player.fusionDeck, cardsDict]);
 
   const handleCardPlayed = useCallback(() => {
     setSelectedInstanceId(null);

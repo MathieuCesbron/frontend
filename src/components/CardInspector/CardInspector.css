@@ -19,3 +19,51 @@
 .card-inspector .empty-hint {
   color: #888;
 }
+
+.card-pattern-section {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.card-pattern-section strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.fusion-pattern-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+  overflow-x: auto;
+  padding: 2px;
+}
+
+.fusion-pattern-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.fusion-pattern-cell {
+  width: 64px;
+  height: 42px;
+  border: 2px solid #1e293b;
+  border-radius: 12px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  color: #1e293b;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.fusion-pattern-cell.empty {
+  visibility: hidden;
+  border: none;
+  background: transparent;
+  pointer-events: none;
+}
