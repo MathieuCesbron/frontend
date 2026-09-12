@@ -1,6 +1,6 @@
 .card-inspector {
   width: 300px;
-  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
   padding: 16px;
   background: #f9f9f9;
   overflow-y: auto;

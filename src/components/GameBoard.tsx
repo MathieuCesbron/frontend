@@ -198,6 +198,12 @@ export default function GameBoard({
     <div className="game-board-layout">
       <WaitingOverlay message={waitingMessage} />
 
+      <CardInspector
+        hoveredTemplateId={hoveredTemplateId}
+        cardsDict={cardsDict}
+        isBlurred={Boolean(waitingMessage)}
+      />
+
       <div className={`game-container ${waitingMessage ? 'board-blurred' : ''}`}>
         {renderPlayerSide(gameState.opponent, true)}
 
@@ -213,12 +219,6 @@ export default function GameBoard({
 
         {renderPlayerSide(gameState.player, false)}
       </div>
-
-      <CardInspector
-        hoveredTemplateId={hoveredTemplateId}
-        cardsDict={cardsDict}
-        isBlurred={Boolean(waitingMessage)}
-      />
     </div>
   );
 }
