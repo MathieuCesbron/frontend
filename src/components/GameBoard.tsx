@@ -32,6 +32,7 @@ export default function GameBoard({
 }: GameBoardProps) {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
   const [hoveredTemplateId, setHoveredTemplateId] = useState<number | null>(null);
+  const [activeModal, setActiveModal] = useState<'opponent-grave' | 'player-grave' | 'player-fusion' | null>(null);
 
   const cardsDict = useCardDefinitions();
 
@@ -141,7 +142,18 @@ export default function GameBoard({
         )}
 
         <div className="board-layout">
-          <PlayerSidebar player={player} isOpponent={isOpponent} side="left" />
+          <PlayerSidebar
+            player={player}
+            isOpponent={isOpponent}
+            side="left"
+            cardsDict={cardsDict}
+            onHoverCard={setHoveredTemplateId}
+            isFusionOpen={!isOpponent && activeModal === 'player-fusion'}
+            onToggleFusion={() =>
+              setActiveModal((prev) => (prev === 'player-fusion' ? null : 'player-fusion'))
+            }
+            onCloseFusion={() => setActiveModal(null)}
+          />
 
           <BoardGrid
             board={boardForGrid}
@@ -164,7 +176,24 @@ export default function GameBoard({
             onHoverAttacker={handleHoverAttacker}
           />
 
-          <PlayerSidebar player={player} isOpponent={isOpponent} side="right" />
+          <PlayerSidebar
+            player={player}
+            isOpponent={isOpponent}
+            side="right"
+            cardsDict={cardsDict}
+            onHoverCard={setHoveredTemplateId}
+            isGraveOpen={isOpponent ? activeModal === 'opponent-grave' : activeModal === 'player-grave'}
+            onToggleGrave={() =>
+              setActiveModal((prev) =>
+                prev === (isOpponent ? 'opponent-grave' : 'player-grave')
+                  ? null
+                  : isOpponent
+                  ? 'opponent-grave'
+                  : 'player-grave'
+              )
+            }
+            onCloseGrave={() => setActiveModal(null)}
+          />
         </div>
 
         {!isOpponent && (

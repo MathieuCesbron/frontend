@@ -1,0 +1,162 @@
+.graveyard-modal-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  background: #ffffff;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  box-sizing: border-box;
+  animation: graveModalFadeIn 0.15s ease-out;
+}
+
+.graveyard-modal-container.placement-right {
+  left: calc(100% + 14px);
+}
+
+.graveyard-modal-container.placement-left {
+  right: calc(100% + 14px);
+}
+
+@keyframes graveModalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* Arrow for right placement: points left toward the zone */
+.graveyard-modal-container.placement-right::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -12px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 12px solid #334155;
+}
+
+.graveyard-modal-container.placement-right::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -9px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid #ffffff;
+}
+
+/* Arrow for left placement: points right toward the zone */
+.graveyard-modal-container.placement-left::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 12px solid #334155;
+}
+
+.graveyard-modal-container.placement-left::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid #ffffff;
+}
+
+.graveyard-modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.graveyard-modal-header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+}
+
+.graveyard-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.graveyard-cards-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.graveyard-card-item {
+  aspect-ratio: 80 / 110;
+  width: 100%;
+  min-width: 0;
+  background: #dbeafe;
+  border: 1.5px solid #475569;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  user-select: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.graveyard-card-item:hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+  background: #bfdbfe;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
+}
+
+.graveyard-empty {
+  font-size: 12px;
+  color: #94a3b8;
+  text-align: center;
+  margin: 15px 0;
+}
