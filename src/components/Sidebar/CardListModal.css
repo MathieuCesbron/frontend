@@ -1,4 +1,4 @@
-.graveyard-modal-container {
+.card-list-modal-container {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -12,18 +12,18 @@
   flex-direction: column;
   padding: 8px;
   box-sizing: border-box;
-  animation: graveModalFadeIn 0.15s ease-out;
+  animation: cardListModalFadeIn 0.15s ease-out;
 }
 
-.graveyard-modal-container.placement-right {
+.card-list-modal-container.placement-right {
   left: calc(100% + 14px);
 }
 
-.graveyard-modal-container.placement-left {
+.card-list-modal-container.placement-left {
   right: calc(100% + 14px);
 }
 
-@keyframes graveModalFadeIn {
+@keyframes cardListModalFadeIn {
   from {
     opacity: 0;
     transform: translateY(-50%) scale(0.95);
@@ -35,7 +35,7 @@
 }
 
 /* Arrow for right placement: points left toward the zone */
-.graveyard-modal-container.placement-right::before {
+.card-list-modal-container.placement-right::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -48,7 +48,7 @@
   border-right: 12px solid #334155;
 }
 
-.graveyard-modal-container.placement-right::after {
+.card-list-modal-container.placement-right::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -62,7 +62,7 @@
 }
 
 /* Arrow for left placement: points right toward the zone */
-.graveyard-modal-container.placement-left::before {
+.card-list-modal-container.placement-left::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -75,7 +75,7 @@
   border-left: 12px solid #334155;
 }
 
-.graveyard-modal-container.placement-left::after {
+.card-list-modal-container.placement-left::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -88,7 +88,7 @@
   border-left: 10px solid #ffffff;
 }
 
-.graveyard-modal-header {
+.card-list-modal-header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,7 +97,7 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
-.graveyard-modal-header h4 {
+.card-list-modal-header h4 {
   margin: 0;
   font-size: 13px;
   font-weight: 700;
@@ -105,7 +105,7 @@
   text-align: center;
 }
 
-.graveyard-cards-grid {
+.card-list-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
@@ -118,11 +118,11 @@
   -ms-overflow-style: none;
 }
 
-.graveyard-cards-grid::-webkit-scrollbar {
+.card-list-cards-grid::-webkit-scrollbar {
   display: none;
 }
 
-.graveyard-card-item {
+.card-list-card-item {
   aspect-ratio: 80 / 110;
   width: 100%;
   min-width: 0;
@@ -147,7 +147,7 @@
   overflow-wrap: anywhere;
 }
 
-.graveyard-card-item:hover {
+.card-list-card-item:hover {
   transform: translateY(-2px);
   border-color: #3b82f6;
   background: #bfdbfe;
@@ -169,20 +169,20 @@
   }
 }
 
-.graveyard-card-item.can-summon {
+.card-list-card-item.can-summon {
   background: #f3e8ff;
   border-color: #a855f7;
   animation: fusionCardGlowPulse 1.8s infinite ease-in-out;
 }
 
-.graveyard-card-item.can-summon:hover {
+.card-list-card-item.can-summon:hover {
   border-color: #7e22ce;
   background: #ede9fe;
   transform: translateY(-2px) scale(1.03);
   box-shadow: 0 0 16px 5px rgba(126, 34, 206, 0.9);
 }
 
-.graveyard-empty {
+.card-list-empty {
   font-size: 12px;
   color: #94a3b8;
   text-align: center;

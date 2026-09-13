@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlayerState } from '../../types';
-import { GraveyardModal } from './GraveyardModal';
+import { CardListModal } from './CardListModal';
 import './PlayerSidebar.css';
 
 interface PlayerSidebarProps {
@@ -31,6 +31,12 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
   onCloseFusion,
 }) => {
   const isLeft = side === 'left';
+  const hasSummonableFusion =
+    !isOpponent &&
+    !isFusionOpen &&
+    player.fusionDeck?.some(
+      (c) => c.materialCombinations && c.materialCombinations.length > 0
+    );
 
   return (
     <div
@@ -49,14 +55,16 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
           ) : (
             <div className="deck-zone-container">
               <div
-                className={`deck-zone fusion-deck clickable ${isFusionOpen ? 'active' : ''}`}
+                className={`deck-zone fusion-deck clickable ${isFusionOpen ? 'active' : ''} ${
+                  hasSummonableFusion ? 'can-summon' : ''
+                }`}
                 onClick={onToggleFusion}
                 title="Click to view Fusion Deck"
               >
                 <span>Fusion ({player.fusionDeck.length})</span>
               </div>
               {isFusionOpen && (
-                <GraveyardModal
+                <CardListModal
                   cards={player.fusionDeck}
                   cardsDict={cardsDict}
                   onClose={onCloseFusion || (() => {})}
@@ -79,7 +87,7 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
               <span>Grave ({player.grave.length})</span>
             </div>
             {isGraveOpen && (
-              <GraveyardModal
+              <CardListModal
                 cards={player.grave}
                 cardsDict={cardsDict}
                 onClose={onCloseGrave || (() => {})}

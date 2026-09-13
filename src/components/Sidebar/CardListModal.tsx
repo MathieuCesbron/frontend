@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Card } from '../../types';
-import './GraveyardModal.css';
+import './CardListModal.css';
 
-interface GraveyardModalProps {
+interface CardListModalProps {
   cards: Card[];
   cardsDict: Record<number, any>;
   onClose: () => void;
@@ -11,7 +11,7 @@ interface GraveyardModalProps {
   placement?: 'left' | 'right';
 }
 
-export const GraveyardModal: React.FC<GraveyardModalProps> = ({
+export const CardListModal: React.FC<CardListModalProps> = ({
   cards,
   cardsDict,
   onClose,
@@ -40,18 +40,18 @@ export const GraveyardModal: React.FC<GraveyardModalProps> = ({
 
   return (
     <div
-      className={`graveyard-modal-container placement-${placement}`}
+      className={`card-list-modal-container placement-${placement}`}
       ref={modalRef}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="graveyard-modal-header">
+      <div className="card-list-modal-header">
         <h4>{title} ({cards.length})</h4>
       </div>
 
       {cards.length === 0 ? (
-        <p className="graveyard-empty">Empty</p>
+        <p className="card-list-empty">Empty</p>
       ) : (
-        <div className="graveyard-cards-grid">
+        <div className="card-list-cards-grid">
           {cards.map((card, idx) => {
             const cardInfo = cardsDict[card.templateId];
             const name = cardInfo?.name || `Card ${card.templateId}`;
@@ -59,7 +59,7 @@ export const GraveyardModal: React.FC<GraveyardModalProps> = ({
             return (
               <div
                 key={`${card.instanceId}-${idx}`}
-                className={`graveyard-card-item ${canSummon ? 'can-summon' : ''}`}
+                className={`card-list-card-item ${canSummon ? 'can-summon' : ''}`}
                 onMouseEnter={() => onHoverCard?.(card.templateId)}
                 onMouseLeave={() => onHoverCard?.(null)}
               >

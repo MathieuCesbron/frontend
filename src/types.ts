@@ -17,6 +17,7 @@ export interface Card {
   templateId: number;
   pattern?: Pattern;
   attackTargets?: AttackTarget[];
+  materialCombinations?: Position[][];
 }
 
 export interface CardDefinition {
