@@ -18,6 +18,9 @@ interface BoardGridProps {
   selectedAttackerKey?: string | null;
   attackTargetKeys?: Set<string>;
   isDirectAttackTarget?: boolean;
+  fusionMaterialKeys?: Set<string>;
+  selectedFusionMaterialKeys?: Set<string>;
+  fusionSpawnTargetKeys?: Set<string>;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
   onDirectAttackClick?: () => void;
@@ -39,6 +42,9 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
   selectedAttackerKey,
   attackTargetKeys,
   isDirectAttackTarget,
+  fusionMaterialKeys,
+  selectedFusionMaterialKeys,
+  fusionSpawnTargetKeys,
   cardsDict,
   onCellClick,
   onDirectAttackClick,
@@ -102,6 +108,10 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
               const isSelectedAttacker = !isOpponent && selectedAttackerKey === posKey;
               const isAttackTarget = Boolean(attackTargetKeys?.has(posKey));
 
+              const isFusionMaterial = !isOpponent && Boolean(fusionMaterialKeys?.has(posKey));
+              const isSelectedFusionMaterial = !isOpponent && Boolean(selectedFusionMaterialKeys?.has(posKey));
+              const isFusionSpawnTarget = !isOpponent && Boolean(fusionSpawnTargetKeys?.has(posKey));
+
               return (
                 <BoardCell
                   key={colIndex}
@@ -117,6 +127,9 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
                   isAttacker={isAttacker}
                   isSelectedAttacker={isSelectedAttacker}
                   isAttackTarget={isAttackTarget}
+                  isFusionMaterial={isFusionMaterial}
+                  isSelectedFusionMaterial={isSelectedFusionMaterial}
+                  isFusionSpawnTarget={isFusionSpawnTarget}
                   cardsDict={cardsDict}
                   onCellClick={onCellClick}
                   onHoverCard={onHoverCard}

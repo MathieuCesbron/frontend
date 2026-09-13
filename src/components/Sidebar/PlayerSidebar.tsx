@@ -9,6 +9,7 @@ interface PlayerSidebarProps {
   side: 'left' | 'right';
   cardsDict?: Record<number, any>;
   onHoverCard?: (templateId: number | null) => void;
+  onSelectFusionCard?: (card: Card) => void;
   isGraveOpen?: boolean;
   onToggleGrave?: () => void;
   onCloseGrave?: () => void;
@@ -23,6 +24,7 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
   side,
   cardsDict = {},
   onHoverCard,
+  onSelectFusionCard,
   isGraveOpen = false,
   onToggleGrave,
   onCloseGrave,
@@ -69,6 +71,10 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
                   cardsDict={cardsDict}
                   onClose={onCloseFusion || (() => {})}
                   onHoverCard={onHoverCard}
+                  onSelectCard={(card) => {
+                    onSelectFusionCard?.(card);
+                    onCloseFusion?.();
+                  }}
                   title="Fusion Deck"
                   placement="left"
                 />

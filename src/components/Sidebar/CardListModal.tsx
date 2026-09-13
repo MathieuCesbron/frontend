@@ -7,6 +7,7 @@ interface CardListModalProps {
   cardsDict: Record<number, any>;
   onClose: () => void;
   onHoverCard?: (templateId: number | null) => void;
+  onSelectCard?: (card: Card) => void;
   title?: string;
   placement?: 'left' | 'right';
 }
@@ -16,6 +17,7 @@ export const CardListModal: React.FC<CardListModalProps> = ({
   cardsDict,
   onClose,
   onHoverCard,
+  onSelectCard,
   title = 'Graveyard',
   placement = 'right',
 }) => {
@@ -60,6 +62,11 @@ export const CardListModal: React.FC<CardListModalProps> = ({
               <div
                 key={`${card.instanceId}-${idx}`}
                 className={`card-list-card-item ${canSummon ? 'can-summon' : ''}`}
+                onClick={() => {
+                  if (canSummon && onSelectCard) {
+                    onSelectCard(card);
+                  }
+                }}
                 onMouseEnter={() => onHoverCard?.(card.templateId)}
                 onMouseLeave={() => onHoverCard?.(null)}
               >

@@ -9,6 +9,8 @@ interface PhaseDividerProps {
   turn: number;
   pendingEffect?: PendingEffect | null;
   isMyPendingEffect?: boolean;
+  isSelectingFusion?: boolean;
+  fusionInstruction?: string | null;
   onPhaseClick: () => void;
 }
 
@@ -19,6 +21,8 @@ export const PhaseDivider: React.FC<PhaseDividerProps> = ({
   turn,
   pendingEffect,
   isMyPendingEffect,
+  isSelectingFusion,
+  fusionInstruction,
   onPhaseClick,
 }) => {
   const isPlayPhase = phase === 'PLAYPHASE';
@@ -35,6 +39,9 @@ export const PhaseDivider: React.FC<PhaseDividerProps> = ({
       phaseButtonLabel = 'Enemy Turn';
       isButtonDisabled = true;
     }
+  } else if (isSelectingFusion) {
+    phaseButtonLabel = 'Cancel';
+    isButtonDisabled = false;
   } else if (!isMyTurn) {
     phaseButtonLabel = 'Enemy Turn';
     isButtonDisabled = true;
@@ -49,7 +56,7 @@ export const PhaseDivider: React.FC<PhaseDividerProps> = ({
     isButtonDisabled = !isMyTurn;
   }
 
-  const isCancel = Boolean(pendingEffect && isMyPendingEffect);
+  const isCancel = Boolean((pendingEffect && isMyPendingEffect) || isSelectingFusion);
 
   return (
     <div className="divider-with-phase">
@@ -57,7 +64,13 @@ export const PhaseDivider: React.FC<PhaseDividerProps> = ({
         className={`center-divider ${
           activePlayerId ? (isMyTurn ? 'active-player' : 'active-opponent') : ''
         }`}
-      />
+      >
+        {fusionInstruction && (
+          <div className="divider-message fusion-instruction-message">
+            {fusionInstruction}
+          </div>
+        )}
+      </div>
       <button
         className={`phase-button ${isCancel ? 'cancel-button' : ''}`}
         onClick={onPhaseClick}

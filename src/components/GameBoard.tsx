@@ -5,6 +5,7 @@ import { useSelection } from '../selections';
 import { useCardDefinitions } from '../hooks/useCardDefinitions';
 import { useBoardEffects } from '../hooks/useBoardEffects';
 import { useBattleAttack } from '../hooks/useBattleAttack';
+import { useFusionSummon } from '../hooks/useFusionSummon';
 import { WaitingOverlay } from './WaitingOverlay/WaitingOverlay';
 import { PlayerSidebar } from './Sidebar/PlayerSidebar';
 import { BoardGrid } from './Board/BoardGrid';
@@ -73,6 +74,24 @@ export default function GameBoard({
   const isPlayPhase = gameState.phase === 'PLAYPHASE';
   const isBattlePhase = gameState.phase === 'BATTLEPHASE';
 
+  const {
+    selectedFusionCard,
+    validMaterialKeys: fusionMaterialKeys,
+    selectedMaterialKeys: selectedFusionMaterialKeys,
+    fusionSpawnTargetKeys,
+    fusionInstruction,
+    isSelectingFusion,
+    handleSelectFusionCard,
+    handleFusionCellClick,
+    cancelFusion,
+  } = useFusionSummon({
+    fusionDeck: gameState.player.fusionDeck,
+    playerNum,
+    isMyTurn,
+    isPlayPhase,
+    sendAction,
+  });
+
   // The server sends an absolute 4-row board. Slice the viewer's
   // side (2 rows) to keep existing hooks/components unchanged.
   const playerSideBoard = isP1
@@ -97,6 +116,11 @@ export default function GameBoard({
   });
 
   const handlePhaseButtonClick = () => {
+    if (isSelectingFusion) {
+      cancelFusion();
+      return;
+    }
+
     if (gameState.pendingEffect) {
       if (isMyPendingEffect && gameState.pendingEffect.isOptional) {
         handlePassEffect();
@@ -120,6 +144,10 @@ export default function GameBoard({
   const handleCellClick = (absRow: number, absCol: number, isOpponent: boolean) => {
     if (isMyPendingEffect) {
       handleSelectionCellClick(absRow, absCol, isOpponent);
+      return;
+    }
+
+    if (handleFusionCellClick(absRow, absCol, isOpponent)) {
       return;
     }
 
@@ -163,6 +191,14 @@ export default function GameBoard({
               setActiveModal((prev) => (prev === 'player-fusion' ? null : 'player-fusion'))
             }
             onCloseFusion={() => setActiveModal(null)}
+            onSelectFusionCard={
+              !isOpponent
+                ? (card) => {
+                    setSelectedInstanceId(null);
+                    handleSelectFusionCard(card);
+                  }
+                : undefined
+            }
           />
 
           <BoardGrid
@@ -179,6 +215,9 @@ export default function GameBoard({
             selectedAttackerKey={selectedAttackerKey}
             attackTargetKeys={attackTargetKeys}
             isDirectAttackTarget={isOpponent && canDirectAttack}
+            fusionMaterialKeys={!isOpponent ? fusionMaterialKeys : undefined}
+            selectedFusionMaterialKeys={!isOpponent ? selectedFusionMaterialKeys : undefined}
+            fusionSpawnTargetKeys={!isOpponent ? fusionSpawnTargetKeys : undefined}
             cardsDict={cardsDict}
             onCellClick={handleCellClick}
             onDirectAttackClick={handleDirectAttack}
@@ -215,6 +254,9 @@ export default function GameBoard({
             validDiscardIndices={highlights.validDiscardIndices}
             validDiscardInstanceIds={highlights.validDiscardInstanceIds}
             onSelectCard={(id, idx) => {
+              if (isSelectingFusion) {
+                cancelFusion();
+              }
               if (isMyPendingEffect) {
                 const handled = handleSelectionHandCardClick(
                   parseInt(id, 10),
@@ -233,12 +275,15 @@ export default function GameBoard({
     );
   };
 
+  const inspectorTemplateId =
+    hoveredTemplateId ?? (isSelectingFusion ? selectedFusionCard?.templateId : null) ?? null;
+
   return (
     <div className="game-board-layout">
       <WaitingOverlay message={waitingMessage} />
 
       <CardInspector
-        hoveredTemplateId={hoveredTemplateId}
+        hoveredTemplateId={inspectorTemplateId}
         cardsDict={cardsDict}
         isBlurred={Boolean(waitingMessage)}
       />
@@ -253,6 +298,8 @@ export default function GameBoard({
           turn={gameState.turn}
           pendingEffect={gameState.pendingEffect}
           isMyPendingEffect={isMyPendingEffect}
+          isSelectingFusion={isSelectingFusion}
+          fusionInstruction={fusionInstruction}
           onPhaseClick={handlePhaseButtonClick}
         />
 

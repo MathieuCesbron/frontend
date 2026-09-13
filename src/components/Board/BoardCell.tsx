@@ -15,6 +15,9 @@ interface BoardCellProps {
   isAttacker?: boolean;
   isSelectedAttacker?: boolean;
   isAttackTarget?: boolean;
+  isFusionMaterial?: boolean;
+  isSelectedFusionMaterial?: boolean;
+  isFusionSpawnTarget?: boolean;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
   onHoverCard: (templateId: number | null) => void;
@@ -34,12 +37,15 @@ export const BoardCell: React.FC<BoardCellProps> = ({
   isAttacker,
   isSelectedAttacker,
   isAttackTarget,
+  isFusionMaterial,
+  isSelectedFusionMaterial,
+  isFusionSpawnTarget,
   cardsDict,
   onCellClick,
   onHoverCard,
   onHoverAttacker,
 }) => {
-  const topCard = cell?.topCard;
+  const topCard = isFusionSpawnTarget ? null : cell?.topCard;
   const trapCard = cell?.trapCard;
 
   const tId = topCard?.instanceId;
@@ -53,6 +59,9 @@ export const BoardCell: React.FC<BoardCellProps> = ({
     isAttacker ? 'is-attacker' : '',
     isSelectedAttacker ? 'is-selected-attacker' : '',
     isAttackTarget ? 'is-attack-target' : '',
+    isFusionMaterial ? 'is-fusion-material' : '',
+    isSelectedFusionMaterial ? 'is-selected-fusion-material' : '',
+    isFusionSpawnTarget ? 'is-fusion-spawn-target' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -83,6 +92,12 @@ export const BoardCell: React.FC<BoardCellProps> = ({
             isSelectedAttacker ? 'selected-attacker-top' : ''
           } ${isAttacker && !isSelectedAttacker ? 'attacker-top' : ''} ${
             isAttackTarget ? 'attack-target-top' : ''
+          } ${
+            isSelectedFusionMaterial ? 'selected-fusion-material-top' : ''
+          } ${
+            isFusionMaterial && !isSelectedFusionMaterial ? 'fusion-material-top' : ''
+          } ${
+            isFusionSpawnTarget ? 'fusion-spawn-target-top' : ''
           }`}
           onMouseEnter={() => {
             if (topCard) onHoverCard(topCard.templateId);

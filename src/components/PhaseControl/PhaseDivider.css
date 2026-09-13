@@ -39,6 +39,28 @@
   opacity: 1;
 }
 
+.divider-message {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.fusion-instruction-message {
+  color: #000000;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 4px 18px;
+}
+
 .phase-button {
   background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
   border: 1px solid #cbd5e1;
