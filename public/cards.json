@@ -1,37 +1,41 @@
 [
   {
-    "templateId": 1,
-    "name": "Hollow Wisp",
+    "templateId": 17,
+    "name": "Pain Fiend",
     "type": "MONSTER",
-    "description": "Cannot be attacked by monsters with 60 Power or more.",
+    "description": "When summoned: you can discard 1 card to inflict 10 damage to your opponent",
+    "power": 30,
+    "attribute": "CRYO"
+  },
+  {
+    "templateId": 13,
+    "name": "Reactive Bird",
+    "type": "MONSTER",
+    "description": "When moved: you can pay 10LP to move one of your monsters to an adjacent tile.",
+    "power": 10,
+    "attribute": "CRYO"
+  },
+  {
+    "templateId": 0,
+    "name": "Blank Apparition",
+    "type": "MONSTER",
+    "description": "No effect.",
+    "power": 30,
+    "attribute": "GHOST"
+  },
+  {
+    "templateId": 1,
+    "name": "Terror of the Weak",
+    "type": "MONSTER",
+    "description": "Cannot be attacked by monsters with 40 Power or less.",
     "power": 1,
     "attribute": "GHOST"
   },
   {
-    "templateId": 19,
-    "name": "Chaos Dragon",
-    "type": "MONSTER",
-    "description": "If this monster is on the front row, Gain 20 Power.",
-    "power": 35,
-    "attribute": "CRYO",
-    "pattern": {
-      "patternCells": [
-        {
-          "position": {
-            "row": 0,
-            "col": 0
-          },
-          "attribute": "CRYO"
-        },
-        {
-          "position": {
-            "row": 0,
-            "col": 1
-          },
-          "attribute": "CRYO"
-        }
-      ]
-    }
+    "templateId": 2,
+    "name": "Adrenaline Rush",
+    "type": "LINK",
+    "description": "Linked Monster can make 1 additional attack per turn."
   },
   {
     "templateId": 4,
@@ -45,6 +49,34 @@
     "type": "MONSTER",
     "description": "Grants +10 Power to the monster on its right.",
     "power": 15,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 9,
+    "name": "Little Surprise",
+    "type": "TRAP",
+    "description": "Destroy all Link cards."
+  },
+  {
+    "templateId": 12,
+    "name": "Party Crasher",
+    "type": "MONSTER",
+    "description": "When summoned: you can destroy 1 card.",
+    "power": 20,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 14,
+    "name": "Second Life",
+    "type": "TRAP",
+    "description": "You cannot lose LP for the rest of this turn."
+  },
+  {
+    "templateId": 3,
+    "name": "Bio Renegade",
+    "type": "MONSTER",
+    "description": "Can only be played if you have no Bio monsters in your grave.",
+    "power": 30,
     "attribute": "BIO"
   },
   {
@@ -74,40 +106,6 @@
     }
   },
   {
-    "templateId": 9,
-    "name": "Little Surprise",
-    "type": "TRAP",
-    "description": "Destroy all Link cards."
-  },
-  {
-    "templateId": 14,
-    "name": "Second Life",
-    "type": "TRAP",
-    "description": "You cannot lose LP for the rest of this turn."
-  },
-  {
-    "templateId": 0,
-    "name": "Blank Apparition",
-    "type": "MONSTER",
-    "description": "No effect.",
-    "power": 30,
-    "attribute": "GHOST"
-  },
-  {
-    "templateId": 2,
-    "name": "Adrenaline Rush",
-    "type": "LINK",
-    "description": "Linked Monster can make 1 additional attack per turn."
-  },
-  {
-    "templateId": 3,
-    "name": "Bio Renegade",
-    "type": "MONSTER",
-    "description": "Can only be played if you have no Bio monsters in your grave.",
-    "power": 30,
-    "attribute": "BIO"
-  },
-  {
     "templateId": 18,
     "name": "Gatekeeper",
     "type": "LINK",
@@ -122,20 +120,10 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 8,
-    "name": "Kidnetic",
-    "type": "MONSTER",
-    "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
-    "power": 15,
-    "attribute": "BIO"
-  },
-  {
-    "templateId": 17,
-    "name": "Pain Fiend",
-    "type": "MONSTER",
-    "description": "When summoned: you can discard 1 card to inflict 10 damage to your opponent",
-    "power": 30,
-    "attribute": "CRYO"
+    "templateId": 11,
+    "name": "Participation Reward",
+    "type": "LINK",
+    "description": "If the Linked monster is destroyed by battle, you gain 5LP."
   },
   {
     "templateId": 15,
@@ -144,33 +132,45 @@
     "description": "You can move one monster to an adjacent tile."
   },
   {
+    "templateId": 19,
+    "name": "Chaos Dragon",
+    "type": "MONSTER",
+    "description": "If this monster is on the front row, Gain 20 Power.",
+    "power": 35,
+    "attribute": "CRYO",
+    "pattern": {
+      "patternCells": [
+        {
+          "position": {
+            "row": 0,
+            "col": 0
+          },
+          "attribute": "CRYO"
+        },
+        {
+          "position": {
+            "row": 0,
+            "col": 1
+          },
+          "attribute": "CRYO"
+        }
+      ]
+    }
+  },
+  {
+    "templateId": 8,
+    "name": "Kidnetic",
+    "type": "MONSTER",
+    "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
+    "power": 15,
+    "attribute": "BIO"
+  },
+  {
     "templateId": 16,
     "name": "Tormentor",
     "type": "MONSTER",
     "description": "When summoned: you lose 10LP.",
     "power": 31,
     "attribute": "BIO"
-  },
-  {
-    "templateId": 11,
-    "name": "Participation Reward",
-    "type": "LINK",
-    "description": "If the Linked monster is destroyed by battle, you gain 5LP."
-  },
-  {
-    "templateId": 12,
-    "name": "Party Crasher",
-    "type": "MONSTER",
-    "description": "When summoned: you can destroy 1 card.",
-    "power": 20,
-    "attribute": "BIO"
-  },
-  {
-    "templateId": 13,
-    "name": "Reactive Bird",
-    "type": "MONSTER",
-    "description": "When moved: you can pay 10LP to move one of your monsters to an adjacent tile.",
-    "power": 10,
-    "attribute": "CRYO"
   }
 ]
