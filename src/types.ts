@@ -25,7 +25,7 @@ export interface CardDefinition {
   name: string;
   type: string;
   description: string;
-  atk?: number;
+  power?: number;
   attribute?: string;
   pattern?: Pattern;
 }

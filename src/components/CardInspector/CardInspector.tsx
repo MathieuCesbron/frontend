@@ -67,9 +67,9 @@ export const CardInspector: React.FC<CardInspectorProps> = ({
         <div>
           <h3>{card.name}</h3>
           <p className="card-type">{card.type}</p>
-          {card.atk !== undefined && (
+          {card.power !== undefined && (
             <p>
-              <strong>ATK:</strong> {card.atk}
+              <strong>Power:</strong> {card.power}
             </p>
           )}
           {card.attribute && (
