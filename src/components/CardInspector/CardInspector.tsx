@@ -59,7 +59,7 @@ export const CardInspector: React.FC<CardInspectorProps> = ({
   cardsDict,
   isBlurred,
 }) => {
-  const card = hoveredTemplateId ? cardsDict[hoveredTemplateId] : null;
+  const card = hoveredTemplateId !== null ? cardsDict[hoveredTemplateId] : null;
 
   return (
     <div className={`card-inspector ${isBlurred ? 'board-blurred' : ''}`}>
