@@ -1,42 +1,14 @@
 [
   {
-    "templateId": 3,
-    "name": "Bio Renegade",
-    "type": "MONSTER",
-    "description": "Can only be played if you have no Bio monsters in your grave.",
-    "power": 30,
-    "attribute": "BIO"
-  },
-  {
-    "templateId": 18,
-    "name": "Gatekeeper",
-    "type": "LINK",
-    "description": "Linked monsters cannot attack directly."
-  },
-  {
-    "templateId": 9,
-    "name": "Little Surprise",
-    "type": "TRAP",
-    "description": "Destroy all Link cards."
-  },
-  {
-    "templateId": 13,
-    "name": "Reactive Bird",
-    "type": "MONSTER",
-    "description": "When moved: you can discard one card to move one of your monsters to an adjacent tile.",
-    "power": 10,
-    "attribute": "CRYO"
-  },
-  {
     "templateId": 0,
     "name": "Blank Apparition",
     "type": "MONSTER",
     "description": "No effect.",
-    "power": 30,
+    "power": 28,
     "attribute": "GHOST"
   },
   {
-    "templateId": 19,
+    "templateId": 20,
     "name": "Chaos Dragon",
     "type": "MONSTER",
     "description": "If this monster is on the front row, Gain 20 Power.",
@@ -62,13 +34,13 @@
     }
   },
   {
-    "templateId": 4,
-    "name": "Dimensional Shift",
+    "templateId": 19,
+    "name": "Gatekeeper",
     "type": "LINK",
-    "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
+    "description": "Linked monsters cannot attack directly."
   },
   {
-    "templateId": 5,
+    "templateId": 6,
     "name": "Flower Boy",
     "type": "MONSTER",
     "description": "Grants +10 Power to the monster on its right.",
@@ -76,15 +48,7 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 1,
-    "name": "Terror of the Weak",
-    "type": "MONSTER",
-    "description": "Cannot be attacked by monsters with 40 Power or less.",
-    "power": 1,
-    "attribute": "GHOST"
-  },
-  {
-    "templateId": 6,
+    "templateId": 7,
     "name": "Forest King",
     "type": "MONSTER",
     "description": "No effect.",
@@ -110,13 +74,7 @@
     }
   },
   {
-    "templateId": 2,
-    "name": "Adrenaline Rush",
-    "type": "LINK",
-    "description": "Linked Monster can make 1 additional attack per turn."
-  },
-  {
-    "templateId": 8,
+    "templateId": 9,
     "name": "Kidnetic",
     "type": "MONSTER",
     "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
@@ -124,13 +82,67 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 11,
+    "templateId": 10,
+    "name": "Little Surprise",
+    "type": "TRAP",
+    "description": "Destroy all Link cards."
+  },
+  {
+    "templateId": 12,
     "name": "Participation Reward",
     "type": "LINK",
     "description": "If the Linked monster is destroyed by battle, his owner draws 2 cards."
   },
   {
-    "templateId": 12,
+    "templateId": 16,
+    "name": "Shifting Sands",
+    "type": "TRAP",
+    "description": "You can move one monster to an adjacent tile."
+  },
+  {
+    "templateId": 1,
+    "name": "Terror of the Weak",
+    "type": "MONSTER",
+    "description": "Cannot be attacked by monsters with 40 Power or less.",
+    "power": 1,
+    "attribute": "GHOST"
+  },
+  {
+    "templateId": 2,
+    "name": "First Dragon",
+    "type": "MONSTER",
+    "description": "No effect.",
+    "power": 32,
+    "attribute": "DRAGON"
+  },
+  {
+    "templateId": 4,
+    "name": "Bio Renegade",
+    "type": "MONSTER",
+    "description": "Can only be played if you have no Bio monsters in your grave.",
+    "power": 30,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 15,
+    "name": "Second Life",
+    "type": "TRAP",
+    "description": "Columns cannot be destroyed for the rest of this turn."
+  },
+  {
+    "templateId": 3,
+    "name": "Adrenaline Rush",
+    "type": "LINK",
+    "description": "Linked Monster can make 1 additional attack per turn."
+  },
+  {
+    "templateId": 5,
+    "name": "Dimensional Shift",
+    "type": "LINK",
+    "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
+  },
+  {
+    "templateId": 13,
     "name": "Party Crasher",
     "type": "MONSTER",
     "description": "When summoned: you can destroy 1 card.",
@@ -139,14 +151,10 @@
   },
   {
     "templateId": 14,
-    "name": "Second Life",
-    "type": "TRAP",
-    "description": "Columns cannot be destroyed for the rest of this turn."
-  },
-  {
-    "templateId": 15,
-    "name": "Shifting Sands",
-    "type": "TRAP",
-    "description": "You can move one monster to an adjacent tile."
+    "name": "Reactive Bird",
+    "type": "MONSTER",
+    "description": "When moved: you can discard one card to move one of your monsters to an adjacent tile.",
+    "power": 10,
+    "attribute": "CRYO"
   }
 ]

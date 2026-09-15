@@ -11,6 +11,7 @@ import { columnDestroyedHandler } from './columnDestroyed';
 import { battlePhaseStartedHandler } from './battlePhaseStarted';
 import { turnStartedHandler } from './turnStarted';
 import { turnEndedHandler } from './turnEnded';
+import { gameEndedHandler } from './gameEnded';
 
 export * from './types';
 export * from './gameStarted';
@@ -24,6 +25,7 @@ export * from './columnDestroyed';
 export * from './battlePhaseStarted';
 export * from './turnStarted';
 export * from './turnEnded';
+export * from './gameEnded';
 
 export const eventHandlers: Record<string, GameEventHandler> = {
   GAME_STARTED: gameStartedHandler,
@@ -37,6 +39,7 @@ export const eventHandlers: Record<string, GameEventHandler> = {
   BATTLE_PHASE_STARTED: battlePhaseStartedHandler,
   TURN_STARTED: turnStartedHandler,
   TURN_ENDED: turnEndedHandler,
+  GAME_ENDED: gameEndedHandler,
 };
 
 export function applyGameEvent(prevState: GameState, evt: GameEvent, playerId: string): GameState {
