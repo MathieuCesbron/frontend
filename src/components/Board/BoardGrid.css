@@ -1,7 +1,7 @@
 .board-grid {
   display: flex;
   flex-direction: column;
-  gap: 8.5px;
+  gap: 7.65px;
   position: relative;
   transition: all 0.3s ease;
   border-radius: 8px;
@@ -9,7 +9,43 @@
 
 .board-row {
   display: flex;
-  gap: 8.5px;
+  gap: 7.65px;
+}
+
+.column-indicators-row {
+  display: flex;
+  gap: 7.65px;
+  pointer-events: none;
+}
+
+.column-indicators-row.opponent {
+  margin-bottom: 2px;
+}
+
+.column-indicators-row.player {
+  margin-top: 2px;
+}
+
+.column-indicator-cell {
+  width: 72.9px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.column-dot-wrapper {
+  width: 61.2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.column-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.75);
 }
 
 /* =============================================================================

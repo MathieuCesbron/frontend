@@ -79,6 +79,18 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
         }
       }}
     >
+      {isOpponent && (
+        <div className="column-indicators-row opponent">
+          {[0, 1, 2, 3].map((colIndex) => (
+            <div key={colIndex} className="column-indicator-cell">
+              <div className="column-dot-wrapper">
+                <div className="column-dot" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       {displayedBoard.map((row, rowIndex) => {
         const displayedRow = isP1 ? row : [...row].reverse();
 
@@ -140,6 +152,18 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
           </div>
         );
       })}
+
+      {!isOpponent && (
+        <div className="column-indicators-row player">
+          {[0, 1, 2, 3].map((colIndex) => (
+            <div key={colIndex} className="column-indicator-cell">
+              <div className="column-dot-wrapper">
+                <div className="column-dot" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

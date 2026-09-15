@@ -1,12 +1,12 @@
 .hand {
   display: flex;
-  gap: 8.5px;
-  min-height: 102px;
+  gap: 7.65px;
+  min-height: 91.8px;
 }
 
 .card {
-  width: 68px;
-  height: 93.5px;
+  width: 61.2px;
+  height: 84.15px;
   border: 1px solid #475569;
   border-radius: 4px;
   background: #e2e8f0;
@@ -14,8 +14,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 12px;
-  padding: 4px;
+  font-size: 11px;
+  padding: 3.5px;
 }
 
 .hidden-card {

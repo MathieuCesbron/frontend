@@ -2,34 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 13px;
-  width: 85px;
-}
-
-.stats-box {
-  border: 2px solid #94a3b8;
-  padding: 8.5px;
-  background: #fff;
-  border-radius: 4px;
-  font-weight: bold;
-  text-align: center;
-  width: 100%;
-}
-
-.stats-box p {
-  margin: 0;
+  gap: 11.7px;
+  width: 76.5px;
 }
 
 .deck-zone {
   border: 2px dashed #94a3b8;
-  width: 59.5px;
-  height: 85px;
+  width: 53.55px;
+  height: 76.5px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fff;
   border-radius: 4px;
-  font-size: 10.5px;
+  font-size: 9.5px;
   text-align: center;
 }
 

@@ -7,11 +7,11 @@
 }
 
 .center-divider {
-  width: 425px;
+  width: 382.5px;
   max-width: 80%;
   height: 2px;
   background-color: #cbd5e1;
-  margin: 8.5px auto;
+  margin: 7.65px auto;
   position: relative;
   z-index: 1;
 }
@@ -21,7 +21,7 @@
   position: absolute;
   left: 0;
   width: 100%;
-  height: 12px;
+  height: 10.8px;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -44,9 +44,9 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   white-space: nowrap;
   pointer-events: none;
@@ -58,23 +58,23 @@
   background: #f8fafc;
   border: 1px solid #cbd5e1;
   border-radius: 9999px;
-  padding: 4px 18px;
+  padding: 3.6px 16.2px;
 }
 
 .phase-button {
   background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
   border: 1px solid #cbd5e1;
   color: #0f172a;
-  padding: 8.5px 13.5px;
-  border-radius: 8.5px;
+  padding: 7.65px 12.15px;
+  border-radius: 7.65px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 11.7px;
   letter-spacing: 0.5px;
-  box-shadow: 0 7px 0 rgba(148, 163, 184, 0.35), 0 3px 8px rgba(2, 6, 23, 0.08);
-  width: 110.5px;
+  box-shadow: 0 6.3px 0 rgba(148, 163, 184, 0.35), 0 2.7px 7.2px rgba(2, 6, 23, 0.08);
+  width: 99.45px;
   text-align: center;
-  --phase-offset: 255px;
+  --phase-offset: 229.5px;
   position: absolute;
   left: 50%;
   top: 50%;

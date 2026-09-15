@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlayerState } from '../../types';
+import { PlayerState, Card } from '../../types';
 import { CardListModal } from './CardListModal';
 import './PlayerSidebar.css';
 
@@ -47,9 +47,6 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
     >
       {isLeft ? (
         <>
-          <div className="stats-box">
-            <p>LP: {player.lp}</p>
-          </div>
           {isOpponent ? (
             <div className="deck-zone fusion-deck">
               <span>Fusion ({player.fusionDeck.length})</span>
