@@ -95,8 +95,8 @@ export default function GameBoard({
   // The server sends an absolute 4-row board. Slice the viewer's
   // side (2 rows) to keep existing hooks/components unchanged.
   const playerSideBoard = isP1
-    ? (gameState.player.board.slice(2, 4) as [any, any])
-    : (gameState.player.board.slice(0, 2) as [any, any]);
+    ? (gameState.board.slice(2, 4) as [any, any])
+    : (gameState.board.slice(0, 2) as [any, any]);
 
   const {
     attackerKeys,
@@ -168,7 +168,7 @@ export default function GameBoard({
   const renderPlayerSide = (player: PlayerState, isOpponent: boolean) => {
     // Determine which two absolute rows to display for this side.
     const start = isP1 === isOpponent ? 0 : 2;
-    const boardForGrid = player.board.slice(start, start + 2) as [any, any];
+    const boardForGrid = gameState.board.slice(start, start + 2) as [any, any];
     return (
       <div className={`player-area ${isOpponent ? 'opponent' : 'player'}`}>
         {isOpponent && (

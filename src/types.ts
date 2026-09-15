@@ -44,7 +44,6 @@ export interface PlayerState {
   grave: Card[];
   fusionDeck: Card[];
   hand: Card[];
-  board: GridRow[]; // 4 rows of 4 columns (absolute)
 }
 
 export interface Position {
@@ -68,6 +67,7 @@ export interface PendingEffect {
 }
 
 export interface GameState {
+  board: GridRow[]; // 4 rows of 4 columns (absolute)
   player: PlayerState;
   opponent: PlayerState;
   turn: number;
@@ -91,13 +91,13 @@ export const createEmptyBoard = (): GridRow[] => [
 ];
 
 export const createInitialState = (): GameState => ({
+  board: createEmptyBoard(),
   player: {
     lp: 100,
     deckCount: 0,
     grave: [],
     fusionDeck: [],
     hand: [],
-    board: createEmptyBoard(),
   },
   opponent: {
     lp: 100,
@@ -105,7 +105,6 @@ export const createInitialState = (): GameState => ({
     grave: [],
     fusionDeck: [],
     hand: [],
-    board: createEmptyBoard(),
   },
   turn: 1,
   activePlayerId: 1,

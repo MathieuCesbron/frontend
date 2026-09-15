@@ -15,14 +15,14 @@ export const cardDestroyedHandler: GameEventHandler<CardDestroyedData> = {
 
     const isPlayer = (playerId === '1' && data.position.row >= 2) || (playerId === '2' && data.position.row < 2);
     const side = isPlayer ? 'player' : 'opponent';
-    const localRow = data.position.row % 2;
+    const { row, col } = data.position;
 
-    if (nextState[side]?.board?.[localRow]?.[data.position.col]) {
+    if (nextState.board?.[row]?.[col]) {
       if (data.isTrap) {
-        nextState[side].board[localRow][data.position.col].trapCard = null;
+        nextState.board[row][col].trapCard = null;
       } else {
-        const destroyedCard = nextState[side].board[localRow][data.position.col].topCard;
-        nextState[side].board[localRow][data.position.col].topCard = null;
+        const destroyedCard = nextState.board[row][col].topCard;
+        nextState.board[row][col].topCard = null;
         if (destroyedCard) {
           nextState[side].grave.push(destroyedCard);
         }
