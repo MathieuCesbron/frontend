@@ -15,6 +15,7 @@ interface BoardCellProps {
   isAttacker?: boolean;
   isSelectedAttacker?: boolean;
   isAttackTarget?: boolean;
+  isColumnAttackTarget?: boolean;
   isFusionMaterial?: boolean;
   isSelectedFusionMaterial?: boolean;
   isFusionSpawnTarget?: boolean;
@@ -37,6 +38,7 @@ export const BoardCell: React.FC<BoardCellProps> = ({
   isAttacker,
   isSelectedAttacker,
   isAttackTarget,
+  isColumnAttackTarget,
   isFusionMaterial,
   isSelectedFusionMaterial,
   isFusionSpawnTarget,
@@ -59,6 +61,7 @@ export const BoardCell: React.FC<BoardCellProps> = ({
     isAttacker ? 'is-attacker' : '',
     isSelectedAttacker ? 'is-selected-attacker' : '',
     isAttackTarget ? 'is-attack-target' : '',
+    isColumnAttackTarget ? 'is-column-attack-target' : '',
     isFusionMaterial ? 'is-fusion-material' : '',
     isSelectedFusionMaterial ? 'is-selected-fusion-material' : '',
     isFusionSpawnTarget ? 'is-fusion-spawn-target' : '',
@@ -92,6 +95,8 @@ export const BoardCell: React.FC<BoardCellProps> = ({
             isSelectedAttacker ? 'selected-attacker-top' : ''
           } ${isAttacker && !isSelectedAttacker ? 'attacker-top' : ''} ${
             isAttackTarget ? 'attack-target-top' : ''
+          } ${
+            isColumnAttackTarget ? 'column-attack-target-top' : ''
           } ${
             isSelectedFusionMaterial ? 'selected-fusion-material-top' : ''
           } ${

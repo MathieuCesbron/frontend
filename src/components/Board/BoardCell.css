@@ -311,6 +311,50 @@
 }
 
 /* =============================================================================
+   Column Attack Target Highlights
+   ============================================================================= */
+
+@keyframes columnAttackGlow {
+  0% {
+    box-shadow: 0 0 8px 2px rgba(239, 68, 68, 0.6), inset 0 0 8px 1px rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.7) !important;
+  }
+  50% {
+    box-shadow: 0 0 18px 6px rgba(220, 38, 38, 0.9), inset 0 0 14px 3px rgba(220, 38, 38, 0.45);
+    border-color: rgba(220, 38, 38, 1) !important;
+  }
+  100% {
+    box-shadow: 0 0 8px 2px rgba(239, 68, 68, 0.6), inset 0 0 8px 1px rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.7) !important;
+  }
+}
+
+.board-cell.is-column-attack-target {
+  cursor: var(--sword-cursor) !important;
+  border-radius: 6px;
+  animation: columnAttackGlow 1.4s infinite ease-in-out !important;
+}
+
+.board-cell.is-column-attack-target .top-slot,
+.board-cell.is-column-attack-target .trap-slot {
+  cursor: var(--sword-cursor) !important;
+}
+
+.column-attack-target-top {
+  border: 2px dashed rgba(239, 68, 68, 0.8) !important;
+}
+
+.board-cell.is-column-attack-target:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 24px 8px rgba(220, 38, 38, 1), inset 0 0 18px rgba(239, 68, 68, 0.7) !important;
+  border-color: #ef4444 !important;
+}
+
+.board-cell.is-column-attack-target:hover .top-slot {
+  border-color: #ef4444 !important;
+}
+
+/* =============================================================================
    Fusion Summon Material Highlights
    ============================================================================= */
 

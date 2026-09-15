@@ -46,6 +46,23 @@
   border-radius: 50%;
   background-color: #3b82f6;
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.75);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.column-dot.is-destroyed {
+  background-color: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.85);
+}
+
+.column-indicator-cell.is-column-attack-target {
+  cursor: var(--sword-cursor) !important;
+  pointer-events: auto;
+}
+
+.column-dot.is-attack-target {
+  background-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.9), 0 0 18px rgba(220, 38, 38, 0.6);
+  animation: attackTargetGlow 1.4s infinite ease-in-out !important;
 }
 
 /* =============================================================================

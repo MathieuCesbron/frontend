@@ -8,6 +8,7 @@ interface BoardGridProps {
   board: [GridRow, GridRow];
   isP1: boolean;
   isOpponent: boolean;
+  columnsDestroyed?: boolean[];
   animatedInstanceId: string | null;
   activeEffectKeys: Record<string, boolean>;
   activeEffectIds: Record<string, boolean>;
@@ -17,12 +18,14 @@ interface BoardGridProps {
   attackerKeys?: Set<string>;
   selectedAttackerKey?: string | null;
   attackTargetKeys?: Set<string>;
+  attackColumnTargets?: Set<number>;
   isDirectAttackTarget?: boolean;
   fusionMaterialKeys?: Set<string>;
   selectedFusionMaterialKeys?: Set<string>;
   fusionSpawnTargetKeys?: Set<string>;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
+  onColumnClick?: (absCol: number) => void;
   onDirectAttackClick?: () => void;
   onHoverCard: (templateId: number | null) => void;
   onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
@@ -32,6 +35,7 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
   board,
   isP1,
   isOpponent,
+  columnsDestroyed,
   animatedInstanceId,
   activeEffectKeys,
   activeEffectIds,
@@ -41,12 +45,14 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
   attackerKeys,
   selectedAttackerKey,
   attackTargetKeys,
+  attackColumnTargets,
   isDirectAttackTarget,
   fusionMaterialKeys,
   selectedFusionMaterialKeys,
   fusionSpawnTargetKeys,
   cardsDict,
   onCellClick,
+  onColumnClick,
   onDirectAttackClick,
   onHoverCard,
   onHoverAttacker,
@@ -81,13 +87,32 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
     >
       {isOpponent && (
         <div className="column-indicators-row opponent">
-          {[0, 1, 2, 3].map((colIndex) => (
-            <div key={colIndex} className="column-indicator-cell">
-              <div className="column-dot-wrapper">
-                <div className="column-dot" />
+          {[0, 1, 2, 3].map((colIndex) => {
+            const absCol = isP1 ? colIndex : 3 - colIndex;
+            const isColumnTarget = Boolean(attackColumnTargets?.has(absCol));
+            const isDestroyed = Boolean(columnsDestroyed?.[absCol]);
+
+            return (
+              <div
+                key={colIndex}
+                className={`column-indicator-cell ${isColumnTarget ? 'is-column-attack-target' : ''}`}
+                onClick={(e) => {
+                  if (isColumnTarget && onColumnClick) {
+                    e.stopPropagation();
+                    onColumnClick(absCol);
+                  }
+                }}
+              >
+                <div className="column-dot-wrapper">
+                  <div
+                    className={`column-dot ${isDestroyed ? 'is-destroyed' : ''} ${
+                      isColumnTarget ? 'is-attack-target' : ''
+                    }`}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -119,6 +144,7 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
               const isAttacker = !isOpponent && Boolean(attackerKeys?.has(posKey));
               const isSelectedAttacker = !isOpponent && selectedAttackerKey === posKey;
               const isAttackTarget = Boolean(attackTargetKeys?.has(posKey));
+              const isColumnAttackTarget = Boolean(isOpponent && attackColumnTargets?.has(absCol));
 
               const isFusionMaterial = !isOpponent && Boolean(fusionMaterialKeys?.has(posKey));
               const isSelectedFusionMaterial = !isOpponent && Boolean(selectedFusionMaterialKeys?.has(posKey));
@@ -139,6 +165,7 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
                   isAttacker={isAttacker}
                   isSelectedAttacker={isSelectedAttacker}
                   isAttackTarget={isAttackTarget}
+                  isColumnAttackTarget={isColumnAttackTarget}
                   isFusionMaterial={isFusionMaterial}
                   isSelectedFusionMaterial={isSelectedFusionMaterial}
                   isFusionSpawnTarget={isFusionSpawnTarget}
@@ -155,13 +182,18 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
 
       {!isOpponent && (
         <div className="column-indicators-row player">
-          {[0, 1, 2, 3].map((colIndex) => (
-            <div key={colIndex} className="column-indicator-cell">
-              <div className="column-dot-wrapper">
-                <div className="column-dot" />
+          {[0, 1, 2, 3].map((colIndex) => {
+            const absCol = isP1 ? colIndex : 3 - colIndex;
+            const isDestroyed = Boolean(columnsDestroyed?.[absCol]);
+
+            return (
+              <div key={colIndex} className="column-indicator-cell">
+                <div className="column-dot-wrapper">
+                  <div className={`column-dot ${isDestroyed ? 'is-destroyed' : ''}`} />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

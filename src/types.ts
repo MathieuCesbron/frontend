@@ -1,5 +1,7 @@
+export type AttackTargetType = 'MONSTER' | 'COLUMN';
+
 export interface AttackTarget {
-  type: 'POSITION' | 'PLAYER';
+  type: AttackTargetType;
   position?: Position;
 }
 
@@ -39,7 +41,8 @@ export type GridRow = Tile[];
 
 export interface PlayerState {
   id?: string;
-  lp: number;
+  lp?: number;
+  columnsDestroyed?: boolean[];
   deckCount: number;
   grave: Card[];
   fusionDeck: Card[];
@@ -93,14 +96,14 @@ export const createEmptyBoard = (): GridRow[] => [
 export const createInitialState = (): GameState => ({
   board: createEmptyBoard(),
   player: {
-    lp: 100,
+    columnsDestroyed: [false, false, false, false],
     deckCount: 0,
     grave: [],
     fusionDeck: [],
     hand: [],
   },
   opponent: {
-    lp: 100,
+    columnsDestroyed: [false, false, false, false],
     deckCount: 0,
     grave: [],
     fusionDeck: [],

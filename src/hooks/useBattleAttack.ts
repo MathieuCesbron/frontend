@@ -68,18 +68,26 @@ export function useBattleAttack({
     if (!attackerInfo?.targets) return set;
 
     attackerInfo.targets.forEach((target) => {
-      if (target.type === 'POSITION' && target.position) {
+      if (target.type === 'MONSTER' && target.position) {
         set.add(`${target.position.row},${target.position.col}`);
       }
     });
     return set;
   }, [activeAttackerKey, attackerMap]);
 
-  const canDirectAttack = useMemo(() => {
-    if (!activeAttackerKey) return false;
+  const attackColumnTargets = useMemo(() => {
+    const set = new Set<number>();
+    if (!activeAttackerKey) return set;
     const attackerInfo = attackerMap.get(activeAttackerKey);
-    if (!attackerInfo?.targets) return false;
-    return attackerInfo.targets.some((target) => target.type === 'PLAYER');
+    if (!attackerInfo?.targets) return set;
+
+    attackerInfo.targets.forEach((target) => {
+      if (target.type === 'COLUMN') {
+        const col = target.position?.col ?? attackerInfo.pos.col;
+        set.add(col);
+      }
+    });
+    return set;
   }, [activeAttackerKey, attackerMap]);
 
   // Reset attacker selection if turn or phase changes
@@ -101,25 +109,24 @@ export function useBattleAttack({
     setHoveredAttackerPos(pos);
   }, []);
 
-  const handleDirectAttack = useCallback((): boolean => {
-    if (!isBattlePhase || !isMyTurn || !canDirectAttack) {
+  const handleAttackColumnClick = useCallback(
+    (absCol: number): boolean => {
+      if (!isBattlePhase || !isMyTurn) {
+        return false;
+      }
+      if (attackColumnTargets.has(absCol)) {
+        sendAction('ATTACK', {
+          playerId: playerNum,
+          column: absCol,
+        });
+        setSelectedAttackerPos(null);
+        setHoveredAttackerPos(null);
+        return true;
+      }
       return false;
-    }
-    const attackerInfo = activeAttackerKey ? attackerMap.get(activeAttackerKey) : null;
-    if (attackerInfo) {
-      sendAction('ATTACK', {
-        playerId: playerNum,
-        attacker: attackerInfo.pos,
-        target: {
-          type: 'PLAYER',
-        },
-      });
-      setSelectedAttackerPos(null);
-      setHoveredAttackerPos(null);
-      return true;
-    }
-    return false;
-  }, [isBattlePhase, isMyTurn, canDirectAttack, activeAttackerKey, attackerMap, sendAction, playerNum]);
+    },
+    [isBattlePhase, isMyTurn, attackColumnTargets, sendAction, playerNum]
+  );
 
   const handleAttackCellClick = useCallback(
     (absRow: number, absCol: number, isOpponent: boolean): boolean => {
@@ -129,63 +136,60 @@ export function useBattleAttack({
 
       const posKey = `${absRow},${absCol}`;
 
-      // 1. If clicking on one of the valid attack targets
-      if (attackTargetKeys.has(posKey)) {
+      // 1. If clicking on opponent side
+      if (isOpponent) {
         const attackerInfo = activeAttackerKey ? attackerMap.get(activeAttackerKey) : null;
-        if (attackerInfo) {
+        if (!attackerInfo) {
+          return false;
+        }
+
+        // Case A: Monster attack target at this specific cell
+        if (attackTargetKeys.has(posKey)) {
           sendAction('ATTACK', {
             playerId: playerNum,
-            attacker: attackerInfo.pos,
-            target: {
-              type: 'POSITION',
-              position: { row: absRow, col: absCol },
-            },
+            column: attackerInfo.pos.col,
           });
           setSelectedAttackerPos(null);
           setHoveredAttackerPos(null);
           return true;
         }
-      }
 
-      // 2. If clicking on opponent board while direct attack is available
-      if (isOpponent && canDirectAttack) {
-        const attackerInfo = activeAttackerKey ? attackerMap.get(activeAttackerKey) : null;
-        if (attackerInfo) {
+        // Case B: Column attack target for this column
+        if (attackColumnTargets.has(absCol)) {
           sendAction('ATTACK', {
             playerId: playerNum,
-            attacker: attackerInfo.pos,
-            target: {
-              type: 'PLAYER',
-            },
+            column: absCol,
           });
           setSelectedAttackerPos(null);
           setHoveredAttackerPos(null);
           return true;
         }
+
+        return false;
       }
 
-      // 3. If clicking on one of player's attackers
-      if (!isOpponent && attackerMap.has(posKey)) {
+      // 2. If clicking on player's side: select/deselect attacker
+      if (attackerMap.has(posKey)) {
         setSelectedAttackerPos((prev) =>
           prev && prev.row === absRow && prev.col === absCol ? null : { row: absRow, col: absCol }
         );
         return true;
       }
 
-      // 4. Clicking elsewhere during battle phase deselects current attacker
+      // 3. Clicking elsewhere during battle phase deselects current attacker
       setSelectedAttackerPos(null);
       return true;
     },
-    [isBattlePhase, isMyTurn, attackTargetKeys, canDirectAttack, activeAttackerKey, attackerMap, sendAction, playerNum]
+    [isBattlePhase, isMyTurn, attackTargetKeys, attackColumnTargets, activeAttackerKey, attackerMap, sendAction, playerNum]
   );
 
   return {
     attackerKeys,
     selectedAttackerKey,
     attackTargetKeys,
-    canDirectAttack,
+    attackColumnTargets,
     handleHoverAttacker,
     handleAttackCellClick,
-    handleDirectAttack,
+    handleAttackColumnClick,
   };
 }

@@ -102,10 +102,10 @@ export default function GameBoard({
     attackerKeys,
     selectedAttackerKey,
     attackTargetKeys,
-    canDirectAttack,
+    attackColumnTargets,
     handleHoverAttacker,
     handleAttackCellClick,
-    handleDirectAttack,
+    handleAttackColumnClick,
   } = useBattleAttack({
     board: playerSideBoard,
     isP1,
@@ -205,6 +205,7 @@ export default function GameBoard({
             board={boardForGrid}
             isP1={isP1}
             isOpponent={isOpponent}
+            columnsDestroyed={player.columnsDestroyed}
             animatedInstanceId={animatedInstanceId}
             activeEffectKeys={activeEffectKeys}
             activeEffectIds={activeEffectIds}
@@ -214,13 +215,13 @@ export default function GameBoard({
             attackerKeys={attackerKeys}
             selectedAttackerKey={selectedAttackerKey}
             attackTargetKeys={attackTargetKeys}
-            isDirectAttackTarget={isOpponent && canDirectAttack}
+            attackColumnTargets={attackColumnTargets}
             fusionMaterialKeys={!isOpponent ? fusionMaterialKeys : undefined}
             selectedFusionMaterialKeys={!isOpponent ? selectedFusionMaterialKeys : undefined}
             fusionSpawnTargetKeys={!isOpponent ? fusionSpawnTargetKeys : undefined}
             cardsDict={cardsDict}
             onCellClick={handleCellClick}
-            onDirectAttackClick={handleDirectAttack}
+            onColumnClick={handleAttackColumnClick}
             onHoverCard={setHoveredTemplateId}
             onHoverAttacker={handleHoverAttacker}
           />
