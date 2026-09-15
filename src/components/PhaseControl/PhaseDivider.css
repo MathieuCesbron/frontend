@@ -7,11 +7,11 @@
 }
 
 .center-divider {
-  width: 500px;
+  width: 425px;
   max-width: 80%;
   height: 2px;
   background-color: #cbd5e1;
-  margin: 10px auto;
+  margin: 8.5px auto;
   position: relative;
   z-index: 1;
 }
@@ -44,7 +44,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.6px;
   text-transform: uppercase;
@@ -65,16 +65,16 @@
   background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
   border: 1px solid #cbd5e1;
   color: #0f172a;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 8.5px 13.5px;
+  border-radius: 8.5px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.5px;
-  box-shadow: 0 8px 0 rgba(148, 163, 184, 0.35), 0 4px 10px rgba(2, 6, 23, 0.08);
-  width: 130px;
+  box-shadow: 0 7px 0 rgba(148, 163, 184, 0.35), 0 3px 8px rgba(2, 6, 23, 0.08);
+  width: 110.5px;
   text-align: center;
-  --phase-offset: 300px;
+  --phase-offset: 255px;
   position: absolute;
   left: 50%;
   top: 50%;

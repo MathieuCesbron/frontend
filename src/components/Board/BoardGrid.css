@@ -1,7 +1,7 @@
 .board-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8.5px;
   position: relative;
   transition: all 0.3s ease;
   border-radius: 8px;
@@ -9,7 +9,7 @@
 
 .board-row {
   display: flex;
-  gap: 10px;
+  gap: 8.5px;
 }
 
 /* =============================================================================

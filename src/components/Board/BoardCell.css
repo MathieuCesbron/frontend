@@ -1,6 +1,6 @@
 .board-cell {
-  width: 95px;
-  height: 120px;
+  width: 81px;
+  height: 102px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,10 +22,10 @@
 
 .tile-content > .trap-slot {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 80px;
-  height: 110px;
+  top: 8.5px;
+  left: 8.5px;
+  width: 68px;
+  height: 93.5px;
   z-index: 1;
   background: #f5f7f9;
   border: 2px solid #2d2320;
@@ -36,8 +36,8 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 80px;
-  height: 110px;
+  width: 68px;
+  height: 93.5px;
   z-index: 2;
   background: #e9ecef;
   border: 2px solid #2d2320;
