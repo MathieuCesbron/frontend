@@ -93,6 +93,28 @@
   },
   {
     "templateId": 8,
+    "name": "Territorial Veldrok",
+    "type": "MONSTER",
+    "description": "Gains 10 Power if it's the only Monster in its row.",
+    "power": 35,
+    "attribute": "DRAKE"
+  },
+  {
+    "templateId": 60,
+    "name": "Adrenaline Rush",
+    "type": "LINK",
+    "description": "Linked Monster can make 1 additional attack per turn."
+  },
+  {
+    "templateId": 70,
+    "name": "Bio Renegade",
+    "type": "MONSTER",
+    "description": "Can only be played if you have no Bio monsters in your grave.",
+    "power": 30,
+    "attribute": "BIO"
+  },
+  {
+    "templateId": 80,
     "name": "Chaos Dragon",
     "type": "MONSTER",
     "description": "If this monster is on the front row, Gain 20 Power.",
@@ -118,13 +140,13 @@
     }
   },
   {
-    "templateId": 9,
+    "templateId": 90,
     "name": "Dimensional Shift",
     "type": "LINK",
     "description": "When the Linked card is destroyed by card effect: you can move one card to an adjacent tile (up, down, left, or right)."
   },
   {
-    "templateId": 10,
+    "templateId": 100,
     "name": "Flower Boy",
     "type": "MONSTER",
     "description": "Grants +10 Power to the monster on its right.",
@@ -132,7 +154,7 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 11,
+    "templateId": 110,
     "name": "Forest King",
     "type": "MONSTER",
     "description": "No effect.",
@@ -158,13 +180,13 @@
     }
   },
   {
-    "templateId": 12,
+    "templateId": 120,
     "name": "Gatekeeper",
     "type": "LINK",
     "description": "Linked monsters cannot attack directly."
   },
   {
-    "templateId": 13,
+    "templateId": 130,
     "name": "Kidnetic",
     "type": "MONSTER",
     "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
@@ -172,19 +194,19 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 14,
+    "templateId": 140,
     "name": "Little Surprise",
     "type": "SHADOW",
     "description": "Destroy all Link cards."
   },
   {
-    "templateId": 15,
+    "templateId": 150,
     "name": "Participation Reward",
     "type": "LINK",
     "description": "If the Linked monster is destroyed by battle, his owner draws 2 cards."
   },
   {
-    "templateId": 16,
+    "templateId": 160,
     "name": "Party Crasher",
     "type": "MONSTER",
     "description": "When summoned: you can destroy 1 card.",
@@ -192,7 +214,7 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 17,
+    "templateId": 170,
     "name": "Reactive Bird",
     "type": "MONSTER",
     "description": "When moved: you can discard one card to move one of your monsters to an adjacent tile.",
@@ -200,29 +222,15 @@
     "attribute": "CRYO"
   },
   {
-    "templateId": 18,
+    "templateId": 180,
     "name": "Second Life",
     "type": "SHADOW",
     "description": "Columns cannot be destroyed for the rest of this turn."
   },
   {
-    "templateId": 19,
+    "templateId": 190,
     "name": "Shifting Sands",
     "type": "SHADOW",
     "description": "You can move one monster to an adjacent tile."
-  },
-  {
-    "templateId": 60,
-    "name": "Adrenaline Rush",
-    "type": "LINK",
-    "description": "Linked Monster can make 1 additional attack per turn."
-  },
-  {
-    "templateId": 70,
-    "name": "Bio Renegade",
-    "type": "MONSTER",
-    "description": "Can only be played if you have no Bio monsters in your grave.",
-    "power": 30,
-    "attribute": "BIO"
   }
 ]

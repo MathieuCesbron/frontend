@@ -6,7 +6,7 @@ interface GraveyardModalProps {
   cards: Card[];
   cardsDict: Record<number, any>;
   onClose: () => void;
-  onHoverCard?: (templateId: number | null) => void;
+  onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
   title?: string;
   placement?: 'left' | 'right';
 }

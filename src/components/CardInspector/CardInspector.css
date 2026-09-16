@@ -67,3 +67,8 @@
   background: transparent;
   pointer-events: none;
 }
+
+.effective-power {
+  color: #0ea5e9; /* blue */
+  font-weight: 700;
+}

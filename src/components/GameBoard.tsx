@@ -33,6 +33,7 @@ export default function GameBoard({
 }: GameBoardProps) {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
   const [hoveredTemplateId, setHoveredTemplateId] = useState<number | null>(null);
+  const [hoveredEffectivePower, setHoveredEffectivePower] = useState<number | null>(null);
   const [activeModal, setActiveModal] = useState<'opponent-grave' | 'player-grave' | 'player-fusion' | null>(null);
 
   const cardsDict = useCardDefinitions();
@@ -185,7 +186,10 @@ export default function GameBoard({
             isOpponent={isOpponent}
             side="left"
             cardsDict={cardsDict}
-            onHoverCard={setHoveredTemplateId}
+              onHoverCard={(tId, eff) => {
+                setHoveredTemplateId(tId);
+                setHoveredEffectivePower(eff ?? null);
+              }}
             isFusionOpen={!isOpponent && activeModal === 'player-fusion'}
             onToggleFusion={() =>
               setActiveModal((prev) => (prev === 'player-fusion' ? null : 'player-fusion'))
@@ -222,7 +226,10 @@ export default function GameBoard({
             cardsDict={cardsDict}
             onCellClick={handleCellClick}
             onColumnClick={handleAttackColumnClick}
-            onHoverCard={setHoveredTemplateId}
+            onHoverCard={(tId, eff) => {
+              setHoveredTemplateId(tId);
+              setHoveredEffectivePower(eff ?? null);
+            }}
             onHoverAttacker={handleHoverAttacker}
           />
 
@@ -231,7 +238,10 @@ export default function GameBoard({
             isOpponent={isOpponent}
             side="right"
             cardsDict={cardsDict}
-            onHoverCard={setHoveredTemplateId}
+            onHoverCard={(tId, eff) => {
+              setHoveredTemplateId(tId);
+              setHoveredEffectivePower(eff ?? null);
+            }}
             isGraveOpen={isOpponent ? activeModal === 'opponent-grave' : activeModal === 'player-grave'}
             onToggleGrave={() =>
               setActiveModal((prev) =>
@@ -269,7 +279,10 @@ export default function GameBoard({
                 selectedInstanceId === id ? null : id
               );
             }}
-            onHoverCard={setHoveredTemplateId}
+            onHoverCard={(tId, eff) => {
+              setHoveredTemplateId(tId);
+              setHoveredEffectivePower(eff ?? null);
+            }}
           />
         )}
       </div>
@@ -285,6 +298,7 @@ export default function GameBoard({
 
       <CardInspector
         hoveredTemplateId={inspectorTemplateId}
+        hoveredEffectivePower={hoveredEffectivePower}
         cardsDict={cardsDict}
         isBlurred={Boolean(waitingMessage)}
       />

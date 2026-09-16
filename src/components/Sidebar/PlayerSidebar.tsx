@@ -8,7 +8,7 @@ interface PlayerSidebarProps {
   isOpponent: boolean;
   side: 'left' | 'right';
   cardsDict?: Record<number, any>;
-  onHoverCard?: (templateId: number | null) => void;
+  onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
   onSelectFusionCard?: (card: Card) => void;
   isGraveOpen?: boolean;
   onToggleGrave?: () => void;

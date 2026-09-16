@@ -21,7 +21,7 @@ interface BoardCellProps {
   isFusionSpawnTarget?: boolean;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
-  onHoverCard: (templateId: number | null) => void;
+  onHoverCard: (templateId: number | null, effectivePower?: number | null) => void;
   onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
 }
 
@@ -105,7 +105,7 @@ export const BoardCell: React.FC<BoardCellProps> = ({
             isFusionSpawnTarget ? 'fusion-spawn-target-top' : ''
           }`}
           onMouseEnter={() => {
-            if (topCard) onHoverCard(topCard.templateId);
+            if (topCard) onHoverCard(topCard.templateId, topCard.effectivePower ?? null);
             if (isAttacker) onHoverAttacker?.({ row: absRow, col: absCol });
           }}
           onMouseLeave={() => {

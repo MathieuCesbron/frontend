@@ -27,7 +27,7 @@ interface BoardGridProps {
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
   onColumnClick?: (absCol: number) => void;
   onDirectAttackClick?: () => void;
-  onHoverCard: (templateId: number | null) => void;
+  onHoverCard: (templateId: number | null, effectivePower?: number | null) => void;
   onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
 }
 

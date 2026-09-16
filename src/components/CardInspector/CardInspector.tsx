@@ -6,6 +6,7 @@ interface CardInspectorProps {
   hoveredTemplateId: number | null;
   cardsDict: Record<number, CardDefinition>;
   isBlurred?: boolean;
+  hoveredEffectivePower?: number | null;
 }
 
 const FusionPattern: React.FC<{ pattern: Pattern }> = ({ pattern }) => {
@@ -58,8 +59,10 @@ export const CardInspector: React.FC<CardInspectorProps> = ({
   hoveredTemplateId,
   cardsDict,
   isBlurred,
+  hoveredEffectivePower,
 }) => {
   const card = hoveredTemplateId !== null ? cardsDict[hoveredTemplateId] : null;
+  const effectivePower = hoveredTemplateId !== null ? hoveredEffectivePower ?? null : null;
 
   return (
     <div className={`card-inspector ${isBlurred ? 'board-blurred' : ''}`}>
@@ -69,7 +72,12 @@ export const CardInspector: React.FC<CardInspectorProps> = ({
           <p className="card-type">{card.type}</p>
           {card.power !== undefined && (
             <p>
-              <strong>Power:</strong> {card.power}
+              <strong>Power:</strong>{' '}
+              {effectivePower !== null ? (
+                <span className="effective-power">{effectivePower}</span>
+              ) : (
+                <span>{card.power}</span>
+              )}
             </p>
           )}
           {card.attribute && (

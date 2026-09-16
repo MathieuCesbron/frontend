@@ -10,7 +10,7 @@ interface HandProps {
   validDiscardIndices?: Set<number>;
   validDiscardInstanceIds?: Set<number>;
   onSelectCard?: (instanceId: string, index: number) => void;
-  onHoverCard?: (templateId: number | null) => void;
+  onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
 }
 
 export const Hand: React.FC<HandProps> = ({

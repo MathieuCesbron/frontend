@@ -20,6 +20,7 @@ export interface Card {
   pattern?: Pattern;
   attackTargets?: AttackTarget[];
   materialCombinations?: Position[][];
+  effectivePower?: number;
 }
 
 export interface CardDefinition {
