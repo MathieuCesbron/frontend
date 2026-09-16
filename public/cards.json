@@ -67,11 +67,29 @@
   },
   {
     "templateId": 7,
-    "name": "Bio Renegade",
+    "name": "Big Bird",
     "type": "MONSTER",
-    "description": "Can only be played if you have no Bio monsters in your grave.",
-    "power": 30,
-    "attribute": "BIO"
+    "description": "No effect.",
+    "power": 68,
+    "attribute": "DRAKE",
+    "pattern": {
+      "patternCells": [
+        {
+          "position": {
+            "row": 0,
+            "col": 0
+          },
+          "attribute": "DRAKE"
+        },
+        {
+          "position": {
+            "row": 0,
+            "col": 1
+          },
+          "attribute": "DRAKE"
+        }
+      ]
+    }
   },
   {
     "templateId": 8,
@@ -198,5 +216,13 @@
     "name": "Adrenaline Rush",
     "type": "LINK",
     "description": "Linked Monster can make 1 additional attack per turn."
+  },
+  {
+    "templateId": 70,
+    "name": "Bio Renegade",
+    "type": "MONSTER",
+    "description": "Can only be played if you have no Bio monsters in your grave.",
+    "power": 30,
+    "attribute": "BIO"
   }
 ]
