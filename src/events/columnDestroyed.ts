@@ -1,4 +1,4 @@
-import { GameState } from '../types';
+import { BOARD_COLS, GameState } from '../types';
 import { GameEventHandler } from './types';
 
 export interface ColumnDestroyedData {
@@ -18,9 +18,9 @@ export const columnDestroyedHandler: GameEventHandler<ColumnDestroyedData> = {
       (String(data.playerId) === '2' && String(playerId) === 'PLAYER2');
     const side = isMe ? 'player' : 'opponent';
 
-    if (data.column !== undefined && data.column >= 0 && data.column < 4) {
+    if (data.column !== undefined && data.column >= 0 && data.column < BOARD_COLS) {
       if (!nextState[side].columnsDestroyed) {
-        nextState[side].columnsDestroyed = [false, false, false, false];
+        nextState[side].columnsDestroyed = Array(BOARD_COLS).fill(false);
       }
       nextState[side].columnsDestroyed[data.column] = true;
     }

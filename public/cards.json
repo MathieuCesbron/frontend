@@ -100,6 +100,30 @@
     "attribute": "DRAKE"
   },
   {
+    "templateId": 9,
+    "name": "Zenith Boost",
+    "type": "LINK",
+    "description": "Linked Monster gains 12 Power."
+  },
+  {
+    "templateId": 10,
+    "name": "Nadir Boost",
+    "type": "LINK",
+    "description": "Linked Monster gains 10 Power."
+  },
+  {
+    "templateId": 11,
+    "name": "Dawn Boost",
+    "type": "LINK",
+    "description": "Linked Monster gains 10 Power."
+  },
+  {
+    "templateId": 12,
+    "name": "Dusk Boost",
+    "type": "LINK",
+    "description": "Linked Monster gains 10 Power."
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",

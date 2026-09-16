@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GridRow } from '../../types';
+import { BOARD_COLS, GridRow } from '../../types';
 import { BoardCell } from './BoardCell';
 import './BoardGrid.css';
 
@@ -65,7 +65,7 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
       absCol = colIndex;
       absRow = isOpponent ? rowIndex : 2 + rowIndex;
     } else {
-      absCol = 3 - colIndex;
+      absCol = BOARD_COLS - 1 - colIndex;
       absRow = isOpponent ? 3 - rowIndex : 1 - rowIndex;
     }
     return { absRow, absCol };
@@ -87,8 +87,8 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
     >
       {isOpponent && (
         <div className="column-indicators-row opponent">
-          {[0, 1, 2, 3].map((colIndex) => {
-            const absCol = isP1 ? colIndex : 3 - colIndex;
+          {Array.from({ length: BOARD_COLS }, (_, colIndex) => {
+            const absCol = isP1 ? colIndex : BOARD_COLS - 1 - colIndex;
             const isColumnTarget = Boolean(attackColumnTargets?.has(absCol));
             const isDestroyed = Boolean(columnsDestroyed?.[absCol]);
 
@@ -182,8 +182,8 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
 
       {!isOpponent && (
         <div className="column-indicators-row player">
-          {[0, 1, 2, 3].map((colIndex) => {
-            const absCol = isP1 ? colIndex : 3 - colIndex;
+          {Array.from({ length: BOARD_COLS }, (_, colIndex) => {
+            const absCol = isP1 ? colIndex : BOARD_COLS - 1 - colIndex;
             const isDestroyed = Boolean(columnsDestroyed?.[absCol]);
 
             return (

@@ -80,31 +80,27 @@ export interface GameState {
   pendingEffect?: PendingEffect | null;
 }
 
-export const emptyRow = (): GridRow => [
-  { topCard: null, shadowCard: null },
-  { topCard: null, shadowCard: null },
-  { topCard: null, shadowCard: null },
-  { topCard: null, shadowCard: null },
-];
+export const BOARD_ROWS = 4;
+export const BOARD_COLS = 3;
+export const BOARD_COLUMNS = BOARD_COLS;
 
-export const createEmptyBoard = (): GridRow[] => [
-  emptyRow(),
-  emptyRow(),
-  emptyRow(),
-  emptyRow(),
-];
+export const emptyRow = (): GridRow =>
+  Array.from({ length: BOARD_COLS }, () => ({ topCard: null, shadowCard: null }));
+
+export const createEmptyBoard = (): GridRow[] =>
+  Array.from({ length: BOARD_ROWS }, () => emptyRow());
 
 export const createInitialState = (): GameState => ({
   board: createEmptyBoard(),
   player: {
-    columnsDestroyed: [false, false, false, false],
+    columnsDestroyed: Array(BOARD_COLS).fill(false),
     deckCount: 0,
     grave: [],
     fusionDeck: [],
     hand: [],
   },
   opponent: {
-    columnsDestroyed: [false, false, false, false],
+    columnsDestroyed: Array(BOARD_COLS).fill(false),
     deckCount: 0,
     grave: [],
     fusionDeck: [],
