@@ -11,7 +11,7 @@
     "templateId": 2,
     "name": "Terror of the Weak",
     "type": "MONSTER",
-    "description": "Cannot be attacked by monsters with 40 Power or less.",
+    "description": "Cannot be attacked by Monsters with 40 Power or less.",
     "power": 1,
     "attribute": "GHOST"
   },
@@ -59,9 +59,11 @@
   },
   {
     "templateId": 6,
-    "name": "Adrenaline Rush",
-    "type": "LINK",
-    "description": "Linked Monster can make 1 additional attack per turn."
+    "name": "Soul Swapper",
+    "type": "MONSTER",
+    "description": "On summon: you can swap this monster position with 1 of your Fusion Monsters.",
+    "power": 2,
+    "attribute": "GHOST"
   },
   {
     "templateId": 7,
@@ -190,5 +192,11 @@
     "name": "Shifting Sands",
     "type": "TRAP",
     "description": "You can move one monster to an adjacent tile."
+  },
+  {
+    "templateId": 60,
+    "name": "Adrenaline Rush",
+    "type": "LINK",
+    "description": "Linked Monster can make 1 additional attack per turn."
   }
 ]
