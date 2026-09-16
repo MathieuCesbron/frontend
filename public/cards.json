@@ -174,7 +174,7 @@
   {
     "templateId": 14,
     "name": "Little Surprise",
-    "type": "TRAP",
+    "type": "SHADOW",
     "description": "Destroy all Link cards."
   },
   {
@@ -202,13 +202,13 @@
   {
     "templateId": 18,
     "name": "Second Life",
-    "type": "TRAP",
+    "type": "SHADOW",
     "description": "Columns cannot be destroyed for the rest of this turn."
   },
   {
     "templateId": 19,
     "name": "Shifting Sands",
-    "type": "TRAP",
+    "type": "SHADOW",
     "description": "You can move one monster to an adjacent tile."
   },
   {

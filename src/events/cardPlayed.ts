@@ -7,7 +7,7 @@ export interface CardPlayedData {
   playerId: number | string;
   source: string;
   position: { row: number; col: number };
-  isTrap: boolean;
+  isShadow: boolean;
 }
 
 export const cardPlayedHandler: GameEventHandler<CardPlayedData> = {
@@ -39,11 +39,11 @@ export const cardPlayedHandler: GameEventHandler<CardPlayedData> = {
     if (cardToPlace && data.position) {
       const { row, col } = data.position;
       if (!nextState.board[row][col]) {
-        nextState.board[row][col] = { topCard: null, trapCard: null };
+        nextState.board[row][col] = { topCard: null, shadowCard: null };
       }
 
-      if (data.isTrap) {
-        nextState.board[row][col].trapCard = cardToPlace;
+      if (data.isShadow) {
+        nextState.board[row][col].shadowCard = cardToPlace;
       } else {
         nextState.board[row][col].topCard = cardToPlace;
       }

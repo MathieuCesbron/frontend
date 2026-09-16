@@ -37,7 +37,7 @@ export const fusionPlayedHandler: GameEventHandler<FusionPlayedData> = {
     if (cardToPlace && data.position) {
       const { row, col } = data.position;
       if (!nextState.board[row][col]) {
-        nextState.board[row][col] = { topCard: null, trapCard: null };
+        nextState.board[row][col] = { topCard: null, shadowCard: null };
       }
       nextState.board[row][col].topCard = cardToPlace;
     }

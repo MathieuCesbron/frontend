@@ -4,7 +4,7 @@ import { GameEventHandler } from './types';
 export interface CardDestroyedData {
   instanceId?: number;
   position: { row: number; col: number };
-  isTrap?: boolean;
+  isShadow?: boolean;
 }
 
 export const cardDestroyedHandler: GameEventHandler<CardDestroyedData> = {
@@ -18,8 +18,8 @@ export const cardDestroyedHandler: GameEventHandler<CardDestroyedData> = {
     const { row, col } = data.position;
 
     if (nextState.board?.[row]?.[col]) {
-      if (data.isTrap) {
-        nextState.board[row][col].trapCard = null;
+      if (data.isShadow) {
+        nextState.board[row][col].shadowCard = null;
       } else {
         const destroyedCard = nextState.board[row][col].topCard;
         nextState.board[row][col].topCard = null;

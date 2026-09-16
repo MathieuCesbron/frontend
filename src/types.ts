@@ -34,7 +34,7 @@ export interface CardDefinition {
 
 export interface Tile {
   topCard: Card | null;
-  trapCard: Card | null;
+  shadowCard: Card | null;
 }
 
 export type GridRow = Tile[];
@@ -80,10 +80,10 @@ export interface GameState {
 }
 
 export const emptyRow = (): GridRow => [
-  { topCard: null, trapCard: null },
-  { topCard: null, trapCard: null },
-  { topCard: null, trapCard: null },
-  { topCard: null, trapCard: null },
+  { topCard: null, shadowCard: null },
+  { topCard: null, shadowCard: null },
+  { topCard: null, shadowCard: null },
+  { topCard: null, shadowCard: null },
 ];
 
 export const createEmptyBoard = (): GridRow[] => [

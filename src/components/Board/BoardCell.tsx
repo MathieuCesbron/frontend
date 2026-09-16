@@ -48,7 +48,7 @@ export const BoardCell: React.FC<BoardCellProps> = ({
   onHoverAttacker,
 }) => {
   const topCard = isFusionSpawnTarget ? null : cell?.topCard;
-  const trapCard = cell?.trapCard;
+  const shadowCard = cell?.shadowCard;
 
   const tId = topCard?.instanceId;
   const isAnimated = Boolean(tId && String(tId) === animatedInstanceId);
@@ -75,15 +75,15 @@ export const BoardCell: React.FC<BoardCellProps> = ({
       onClick={() => onCellClick(absRow, absCol, isOpponent)}
     >
       <div className="tile-content">
-        {trapCard && (
+        {shadowCard && (
           <div
-            className={`trap-slot card board-card trap-card ${
+            className={`shadow-slot card board-card shadow-card ${
               isEffectTriggered && !topCard ? 'effect-triggered-glow' : ''
             }`}
-            onMouseEnter={() => onHoverCard(trapCard.templateId)}
+            onMouseEnter={() => onHoverCard(shadowCard.templateId)}
             onMouseLeave={() => onHoverCard(null)}
           >
-            {'Set Trap'}
+            {'Set Shadow'}
           </div>
         )}
         <div

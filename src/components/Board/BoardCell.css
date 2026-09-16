@@ -10,7 +10,7 @@
 }
 
 .board-cell:hover .top-slot,
-.board-cell:hover .trap-slot {
+.board-cell:hover .shadow-slot {
   filter: brightness(0.95);
 }
 
@@ -20,7 +20,7 @@
   height: 100%;
 }
 
-.tile-content > .trap-slot {
+.tile-content > .shadow-slot {
   position: absolute;
   top: 7.65px;
   left: 7.65px;
@@ -50,7 +50,7 @@
   background: #dbeafe;
 }
 
-.tile-content > .trap-card {
+.tile-content > .shadow-card {
   z-index: 1;
   background: #475569;
 }
@@ -336,7 +336,7 @@
 }
 
 .board-cell.is-column-attack-target .top-slot,
-.board-cell.is-column-attack-target .trap-slot {
+.board-cell.is-column-attack-target .shadow-slot {
   cursor: var(--sword-cursor) !important;
 }
 

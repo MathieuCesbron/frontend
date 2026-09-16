@@ -124,10 +124,10 @@ export const BoardGrid: React.FC<BoardGridProps> = ({
             {displayedRow.map((cell, colIndex) => {
               const { absRow, absCol } = getAbsoluteCoords(rowIndex, colIndex);
               const topCard = cell?.topCard;
-              const trapCard = cell?.trapCard;
+                const shadowCard = cell?.shadowCard;
 
               const tId = topCard?.instanceId;
-              const trId = trapCard?.instanceId;
+                const trId = shadowCard?.instanceId;
               const posKey = `${absRow},${absCol}`;
 
               const isEffectTriggered = Boolean(

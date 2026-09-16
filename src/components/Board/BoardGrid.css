@@ -92,8 +92,8 @@
   margin: -6px;
 }
 
-.board-grid.is-direct-attack-target .board-cell,
-.board-grid.is-direct-attack-target .top-slot,
-.board-grid.is-direct-attack-target .trap-slot {
+board-grid.is-direct-attack-target .board-cell,
+board-grid.is-direct-attack-target .top-slot,
+board-grid.is-direct-attack-target .shadow-slot {
   cursor: var(--sword-cursor) !important;
 }
