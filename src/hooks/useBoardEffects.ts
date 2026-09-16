@@ -50,6 +50,36 @@ export function useBoardEffects(
       }
 
       effectTimersRef.current.push(...timers);
+    } else if (latestEvent.type === 'CARDS_SWAPPED') {
+      const { initiator, target } = latestEvent.data || {};
+      const timers: number[] = [];
+
+      if (
+        initiator &&
+        initiator.row !== undefined &&
+        initiator.col !== undefined &&
+        target &&
+        target.row !== undefined &&
+        target.col !== undefined
+      ) {
+        const keyA = `${initiator.row},${initiator.col}`;
+        const keyB = `${target.row},${target.col}`;
+
+        setActiveEffectKeys((prev) => ({ ...prev, [keyA]: true, [keyB]: true }));
+
+        const timer = window.setTimeout(() => {
+          setActiveEffectKeys((prev) => {
+            const next = { ...prev };
+            delete next[keyA];
+            delete next[keyB];
+            return next;
+          });
+        }, 1000);
+
+        timers.push(timer);
+      }
+
+      effectTimersRef.current.push(...timers);
     }
   }, [latestEvent]);
 
