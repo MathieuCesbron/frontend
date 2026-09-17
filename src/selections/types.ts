@@ -1,6 +1,6 @@
-import { PendingEffect, Position } from '../types';
+import { Card, PendingEffect, Position } from '../types';
 
-export type SelectionType = 'MOVE' | 'BOARD_CARD' | string;
+export type SelectionType = 'MOVE' | 'BOARD_CARD' | 'GRAVE' | string;
 
 export interface SelectionContext {
   playerNum: number;
@@ -13,6 +13,7 @@ export interface SelectionHighlights {
   validMoveToKeys: Set<string>;
   validDiscardIndices?: Set<number>;
   validDiscardInstanceIds?: Set<number>;
+  validGraveInstanceIds?: Set<number>;
 }
 
 export interface CellClickCoords {
@@ -38,6 +39,12 @@ export interface SelectionHandler<TOptions = any, TState = any> {
   ) => { nextState: TState; resolved?: boolean } | void;
   handleHandCardClick?: (
     card: HandCardClickInfo,
+    options: TOptions,
+    state: TState,
+    context: SelectionContext
+  ) => { nextState: TState; resolved?: boolean } | void;
+  handleGraveCardClick?: (
+    card: Card,
     options: TOptions,
     state: TState,
     context: SelectionContext

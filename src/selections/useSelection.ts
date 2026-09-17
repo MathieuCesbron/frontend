@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { PendingEffect } from '../types';
+import { Card, PendingEffect } from '../types';
 import { SelectionHandler, SelectionHighlights } from './types';
 import { getSelectionHandler } from './registry';
 
@@ -102,6 +102,27 @@ export function useSelection({
     [isMyPendingEffect, handler, parsedOptions, selectionState, playerNum, sendAction]
   );
 
+  const handleGraveCardClick = useCallback(
+    (card: Card): boolean => {
+      if (!isMyPendingEffect || !handler || !handler.handleGraveCardClick) {
+        return false;
+      }
+
+      const result = handler.handleGraveCardClick(
+        card,
+        parsedOptions,
+        selectionState,
+        { playerNum, sendAction }
+      );
+
+      if (result) {
+        setSelectionState(result.nextState);
+      }
+      return true;
+    },
+    [isMyPendingEffect, handler, parsedOptions, selectionState, playerNum, sendAction]
+  );
+
   const handlePassEffect = useCallback(() => {
     if (!isMyPendingEffect) return;
 
@@ -125,6 +146,7 @@ export function useSelection({
     highlights,
     handleCellClick,
     handleHandCardClick,
+    handleGraveCardClick,
     handlePassEffect,
   };
 }

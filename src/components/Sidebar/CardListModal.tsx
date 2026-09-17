@@ -8,6 +8,7 @@ interface CardListModalProps {
   onClose: () => void;
   onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
   onSelectCard?: (card: Card) => void;
+  selectableInstanceIds?: Set<number>;
   title?: string;
   placement?: 'left' | 'right';
 }
@@ -18,6 +19,7 @@ export const CardListModal: React.FC<CardListModalProps> = ({
   onClose,
   onHoverCard,
   onSelectCard,
+  selectableInstanceIds,
   title = 'Graveyard',
   placement = 'right',
 }) => {
@@ -58,12 +60,14 @@ export const CardListModal: React.FC<CardListModalProps> = ({
             const cardInfo = cardsDict[card.templateId];
             const name = cardInfo?.name || `Card ${card.templateId}`;
             const canSummon = Boolean(card.materialCombinations && card.materialCombinations.length > 0);
+            const isSelectable = Boolean(selectableInstanceIds?.has(card.instanceId));
+            const isClickable = canSummon || isSelectable;
             return (
               <div
                 key={`${card.instanceId}-${idx}`}
-                className={`card-list-card-item ${canSummon ? 'can-summon' : ''}`}
+                className={`card-list-card-item ${isClickable ? 'can-summon' : ''}`}
                 onClick={() => {
-                  if (canSummon && onSelectCard) {
+                  if (isClickable && onSelectCard) {
                     onSelectCard(card);
                   }
                 }}

@@ -10,6 +10,8 @@ interface PlayerSidebarProps {
   cardsDict?: Record<number, any>;
   onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
   onSelectFusionCard?: (card: Card) => void;
+  onSelectGraveCard?: (card: Card) => void;
+  selectableGraveInstanceIds?: Set<number>;
   isGraveOpen?: boolean;
   onToggleGrave?: () => void;
   onCloseGrave?: () => void;
@@ -25,6 +27,8 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
   cardsDict = {},
   onHoverCard,
   onSelectFusionCard,
+  onSelectGraveCard,
+  selectableGraveInstanceIds,
   isGraveOpen = false,
   onToggleGrave,
   onCloseGrave,
@@ -38,6 +42,14 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
     !isFusionOpen &&
     player.fusionDeck?.some(
       (c) => c.materialCombinations && c.materialCombinations.length > 0
+    );
+  const hasSelectableGrave =
+    !isOpponent &&
+    !isGraveOpen &&
+    Boolean(
+      selectableGraveInstanceIds &&
+        selectableGraveInstanceIds.size > 0 &&
+        player.grave?.some((c) => selectableGraveInstanceIds.has(c.instanceId))
     );
 
   return (
@@ -83,7 +95,9 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
         <>
           <div className="deck-zone-container">
             <div
-              className={`deck-zone grave ${isGraveOpen ? 'active' : ''}`}
+              className={`deck-zone grave clickable ${isGraveOpen ? 'active' : ''} ${
+                hasSelectableGrave ? 'can-select' : ''
+              }`}
               onClick={onToggleGrave}
               title="Click to view Graveyard"
             >
@@ -95,6 +109,11 @@ export const PlayerSidebar: React.FC<PlayerSidebarProps> = ({
                 cardsDict={cardsDict}
                 onClose={onCloseGrave || (() => {})}
                 onHoverCard={onHoverCard}
+                onSelectCard={(card) => {
+                  onSelectGraveCard?.(card);
+                  onCloseGrave?.();
+                }}
+                selectableInstanceIds={selectableGraveInstanceIds}
                 title={isOpponent ? "Opponent's Grave" : "Graveyard"}
               />
             )}

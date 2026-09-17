@@ -77,13 +77,15 @@
   }
 }
 
-.deck-zone.fusion-deck.can-summon {
+.deck-zone.fusion-deck.can-summon,
+.deck-zone.grave.can-select {
   border-style: solid;
   border-color: #a855f7;
   animation: fusionGlowPulse 1.8s infinite ease-in-out;
 }
 
-.deck-zone.fusion-deck.can-summon:hover {
+.deck-zone.fusion-deck.can-summon:hover,
+.deck-zone.grave.can-select:hover {
   border-color: #9333ea;
   background: #faf5ff;
 }

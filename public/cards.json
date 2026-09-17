@@ -155,6 +155,14 @@
     }
   },
   {
+    "templateId": 14,
+    "name": "Recall Wraith",
+    "type": "MONSTER",
+    "description": "On summon: you can return 1 Fusion Monster from your grave to your Fusion Deck",
+    "power": 3,
+    "attribute": "GHOST"
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",

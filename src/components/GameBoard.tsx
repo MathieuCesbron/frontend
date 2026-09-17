@@ -62,6 +62,7 @@ export default function GameBoard({
     highlights,
     handleCellClick: handleSelectionCellClick,
     handleHandCardClick: handleSelectionHandCardClick,
+    handleGraveCardClick: handleSelectionGraveCardClick,
     handlePassEffect,
   } = useSelection({
     pendingEffect: gameState.pendingEffect,
@@ -253,6 +254,15 @@ export default function GameBoard({
               )
             }
             onCloseGrave={() => setActiveModal(null)}
+            onSelectGraveCard={
+              !isOpponent && isMyPendingEffect
+                ? (card) => {
+                    handleSelectionGraveCardClick(card);
+                    setActiveModal(null);
+                  }
+                : undefined
+            }
+            selectableGraveInstanceIds={!isOpponent ? highlights.validGraveInstanceIds : undefined}
           />
         </div>
 
