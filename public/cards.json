@@ -103,25 +103,56 @@
     "templateId": 9,
     "name": "Zenith Boost",
     "type": "LINK",
-    "description": "Linked Monster gains 12 Power."
+    "description": "Linked Monster gains 24 Power."
   },
   {
     "templateId": 10,
     "name": "Nadir Boost",
     "type": "LINK",
-    "description": "Linked Monster gains 10 Power."
+    "description": "Linked Monster gains 20 Power."
   },
   {
     "templateId": 11,
     "name": "Dawn Boost",
     "type": "LINK",
-    "description": "Linked Monster gains 10 Power."
+    "description": "Linked Monster gains 20 Power."
   },
   {
     "templateId": 12,
     "name": "Dusk Boost",
     "type": "LINK",
-    "description": "Linked Monster gains 10 Power."
+    "description": "Linked Monster gains 20 Power."
+  },
+  {
+    "templateId": 13,
+    "name": "Gatecrasher Draco",
+    "type": "MONSTER",
+    "description": "On summon: you can destroy 1 Fusion Monster.",
+    "power": 65,
+    "attribute": "DRAKE",
+    "pattern": {
+      "patternCells": [
+        {
+          "position": {
+            "row": 0,
+            "col": 0
+          },
+          "attribute": "DRAKE"
+        },
+        {
+          "position": {
+            "row": 1,
+            "col": 0
+          }
+        },
+        {
+          "position": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
   },
   {
     "templateId": 60,
