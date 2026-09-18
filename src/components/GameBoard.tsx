@@ -124,7 +124,7 @@ export default function GameBoard({
     }
 
     if (gameState.pendingEffect) {
-      if (isMyPendingEffect && gameState.pendingEffect.isOptional) {
+      if (isMyPendingEffect && !gameState.pendingEffect?.isMandatory) {
         handlePassEffect();
       }
       return;

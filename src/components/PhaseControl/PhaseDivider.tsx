@@ -34,7 +34,7 @@ export const PhaseDivider: React.FC<PhaseDividerProps> = ({
   if (pendingEffect) {
     if (isMyPendingEffect) {
       phaseButtonLabel = 'Cancel';
-      isButtonDisabled = !pendingEffect.isOptional;
+      isButtonDisabled = pendingEffect.isMandatory ?? false;
     } else {
       phaseButtonLabel = 'Enemy Turn';
       isButtonDisabled = true;

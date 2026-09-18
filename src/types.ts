@@ -66,7 +66,7 @@ export interface PendingEffect {
   playerId: string | number;
   position?: Position;
   selectionType: string;
-  isOptional?: boolean;
+  isMandatory?: boolean;
   selections: any[];
 }
 
