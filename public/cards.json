@@ -163,6 +163,32 @@
     "attribute": "GHOST"
   },
   {
+    "templateId": 15,
+    "name": "Ecto Scavenger",
+    "type": "MONSTER",
+    "description": "Gains 10 Power for each GHOST in your grave.",
+    "power": 50,
+    "attribute": "DRAKE",
+    "pattern": {
+      "patternCells": [
+        {
+          "position": {
+            "row": 0,
+            "col": 0
+          },
+          "attribute": "DRAKE"
+        },
+        {
+          "position": {
+            "row": 1,
+            "col": 0
+          },
+          "attribute": "GHOST"
+        }
+      ]
+    }
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
