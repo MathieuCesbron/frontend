@@ -6,6 +6,7 @@ import { cardPlayedHandler } from './cardPlayed';
 import { fusionPlayedHandler } from './fusionPlayed';
 import { cardDestroyedHandler } from './cardDestroyed';
 import { effectTriggeredHandler } from './effectTriggered';
+import { shadowRevealedHandler } from './shadowRevealed';
 import { lpUpdatedHandler } from './lpUpdated';
 import { columnDestroyedHandler } from './columnDestroyed';
 import { battlePhaseStartedHandler } from './battlePhaseStarted';
@@ -20,6 +21,7 @@ export * from './cardPlayed';
 export * from './fusionPlayed';
 export * from './cardDestroyed';
 export * from './effectTriggered';
+export * from './shadowRevealed';
 export * from './lpUpdated';
 export * from './columnDestroyed';
 export * from './battlePhaseStarted';
@@ -34,6 +36,7 @@ export const eventHandlers: Record<string, GameEventHandler> = {
   FUSION_PLAYED: fusionPlayedHandler,
   CARD_DESTROYED: cardDestroyedHandler,
   EFFECT_TRIGGERED: effectTriggeredHandler,
+  SHADOW_REVEALED: shadowRevealedHandler,
   LP_UPDATED: lpUpdatedHandler,
   COLUMN_DESTROYED: columnDestroyedHandler,
   BATTLE_PHASE_STARTED: battlePhaseStartedHandler,

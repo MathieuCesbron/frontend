@@ -21,6 +21,7 @@ export interface Card {
   attackTargets?: AttackTarget[];
   materialCombinations?: Position[][];
   effectivePower?: number;
+  isRevealed?: boolean;
 }
 
 export interface CardDefinition {

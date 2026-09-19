@@ -189,6 +189,18 @@
     }
   },
   {
+    "templateId": 16,
+    "name": "Sudden Eclipse",
+    "type": "SHADOW",
+    "description": "On reveal: ends the turn."
+  },
+  {
+    "templateId": 17,
+    "name": "Little Surprise",
+    "type": "SHADOW",
+    "description": "On reveal: you can destroy a Base Monster."
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
@@ -281,12 +293,6 @@
     "description": "When summoned: you can move one of your cards to an adjacent tile (up, down, left, or right).",
     "power": 15,
     "attribute": "BIO"
-  },
-  {
-    "templateId": 140,
-    "name": "Little Surprise",
-    "type": "SHADOW",
-    "description": "Destroy all Link cards."
   },
   {
     "templateId": 150,

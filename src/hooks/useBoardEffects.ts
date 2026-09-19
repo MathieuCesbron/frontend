@@ -19,7 +19,7 @@ export function useBoardEffects(
       const timer = window.setTimeout(() => setAnimatedInstanceId(null), 1000);
       effectTimersRef.current.push(timer);
       onCardPlayed?.();
-    } else if (latestEvent.type === 'EFFECT_TRIGGERED') {
+    } else if (latestEvent.type === 'EFFECT_TRIGGERED' || latestEvent.type === 'SHADOW_REVEALED') {
       const { position, instanceId } = latestEvent.data || {};
       const timers: number[] = [];
 

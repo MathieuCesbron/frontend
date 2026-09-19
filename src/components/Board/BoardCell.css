@@ -52,7 +52,20 @@
 
 .tile-content > .shadow-card {
   z-index: 1;
-  background: #475569;
+  background: #334155;
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 10px;
+}
+
+.tile-content > .shadow-card.is-revealed {
+  background: #ede9fe;
+  color: #4c1d95;
+  border-color: #6d28d9;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .board-card {

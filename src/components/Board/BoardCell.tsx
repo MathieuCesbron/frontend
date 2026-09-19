@@ -78,12 +78,18 @@ export const BoardCell: React.FC<BoardCellProps> = ({
         {shadowCard && (
           <div
             className={`shadow-slot card board-card shadow-card ${
-              isEffectTriggered && !topCard ? 'effect-triggered-glow' : ''
-            }`}
-            onMouseEnter={() => onHoverCard(shadowCard.templateId)}
+              shadowCard.isRevealed ? 'is-revealed' : ''
+            } ${isEffectTriggered && !topCard ? 'effect-triggered-glow' : ''}`}
+            onMouseEnter={() => {
+              if (shadowCard.templateId > 0 && (shadowCard.isRevealed || !isOpponent)) {
+                onHoverCard(shadowCard.templateId);
+              }
+            }}
             onMouseLeave={() => onHoverCard(null)}
           >
-            {'Set Shadow'}
+            {shadowCard.isRevealed && shadowCard.templateId > 0
+              ? cardsDict[shadowCard.templateId]?.name || `Card ${shadowCard.templateId}`
+              : 'Set Shadow'}
           </div>
         )}
         <div
