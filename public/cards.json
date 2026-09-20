@@ -27,7 +27,7 @@
     "templateId": 4,
     "name": "Horizon Redma",
     "type": "MONSTER",
-    "description": "Can only be played on an empty row.",
+    "description": "Can only be played in a Row with no Monsters.",
     "power": 41,
     "attribute": "DRAKE"
   },
@@ -61,7 +61,7 @@
     "templateId": 6,
     "name": "Soul Swapper",
     "type": "MONSTER",
-    "description": "On summon: you can swap this monster position with 1 of your Fusion Monsters.",
+    "description": "When summoned: You can swap positions with 1 of your Fusion Monsters.",
     "power": 2,
     "attribute": "GHOST"
   },
@@ -95,7 +95,7 @@
     "templateId": 8,
     "name": "Territorial Veldrok",
     "type": "MONSTER",
-    "description": "Gains 10 Power if it's the only Monster in its row.",
+    "description": "Gains 10 Power if it is the only Monster in its Row.",
     "power": 35,
     "attribute": "DRAKE"
   },
@@ -127,7 +127,7 @@
     "templateId": 13,
     "name": "Gatecrasher Draco",
     "type": "MONSTER",
-    "description": "On summon: you can destroy 1 Fusion Monster.",
+    "description": "When summoned: You can destroy 1 Fusion Monster.",
     "power": 65,
     "attribute": "DRAKE",
     "pattern": {
@@ -158,7 +158,7 @@
     "templateId": 14,
     "name": "Recall Wraith",
     "type": "MONSTER",
-    "description": "On summon: you can return 1 Fusion Monster from your grave to your Fusion Deck",
+    "description": "When summoned: You can return 1 Fusion Monster from your Grave to your Fusion Deck.",
     "power": 3,
     "attribute": "GHOST"
   },
@@ -166,7 +166,7 @@
     "templateId": 15,
     "name": "Ecto Scavenger",
     "type": "MONSTER",
-    "description": "Gains 10 Power for each GHOST in your grave.",
+    "description": "Gains 10 Power for each GHOST in your Grave.",
     "power": 50,
     "attribute": "DRAKE",
     "pattern": {
@@ -192,13 +192,19 @@
     "templateId": 16,
     "name": "Sudden Eclipse",
     "type": "SHADOW",
-    "description": "On reveal: ends the turn."
+    "description": "When revealed: End the turn."
   },
   {
     "templateId": 17,
     "name": "Little Surprise",
     "type": "SHADOW",
-    "description": "On reveal: you can destroy a Base Monster."
+    "description": "When revealed: You can destroy a Base Monster."
+  },
+  {
+    "templateId": 18,
+    "name": "Life Cycle",
+    "type": "LINK",
+    "description": "When a Linked Monster is destroyed by battle: Draw 1 card."
   },
   {
     "templateId": 60,
