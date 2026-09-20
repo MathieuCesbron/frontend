@@ -207,6 +207,14 @@
     "description": "When a Linked Monster is destroyed by battle: Draw 1 card."
   },
   {
+    "templateId": 19,
+    "name": "Peck-Peck",
+    "type": "MONSTER",
+    "description": "Can attack 1 more time per turn.",
+    "power": 10,
+    "attribute": "DRAKE"
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
