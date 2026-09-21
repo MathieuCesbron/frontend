@@ -215,6 +215,75 @@
     "attribute": "DRAKE"
   },
   {
+    "templateId": 20,
+    "name": "Spirit of Peck-Peck",
+    "type": "LINK",
+    "description": "Linked Monster can attack 1 more time per turn."
+  },
+  {
+    "templateId": 21,
+    "name": "Dead Echoes",
+    "type": "LINK",
+    "description": "Linked Monsters gains 20 Power for each GHOST in your Grave."
+  },
+  {
+    "templateId": 22,
+    "name": "Vengeful Spectre",
+    "type": "MONSTER",
+    "description": "When summoned: you can destroy a Base Monster.",
+    "power": 80,
+    "attribute": "GHOST",
+    "pattern": {
+      "patternCells": [
+        {
+          "position": {
+            "row": 0,
+            "col": 0
+          }
+        },
+        {
+          "position": {
+            "row": 0,
+            "col": 1
+          },
+          "attribute": "GHOST"
+        },
+        {
+          "position": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  },
+  {
+    "templateId": 23,
+    "name": "Twin Phantom",
+    "type": "MONSTER",
+    "description": "When summoned: you can destroy a Link.",
+    "power": 50,
+    "attribute": "GHOST",
+    "pattern": {
+      "patternCells": [
+        {
+          "position": {
+            "row": 0,
+            "col": 0
+          },
+          "attribute": "GHOST"
+        },
+        {
+          "position": {
+            "row": 0,
+            "col": 1
+          },
+          "attribute": "GHOST"
+        }
+      ]
+    }
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
