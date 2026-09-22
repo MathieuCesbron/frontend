@@ -296,6 +296,14 @@
     "description": "When a Linked Monster is destroyed by card effect: Draw 2 cards."
   },
   {
+    "templateId": 26,
+    "name": "Misunderstood Vanisher",
+    "type": "MONSTER",
+    "description": "When summoned: you can return 1 Base GHOST from your board to your hand.",
+    "power": 2,
+    "attribute": "CLOWN"
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
