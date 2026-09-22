@@ -4,7 +4,7 @@ import { GameEvent, applyGameEvent, getEventDuration } from '../events';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
 
-export function useGameSocket(playerId: string) {
+export function useGameSocket(playerId: string, isAiMode: boolean = false) {
   const [gameState, setGameState] = useState<GameState>(MOCK_STATE);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [latestEvent, setLatestEvent] = useState<GameEvent | null>(null);
@@ -106,7 +106,10 @@ export function useGameSocket(playerId: string) {
     }
 
     function connect() {
-      const ws = new WebSocket(`${WS_URL}?playerId=${playerId}`);
+      const url = isAiMode
+        ? `${WS_URL}?playerId=${playerId}&vsAi=true`
+        : `${WS_URL}?playerId=${playerId}`;
+      const ws = new WebSocket(url);
       wsRef.current = ws;
 
       ws.onopen = () => {
@@ -208,7 +211,7 @@ export function useGameSocket(playerId: string) {
       } catch {}
       wsRef.current = null;
     };
-  }, [playerId]);
+  }, [playerId, isAiMode]);
 
   // Include the sendAction helper
   const sendAction = (actionType: string, payload: any) => {
