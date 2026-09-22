@@ -262,7 +262,7 @@
     "name": "Twin Phantom",
     "type": "MONSTER",
     "description": "When summoned: you can destroy a Link.",
-    "power": 50,
+    "power": 44,
     "attribute": "GHOST",
     "pattern": {
       "patternCells": [
@@ -282,6 +282,18 @@
         }
       ]
     }
+  },
+  {
+    "templateId": 24,
+    "name": "Big Surprise",
+    "type": "SHADOW",
+    "description": "When revealed: you can discard 1 card to destroy a Fusion Monster."
+  },
+  {
+    "templateId": 25,
+    "name": "Participation Reward",
+    "type": "LINK",
+    "description": "When a Linked Monster is destroyed by card effect: Draw 2 cards."
   },
   {
     "templateId": 60,
@@ -378,12 +390,6 @@
     "attribute": "BIO"
   },
   {
-    "templateId": 150,
-    "name": "Participation Reward",
-    "type": "LINK",
-    "description": "If the Linked monster is destroyed by battle, his owner draws 2 cards."
-  },
-  {
     "templateId": 160,
     "name": "Party Crasher",
     "type": "MONSTER",
@@ -395,9 +401,7 @@
     "templateId": 170,
     "name": "Reactive Bird",
     "type": "MONSTER",
-    "description": "When moved: you can discard one card to move one of your monsters to an adjacent tile.",
-    "power": 10,
-    "attribute": "CRYO"
+    "description": "When moved: you can discard one card to move one of your monsters to an adjacent tile."
   },
   {
     "templateId": 180,
