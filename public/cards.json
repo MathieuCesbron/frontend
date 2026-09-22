@@ -304,6 +304,14 @@
     "attribute": "CLOWN"
   },
   {
+    "templateId": 27,
+    "name": "Furious Wyvern",
+    "type": "MONSTER",
+    "description": "When summoned: You can return 1 Shadow from your opponent's board to their hand.",
+    "power": 25,
+    "attribute": "DRAKE"
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
