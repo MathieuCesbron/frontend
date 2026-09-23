@@ -312,6 +312,30 @@
     "attribute": "DRAKE"
   },
   {
+    "templateId": 28,
+    "name": "Natural Mage",
+    "type": "MONSTER",
+    "description": "No effect.",
+    "power": 29,
+    "attribute": "MAGE"
+  },
+  {
+    "templateId": 29,
+    "name": "Original Mecha",
+    "type": "MONSTER",
+    "description": "No effect.",
+    "power": 31,
+    "attribute": "MECHA"
+  },
+  {
+    "templateId": 30,
+    "name": "Siegebreaker",
+    "type": "MONSTER",
+    "description": "When summoned: you can discard 1 card to destroy 1 Shadow from your opponent.",
+    "power": 25,
+    "attribute": "MECHA"
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
