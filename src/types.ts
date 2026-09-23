@@ -82,7 +82,7 @@ export interface GameState {
 }
 
 export const BOARD_ROWS = 4;
-export const BOARD_COLS = 3;
+export const BOARD_COLS = 4;
 export const BOARD_COLUMNS = BOARD_COLS;
 
 export const emptyRow = (): GridRow =>
