@@ -45,7 +45,7 @@
             "row": 0,
             "col": 0
           },
-          "attribute": "MAGE"
+          "attribute": "GHOST"
         },
         {
           "position": {
@@ -369,10 +369,18 @@
   },
   {
     "templateId": 35,
-    "name": "Veiled Illusionist",
+    "name": "Mirror Sorcerer",
     "type": "MONSTER",
     "description": "When summoned: You can change the attribute of 1 Monster to MAGE this turn.",
     "power": 5,
+    "attribute": "MAGE"
+  },
+  {
+    "templateId": 36,
+    "name": "Umbral Witch",
+    "type": "MONSTER",
+    "description": "When shadowed: Draw 1 card.",
+    "power": 10,
     "attribute": "MAGE"
   },
   {
