@@ -10,7 +10,7 @@ interface HandProps {
   validDiscardIndices?: Set<number>;
   validDiscardInstanceIds?: Set<number>;
   onSelectCard?: (instanceId: string, index: number) => void;
-  onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
+  onHoverCard?: (card: Card | null) => void;
 }
 
 export const Hand: React.FC<HandProps> = ({
@@ -52,7 +52,7 @@ export const Hand: React.FC<HandProps> = ({
               isDiscardValid ? 'discard-target' : ''
             }`}
             onClick={() => onSelectCard?.(String(card.instanceId), idx)}
-            onMouseEnter={() => onHoverCard?.(card.templateId)}
+            onMouseEnter={() => onHoverCard?.(card)}
             onMouseLeave={() => onHoverCard?.(null)}
           >
             {cardName}

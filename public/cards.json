@@ -45,7 +45,7 @@
             "row": 0,
             "col": 0
           },
-          "attribute": "GHOST"
+          "attribute": "MAGE"
         },
         {
           "position": {
@@ -366,6 +366,14 @@
     "description": "When summoned: You can move 1 opponent's back row Monster straight forward.",
     "power": 18,
     "attribute": "MECHA"
+  },
+  {
+    "templateId": 35,
+    "name": "Veiled Illusionist",
+    "type": "MONSTER",
+    "description": "When summoned: You can change the attribute of 1 Monster to MAGE this turn.",
+    "power": 5,
+    "attribute": "MAGE"
   },
   {
     "templateId": 60,

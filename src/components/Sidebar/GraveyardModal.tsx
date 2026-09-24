@@ -6,7 +6,7 @@ interface GraveyardModalProps {
   cards: Card[];
   cardsDict: Record<number, any>;
   onClose: () => void;
-  onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
+  onHoverCard?: (card: Card | null) => void;
   title?: string;
   placement?: 'left' | 'right';
 }
@@ -60,7 +60,7 @@ export const GraveyardModal: React.FC<GraveyardModalProps> = ({
               <div
                 key={`${card.instanceId}-${idx}`}
                 className={`graveyard-card-item ${canSummon ? 'can-summon' : ''}`}
-                onMouseEnter={() => onHoverCard?.(card.templateId)}
+                onMouseEnter={() => onHoverCard?.(card)}
                 onMouseLeave={() => onHoverCard?.(null)}
               >
                 <span>{name}</span>

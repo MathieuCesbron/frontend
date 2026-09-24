@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BOARD_COLS, GridRow } from '../../types';
+import { BOARD_COLS, Card, GridRow } from '../../types';
 import { BoardCell } from './BoardCell';
 import './BoardGrid.css';
 
@@ -27,7 +27,7 @@ interface BoardGridProps {
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
   onColumnClick?: (absCol: number) => void;
   onDirectAttackClick?: () => void;
-  onHoverCard: (templateId: number | null, effectivePower?: number | null) => void;
+  onHoverCard: (card: Card | null) => void;
   onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
 }
 

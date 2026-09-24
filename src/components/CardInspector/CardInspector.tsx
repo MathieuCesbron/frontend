@@ -1,12 +1,12 @@
 import React from 'react';
-import { CardDefinition, Pattern, PatternCell } from '../../types';
+import { Card, CardDefinition, Pattern, PatternCell } from '../../types';
 import './CardInspector.css';
 
 interface CardInspectorProps {
-  hoveredTemplateId: number | null;
+  // Instance view from the server, carrying overrides of the static definition.
+  hoveredCard: Card | null;
   cardsDict: Record<number, CardDefinition>;
   isBlurred?: boolean;
-  hoveredEffectivePower?: number | null;
 }
 
 const FusionPattern: React.FC<{ pattern: Pattern }> = ({ pattern }) => {
@@ -56,13 +56,13 @@ const FusionPattern: React.FC<{ pattern: Pattern }> = ({ pattern }) => {
 };
 
 export const CardInspector: React.FC<CardInspectorProps> = ({
-  hoveredTemplateId,
+  hoveredCard,
   cardsDict,
   isBlurred,
-  hoveredEffectivePower,
 }) => {
-  const card = hoveredTemplateId !== null ? cardsDict[hoveredTemplateId] : null;
-  const effectivePower = hoveredTemplateId !== null ? hoveredEffectivePower ?? null : null;
+  const card = hoveredCard ? cardsDict[hoveredCard.templateId] : null;
+  const effectivePower = hoveredCard?.effectivePower ?? null;
+  const attributeOverride = hoveredCard?.attribute ?? null;
 
   return (
     <div className={`card-inspector ${isBlurred ? 'board-blurred' : ''}`}>
@@ -82,7 +82,12 @@ export const CardInspector: React.FC<CardInspectorProps> = ({
           )}
           {card.attribute && (
             <p>
-              <strong>Attribute:</strong> {card.attribute}
+              <strong>Attribute:</strong>{' '}
+              {attributeOverride !== null ? (
+                <span className="effective-attribute">{attributeOverride}</span>
+              ) : (
+                <span>{card.attribute}</span>
+              )}
             </p>
           )}
           {card.pattern && card.pattern.patternCells && card.pattern.patternCells.length > 0 && (

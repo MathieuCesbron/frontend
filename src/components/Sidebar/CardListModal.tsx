@@ -6,7 +6,7 @@ interface CardListModalProps {
   cards: Card[];
   cardsDict: Record<number, any>;
   onClose: () => void;
-  onHoverCard?: (templateId: number | null, effectivePower?: number | null) => void;
+  onHoverCard?: (card: Card | null) => void;
   onSelectCard?: (card: Card) => void;
   selectableInstanceIds?: Set<number>;
   title?: string;
@@ -71,7 +71,7 @@ export const CardListModal: React.FC<CardListModalProps> = ({
                     onSelectCard(card);
                   }
                 }}
-                onMouseEnter={() => onHoverCard?.(card.templateId)}
+                onMouseEnter={() => onHoverCard?.(card)}
                 onMouseLeave={() => onHoverCard?.(null)}
               >
                 <span>{name}</span>

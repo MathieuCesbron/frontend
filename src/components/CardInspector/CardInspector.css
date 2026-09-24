@@ -68,7 +68,8 @@
   pointer-events: none;
 }
 
-.effective-power {
+.effective-power,
+.effective-attribute {
   color: #0ea5e9; /* blue */
   font-weight: 700;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tile } from '../../types';
+import { Card, Tile } from '../../types';
 import './BoardCell.css';
 
 interface BoardCellProps {
@@ -21,7 +21,7 @@ interface BoardCellProps {
   isFusionSpawnTarget?: boolean;
   cardsDict: Record<number, any>;
   onCellClick: (absRow: number, absCol: number, isOpponent: boolean) => void;
-  onHoverCard: (templateId: number | null, effectivePower?: number | null) => void;
+  onHoverCard: (card: Card | null) => void;
   onHoverAttacker?: (pos: { row: number; col: number } | null) => void;
 }
 
@@ -82,7 +82,7 @@ export const BoardCell: React.FC<BoardCellProps> = ({
             } ${isEffectTriggered && !topCard ? 'effect-triggered-glow' : ''}`}
             onMouseEnter={() => {
               if (shadowCard.templateId > 0 && (shadowCard.isRevealed || !isOpponent)) {
-                onHoverCard(shadowCard.templateId);
+                onHoverCard(shadowCard);
               }
             }}
             onMouseLeave={() => onHoverCard(null)}
@@ -111,7 +111,7 @@ export const BoardCell: React.FC<BoardCellProps> = ({
             isFusionSpawnTarget ? 'fusion-spawn-target-top' : ''
           }`}
           onMouseEnter={() => {
-            if (topCard) onHoverCard(topCard.templateId, topCard.effectivePower ?? null);
+            if (topCard) onHoverCard(topCard);
             if (isAttacker) onHoverAttacker?.({ row: absRow, col: absCol });
           }}
           onMouseLeave={() => {

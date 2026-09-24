@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { PlayerState, GameState } from '../types';
+import { PlayerState, GameState, Card } from '../types';
 import { GameEvent } from '../events';
 import { useSelection } from '../selections';
 import { useCardDefinitions } from '../hooks/useCardDefinitions';
@@ -32,8 +32,7 @@ export default function GameBoard({
   waitingMessage,
 }: GameBoardProps) {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
-  const [hoveredTemplateId, setHoveredTemplateId] = useState<number | null>(null);
-  const [hoveredEffectivePower, setHoveredEffectivePower] = useState<number | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<Card | null>(null);
   const [activeModal, setActiveModal] = useState<'opponent-grave' | 'player-grave' | 'player-fusion' | null>(null);
 
   const cardsDict = useCardDefinitions();
@@ -187,10 +186,7 @@ export default function GameBoard({
             isOpponent={isOpponent}
             side="left"
             cardsDict={cardsDict}
-              onHoverCard={(tId, eff) => {
-                setHoveredTemplateId(tId);
-                setHoveredEffectivePower(eff ?? null);
-              }}
+            onHoverCard={setHoveredCard}
             isFusionOpen={!isOpponent && activeModal === 'player-fusion'}
             onToggleFusion={() =>
               setActiveModal((prev) => (prev === 'player-fusion' ? null : 'player-fusion'))
@@ -227,10 +223,7 @@ export default function GameBoard({
             cardsDict={cardsDict}
             onCellClick={handleCellClick}
             onColumnClick={handleAttackColumnClick}
-            onHoverCard={(tId, eff) => {
-              setHoveredTemplateId(tId);
-              setHoveredEffectivePower(eff ?? null);
-            }}
+            onHoverCard={setHoveredCard}
             onHoverAttacker={handleHoverAttacker}
           />
 
@@ -239,10 +232,7 @@ export default function GameBoard({
             isOpponent={isOpponent}
             side="right"
             cardsDict={cardsDict}
-            onHoverCard={(tId, eff) => {
-              setHoveredTemplateId(tId);
-              setHoveredEffectivePower(eff ?? null);
-            }}
+            onHoverCard={setHoveredCard}
             isGraveOpen={isOpponent ? activeModal === 'opponent-grave' : activeModal === 'player-grave'}
             onToggleGrave={() =>
               setActiveModal((prev) =>
@@ -289,26 +279,21 @@ export default function GameBoard({
                 selectedInstanceId === id ? null : id
               );
             }}
-            onHoverCard={(tId, eff) => {
-              setHoveredTemplateId(tId);
-              setHoveredEffectivePower(eff ?? null);
-            }}
+            onHoverCard={setHoveredCard}
           />
         )}
       </div>
     );
   };
 
-  const inspectorTemplateId =
-    hoveredTemplateId ?? (isSelectingFusion ? selectedFusionCard?.templateId : null) ?? null;
+  const inspectorCard = hoveredCard ?? (isSelectingFusion ? selectedFusionCard : null) ?? null;
 
   return (
     <div className="game-board-layout">
       <WaitingOverlay message={waitingMessage} />
 
       <CardInspector
-        hoveredTemplateId={inspectorTemplateId}
-        hoveredEffectivePower={hoveredEffectivePower}
+        hoveredCard={inspectorCard}
         cardsDict={cardsDict}
         isBlurred={Boolean(waitingMessage)}
       />
