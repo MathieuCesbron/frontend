@@ -230,7 +230,7 @@
     "templateId": 22,
     "name": "Vengeful Spectre",
     "type": "MONSTER",
-    "description": "When summoned: you can destroy a Base Monster.",
+    "description": "When summoned: You can destroy a Base Monster.",
     "power": 80,
     "attribute": "GHOST",
     "pattern": {
@@ -261,7 +261,7 @@
     "templateId": 23,
     "name": "Twin Phantom",
     "type": "MONSTER",
-    "description": "When summoned: you can destroy a Link.",
+    "description": "When summoned: You can destroy a Link.",
     "power": 44,
     "attribute": "GHOST",
     "pattern": {
@@ -287,7 +287,7 @@
     "templateId": 24,
     "name": "Big Surprise",
     "type": "SHADOW",
-    "description": "When revealed: you can discard 1 card to destroy a Fusion Monster."
+    "description": "When revealed: You can discard 1 card to destroy a Fusion Monster."
   },
   {
     "templateId": 25,
@@ -299,7 +299,7 @@
     "templateId": 26,
     "name": "Misunderstood Vanisher",
     "type": "MONSTER",
-    "description": "When summoned: you can return 1 Base GHOST from your board to your hand.",
+    "description": "When summoned: You can return 1 Base GHOST from your board to your hand.",
     "power": 2,
     "attribute": "CLOWN"
   },
@@ -331,8 +331,40 @@
     "templateId": 30,
     "name": "Siegebreaker",
     "type": "MONSTER",
-    "description": "When summoned: you can discard 1 card to destroy 1 Shadow from your opponent.",
+    "description": "When summoned: You can discard 1 card to destroy 1 Shadow from your opponent.",
     "power": 25,
+    "attribute": "MECHA"
+  },
+  {
+    "templateId": 31,
+    "name": "Attractor Magnetron",
+    "type": "MONSTER",
+    "description": "When summoned: You can move 1 opponent's back row Link straight forward.",
+    "power": 20,
+    "attribute": "MECHA"
+  },
+  {
+    "templateId": 32,
+    "name": "Repulsor Magnetron",
+    "type": "MONSTER",
+    "description": "When summoned: You can move 1 opponent's front row Link straight backward.",
+    "power": 20,
+    "attribute": "MECHA"
+  },
+  {
+    "templateId": 33,
+    "name": "Repeller Magnetron",
+    "type": "MONSTER",
+    "description": "When summoned: You can move 1 opponent's front row Monster straight backward.",
+    "power": 18,
+    "attribute": "MECHA"
+  },
+  {
+    "templateId": 34,
+    "name": "Grapple Magnetron",
+    "type": "MONSTER",
+    "description": "When summoned: You can move 1 opponent's back row Monster straight forward.",
+    "power": 18,
     "attribute": "MECHA"
   },
   {
