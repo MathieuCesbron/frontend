@@ -61,9 +61,9 @@ export const CardInspector: React.FC<CardInspectorProps> = ({
   isBlurred,
 }) => {
   const card = hoveredCard ? cardsDict[hoveredCard.templateId] : null;
-  const effectivePower = hoveredCard?.effectivePower ?? null;
+  const power = hoveredCard?.power ?? null;
   const attributeOverride = hoveredCard?.attribute ?? null;
-
+  
   return (
     <div className={`card-inspector ${isBlurred ? 'board-blurred' : ''}`}>
       {card ? (
@@ -73,8 +73,8 @@ export const CardInspector: React.FC<CardInspectorProps> = ({
           {card.power !== undefined && (
             <p>
               <strong>Power:</strong>{' '}
-              {effectivePower !== null ? (
-                <span className="effective-power">{effectivePower}</span>
+              {power !== null ? (
+                <span className="effective-power">{power}</span>
               ) : (
                 <span>{card.power}</span>
               )}

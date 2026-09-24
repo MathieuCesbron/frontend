@@ -20,7 +20,7 @@ export interface Card {
   pattern?: Pattern;
   attackTargets?: AttackTarget[];
   materialCombinations?: Position[][];
-  effectivePower?: number;
+  power?: number;
   // Set only when it differs from the base attribute.
   attribute?: string;
   isRevealed?: boolean;
