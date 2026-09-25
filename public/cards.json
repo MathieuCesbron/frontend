@@ -384,6 +384,28 @@
     "attribute": "MAGE"
   },
   {
+    "templateId": 37,
+    "name": "Power Swap",
+    "type": "LINK",
+    "description": "If this is the only Link on the board, Linked Monsters swap their Base Power."
+  },
+  {
+    "templateId": 38,
+    "name": "Veiled Conjurer",
+    "type": "MONSTER",
+    "description": "When shadowed: Add 1 Base Monster from your Grave to your hand.",
+    "power": 24,
+    "attribute": "MAGE"
+  },
+  {
+    "templateId": 39,
+    "name": "Magus Transporter",
+    "type": "MONSTER",
+    "description": "When shadowed: You can move 1 Monster to an adjacent tile (up, down, left, or right).",
+    "power": 23,
+    "attribute": "MAGE"
+  },
+  {
     "templateId": 60,
     "name": "Adrenaline Rush",
     "type": "LINK",
